@@ -1,23 +1,43 @@
 @extends('app')
-@section('title', 'Dashboard')
+@section('title', 'Search Claim')
 @section('content')
     <div class="form-body">
         <div class="left-form-content">
-            <div class="top-title">Input Form</div>
+            <!-- <div class="top-title">Input Form</div> -->
+            <div class="search-form">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="Search..." class="search-input" />
+                </div>
+            </div>
+
             <div class="forms">
                 <form action="#">
-                    <div class="from-letter-by-select">
-                        <label for="#" class="letter-by-label">Letter By</label>
-                        <select name="" id="" class="letter-by-select">
-                            <option value="BGB">BGB</option>
-                            <option value="BSF">BSF</option>
-                        </select>
+                    <div class="from-letter-by-select search-page-letter-by">
+                        <!-- <span class="span-from-text">From</span> -->
+                        <div>
+                            <label for="#" class="letter-by-label">Letter By</label>
+                            <select name="" id="" class="letter-by-select">
+                                <option value="BGB">BGB</option>
+                                <option value="BSF">BSF</option>
+                            </select>
+                        </div>
+                        <div class="search-by-date-input">
+                            <div>
+                                <label for="#">From date: </label>
+                                <input type="date" placeholder="From Date">
+                            </div>
+                            <div>
+                                <label for="#">To date: </label>
+                                <input type="date" placeholder="To Date">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-border-area">
-                        <span class="span-from-text">From</span>
+                        <span class="span-from-text">From Unit</span>
                         <div class="select-form-one">
                             <select>
-                                <option>Select 1</option>
+                                <option>Rigion HQ</option>
                                 <option>Rigion HQ, Sarail</option>
                                 <option>Option B</option>
                             </select>
@@ -27,27 +47,27 @@
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 3</option>
+                                <option>Battalion</option>
                                 <option>Battalion</option>
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 4</option>
-                                <option>Select Coy</option>
+                                <option>Select HQ</option>
+                                <option>Select HQ</option>
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 5</option>
+                                <option>Select Bop</option>
                                 <option>Select Bop</option>
                                 <option>Option B</option>
                             </select>
                         </div>
                         <div class="to-inputs">
-                            <span class="span-to-text">To</span>
+                            <span class="span-to-text">To Unit</span>
                         </div>
                         <div class="select-form-two">
                             <select>
-                                <option>Select 1</option>
+                                <option>BSF Rigion</option>
                                 <option>BSF Rigion</option>
                                 <option>Option B</option>
                             </select>
@@ -57,72 +77,38 @@
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 3</option>
+                                <option>Battalion</option>
                                 <option>Battalion</option>
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 4</option>
-                                <option>Select Coy</option>
+                                <option>Select HQ</option>
+                                <option>Select HQ</option>
                                 <option>Option B</option>
                             </select>
                             <select>
-                                <option>Select 5</option>
+                                <option>Select BOP</option>
                                 <option>Select BOP</option>
                                 <option>Option B</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->
-                        <div class="ltr-no-date">
-                            <div class="form-group">
-                                <label for="#">LTR No.</label>
-                                <input type="text" placeholder="NO." />
-                            </div>
-                            <div class="form-group">
-                                <label for="#">LTR Date.</label>
-                                <input type="date" class="date-input" />
-                            </div>
-                        </div>
-                        <!-- Subject Section -->
-                        <div class="ltr-subject">
-                            <div class="form-group2">
-                                <label for="#">LTR Sub</label>
-                                <select>
-                                    <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
-                                </select>
-                                <button type="button">
-                                    <span style="margin-right: 10px;">+</span> Add New
-                                </button>
+                        <!-- Piller No. Section -->
+                        <div class="ltr-type-incident">
+                            <div class="form-group3 search-page-form-group3">
+                                <label for="#">Piller No.</label>
+                                <input type="text" class="piller-input" placeholder="No. ">
                             </div>
                         </div>
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
-                            <div class="form-group3">
+                            <div class="form-group3 search-page-form-group3">
                                 <label for="#">Type Of Incident</label>
                                 <select>
-                                    <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
+                                    <option>Select Incident</option>
+                                    <option>Incident 1</option>
+                                    <option>Incident 2</option>
                                 </select>
-                                <button type="button">
-                                    <span style="margin-right: 10px;">+</span> Add New
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Type of Incident Section -->
-                        <div class="ltr-type-incident">
-                            <div class="form-group3">
-                                <label for="#">Piller No.</label>
-                                <select>
-                                    <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
-                                </select>
-                                <button type="button">
-                                    <span style="margin-right: 10px;">+</span> Add New
-                                </button>
                             </div>
                         </div>
                         <!-- box check mark -->
@@ -153,112 +139,9 @@
                                     Other
                                 </label>
                             </div>
-                            <!-- form group4 second -->
-                            <div class="form-group4">
-                                <!-- <div class="border-label-group">
-                        <label for="killing">
-                          <i class="fas fa-skull-crossbones me-2"></i>Killing
-                        </label>
-                        <input type="text" id="killing" placeholder="No Of Killing...." />
-                      </div> -->
-                                <div class="border-label-group">
-                                    <label for="killing">
-                                        Killing
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-skull-crossbones input-icon"></i>
-                                        <input type="text" id="killing" placeholder="No. of Killing..." />
-                                    </div>
-                                </div>
-
-                                <div class="border-label-group">
-                                    <label for="injuring"> Injuring
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-notes-medical input-icon"></i>
-                                        <input type="text" id="injuring" placeholder="No. Of Injuring..." />
-                                    </div>
-                                </div>
-
-                                <div class="border-label-group">
-                                    <label for="beating"> Beating
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-hand-fist input-icon"></i>
-                                        <input type="text" id="beating" placeholder="No. Of Beating..." />
-                                    </div>
-                                </div>
-
-                                <div class="border-label-group">
-                                    <label for="firing"> Firing
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-fire input-icon"></i>
-                                        <input type="text" id="firing" placeholder="No. Of Firing..." />
-                                    </div>
-                                </div>
-
-                                <div class="border-label-group">
-                                    <label for="crossing"> Illegal Crossing
-                                    </label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-road input-icon"></i>
-                                        <input type="text" id="crossing" placeholder="No. Of Illegal Crossing..." />
-                                    </div>
-                                </div>
-
-
-
+                            <div class="search-button">
+                                <button>Search</button>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- =============== -->
-                    <div class="upload-container">
-                        <div class="upload-card">
-                            <label class="upload-label">
-                                <div class="upload-title">Main Letter</div>
-                                <div class="upload-box">
-                                    <i class="fa-solid fa-file-circle-plus"></i>
-                                    <span class="upload-instruction">Drag / Drop file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div class="upload-card">
-                            <label class="upload-label">
-                                <div class="upload-title upload-title-two">All Ref (Connecting LTR)</div>
-                                <div class="upload-box">
-                                    <i class="fa-solid fa-file-circle-plus"></i>
-                                    <span class="upload-instruction">Add file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div class="upload-card">
-                            <label class="upload-label">
-                                <div class="upload-title upload-title-three">Reply from BSF</div>
-                                <div class="upload-box">
-                                    <!-- <i class="fa-regular fa-file"></i> -->
-                                    <i class="fa-solid fa-file-circle-plus"></i>
-                                    <span class="upload-instruction">Drag / Drop file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
-                                </div>
-                            </label>
                         </div>
                     </div>
 
