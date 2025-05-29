@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Input Form</title>
+    <title>Admin Dashboard</title>
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -13,11 +14,11 @@
 <style></style>
 
 <body>
-    <div class="top-header">
+    <div class="top-header" style="background-image: url('{{ asset('assets/img/header.jpg') }}');">
         <div class="container heading-content-parent">
             <div class="logo-area">
                 <a href="#">
-                    <img src="img/logo.png" class="" width="160px" alt="BGB logo">
+                    <img src="{{ asset('assets/img/logo.png') }}" class="" width="160px" alt="BGB logo">
                 </a>
             </div>
             <div class="header-content">
@@ -25,10 +26,19 @@
                 <p>North East Region, Sarail</p>
                 <nav class="navbar">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html">Entry</a></li>
-                        <li class="active"><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="search.html">Search</a></li>
+                        <li><a href="{{ route('dashboard') }}">Home</a></li>
+                        <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
+                        <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url('/search') }}">Search</a></li>
+                        @if (auth()->check())
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>
@@ -42,7 +52,7 @@
             <div class="bgb-protest">
                 <div class="bgb-heading-title-img">
                     <h5 class="bgb-heading-title">BGB Protest</h5>
-                    <img src="img/logo.png" width="60" height="auto" alt="logo">
+                    <img src="{{ asset('assets/img/logo.png') }}" width="60" height="auto" alt="logo">
                 </div>
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
@@ -83,7 +93,7 @@
             <div class="bsf-protest">
                 <div class="bgb-heading-title-img">
                     <h5 class="bgb-heading-title">BSF Protest</h5>
-                    <img src="img/logo.png" width="60" height="auto" alt="logo">
+                    <img src="{{ asset('assets/img/logo.png') }}" width="60" height="auto" alt="logo">
                 </div>
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
@@ -124,19 +134,19 @@
 
             <div class="bgb-protest-bar-icon">
                 <div>
-                    <img src="bar.jpg" class="img-fluid" alt="">
+                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
                     <p>Killing</p>
                 </div>
                 <div>
-                    <img src="bar.jpg" class="img-fluid" alt="">
+                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
                     <p>Injuring</p>
                 </div>
                 <div>
-                    <img src="bar.jpg" class="img-fluid" alt="">
+                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
                     <p>Beating</p>
                 </div>
                 <div>
-                    <img src="bar.jpg" class="img-fluid" alt="">
+                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
                     <p>Firing</p>
                 </div>
             </div>

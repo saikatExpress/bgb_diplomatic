@@ -1,93 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | BGB Diplomatic</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/x-icon">
     <style>
         body {
             background: #f8f9fa;
         }
+
         .login-box {
             max-width: 420px;
             margin: 5% auto;
             padding: 2.5rem;
             background: #ffffff;
             border-radius: 1rem;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
         }
+
         .login-box h2 {
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="login-box">
-        <h2 class="text-center">Sign in to BGB Diplomatic</h2>
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+    <div class="container">
+        <div class="login-box">
+            <h2 class="text-center">Sign in to BGB Diplomatic</h2>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input
-                    type="email"
-                    class="form-control @error('email') is-invalid @enderror"
-                    id="email"
-                    name="email"
-                    required
-                    autofocus
-                >
-                @error('email')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input
-                    type="password"
-                    class="form-control @error('password') is-invalid @enderror"
-                    id="password"
-                    name="password"
-                    required
-                >
-                @error('password')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Forgot password -->
-            <div class="mb-3 d-flex justify-content-between">
-                <div>
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                    <label class="form-check-label" for="remember">Remember me</label>
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                        name="email" required autofocus>
+                    @error('email')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
                 </div>
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot Password?</a>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                        name="password" required>
+                    @error('password')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Forgot password -->
+                <div class="mb-3 d-flex justify-content-between">
+                    <div>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                        <label class="form-check-label" for="remember">Remember me</label>
+                    </div>
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot Password?</a>
+                    @endif
+                </div>
+
+                <!-- Submit -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+
+                <!-- Register -->
+                @if (Route::has('register'))
+                    <div class="text-center">
+                        <p class="mb-0">Don't have an account? <a href="{{ route('register') }}"
+                                class="text-decoration-none">Register</a></p>
+                    </div>
                 @endif
-            </div>
-
-            <!-- Submit -->
-            <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary">Sign In</button>
-            </div>
-
-            <!-- Register -->
-            @if (Route::has('register'))
-                <div class="text-center">
-                    <p class="mb-0">Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none">Register</a></p>
-                </div>
-            @endif
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
