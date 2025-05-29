@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/x-icon">
     <style>
         body {
-            background: #f8f9fa;
+            background: #A91D2A;
         }
 
         .login-box {
@@ -18,14 +18,28 @@
             padding: 2.5rem;
             background: #ffffff;
             border-radius: 1rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .login-box h2 {
             font-weight: 600;
             margin-bottom: 1.5rem;
+            color: #A91D2A;
+        }
+
+        .form-label {
+            color: #333;
+        }
+
+        a {
+            color: #A91D2A;
+        }
+
+        a:hover {
+            color: #88111D;
         }
     </style>
+
 </head>
 
 <body>

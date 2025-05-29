@@ -13,7 +13,7 @@
     <div class="top-header" style="background-image: url('{{ asset('assets/img/header.jpg') }}');">
         <div class="container heading-content-parent">
             <div class="logo-area">
-                <a href="#">
+                <a href="{{ route('dashboard') }}">
                     <img src="{{ asset('assets/img/logo.png') }}" width="160px" alt="BGB logo">
                 </a>
             </div>
