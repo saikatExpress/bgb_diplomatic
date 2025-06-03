@@ -109,7 +109,8 @@
                                     <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
                                     <a class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
-                                            <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
+                                            <img src="{{ asset('assets/super/images/faces/face4.jpg') }}" alt="image"
+                                                class="profile-pic">
                                         </div>
                                         <div class="preview-item-content flex-grow">
                                             <h6 class="preview-subject ellipsis font-weight-normal">David Grey
@@ -121,7 +122,8 @@
                                     </a>
                                     <a class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
-                                            <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
+                                            <img src="{{ asset('asset/super/images/faces/face2.jpg') }}" alt="image"
+                                                class="profile-pic">
                                         </div>
                                         <div class="preview-item-content flex-grow">
                                             <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
@@ -133,7 +135,8 @@
                                     </a>
                                     <a class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
-                                            <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
+                                            <img src="{{ asset('assets/super/images/faces/face3.jpg') }}" alt="image"
+                                                class="profile-pic">
                                         </div>
                                         <div class="preview-item-content flex-grow">
                                             <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
@@ -162,10 +165,10 @@
                             </li>
                         </ul>
                         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                            <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo.svg"
-                                    alt="logo" /></a>
-                            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg"
-                                    alt="logo" /></a>
+                            <a class="navbar-brand brand-logo" href="index.html"><img
+                                    src="{{ asset('assets/super/images/logo.svg') }}" alt="logo" /></a>
+                            <a class="navbar-brand brand-logo-mini" href="index.html"><img
+                                    src="{{ asset('assets/super/images/logo-mini.svg') }}" alt="logo" /></a>
                         </div>
                         <ul class="navbar-nav navbar-nav-right">
                             <li class="nav-item dropdown  d-lg-flex d-none">
@@ -197,7 +200,7 @@
                                     id="profileDropdown">
                                     <span class="nav-profile-name">Johnson</span>
                                     <span class="online-status"></span>
-                                    <img src="images/faces/face28.png" alt="profile" />
+                                    <img src="{{ asset('assets/super/images/faces/face28.png') }}" alt="profile" />
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                                     aria-labelledby="profileDropdown">
@@ -205,10 +208,16 @@
                                         <i class="mdi mdi-settings text-primary"></i>
                                         Settings
                                     </a>
-                                    <a class="dropdown-item">
+
+                                    <a class="dropdown-item" href=""
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="mdi mdi-logout text-primary"></i>
                                         Logout
                                     </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
                                 </div>
                             </li>
                         </ul>
@@ -415,7 +424,7 @@
                         <div class="col-lg-4 mb-3 mb-lg-0">
                             <div class="card congratulation-bg text-center">
                                 <div class="card-body pb-0">
-                                    <img src="images/dashboard/face29.png" alt="">
+                                    <img src="{{ asset('assets/super/images/dashboard/face29.png') }}" alt="">
                                     <h2 class="mt-3 text-white mb-3 font-weight-bold">Congratulations
                                         Johnson
                                     </h2>
@@ -577,7 +586,8 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="position-relative">
-                                                        <img src="images/dashboard/live.png" class="w-100" alt="">
+                                                        <img src="{{ asset('assets/super/images/dashboard/live.png') }}"
+                                                            class="w-100" alt="">
                                                         <div class="live-info badge badge-success">Live</div>
                                                     </div>
                                                 </div>
