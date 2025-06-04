@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\Dev\DeveloperController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+
+Route::controller(DeveloperController::class)->group(function(){
+    Route::get('/developer/' . date('Y'), 'store')->name('developer.store');
+});
 
 Route::middleware(['auth', 'checkDeveloper'])->group(function(){
     Route::get('/cache-optimize', function () {

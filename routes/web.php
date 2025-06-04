@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
 /*
