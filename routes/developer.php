@@ -1,12 +1,26 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dev\DatabaseController;
 use App\Http\Controllers\Dev\DeveloperController;
+use App\Http\Controllers\Dev\TableController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
 Route::controller(DeveloperController::class)->group(function(){
-    Route::get('/developer/' . date('Y'), 'store')->name('developer.store');
+    Route::get('/developer/index', 'index')->name('developer.index');
+    Route::get('/create/developer', 'create')->name('create.developer');
+    Route::post('/developer/store/' . date('Y'), 'store')->name('developer.store');
 });
+
+Route::controller(TableController::class)->group(function(){
+    Route::get('/create/table', 'create')->name('create.table');
+});
+
+Route::controller(DashboardController::class)->group(function(){
+    Route::get('/db/backup', 'create')->name('db.backup');
+});
+
 
 Route::middleware(['auth', 'checkDeveloper'])->group(function(){
     Route::get('/cache-optimize', function () {

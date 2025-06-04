@@ -15,7 +15,7 @@ class DeveloperAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $developerPass = 'HelloDevSaikat' . date('Y');
+        $developerPass = 'HelloDevSaikat' . date('d').date('D').date('Y');
 
         $provided = $request->query('password') ?? $request->header('X-Dev-Password');
 
