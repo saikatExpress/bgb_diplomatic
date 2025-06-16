@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="nav page-navigation">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route('super_admin.dashboard') }}">
                     <i class="mdi mdi-file-document-box menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
@@ -10,13 +10,62 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="mdi mdi-cube-outline menu-icon"></i>
-                    <span class="menu-title">UI Elements</span>
+                    <span class="menu-title">Incidents</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="submenu">
                     <ul>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.incidents.create') }}">
+                                Add Incident
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.incidents') }}">
+                                All Incidents
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                    <span class="menu-title">Pillar</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="submenu">
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/ui-features/buttons.html">
+                                Add Pillar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/ui-features/typography.html">
+                                All Pillars
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                    <span class="menu-title">LTR</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="submenu">
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/ui-features/buttons.html">
+                                Add LTR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/ui-features/typography.html">
+                                All LTR
+                            </a>
                         </li>
                     </ul>
                 </div>
