@@ -122,9 +122,9 @@
                 </li>
             </ul>
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="index.html"><img
+                <a class="navbar-brand brand-logo" href="{{ route('super_admin.dashboard') }}"><img
                         src="{{ asset('assets/super/images/logo.svg') }}" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img
+                <a class="navbar-brand brand-logo-mini" href="{{ route('super_admin.dashboard') }}"><img
                         src="{{ asset('assets/super/images/logo-mini.svg') }}" alt="logo" /></a>
             </div>
             <ul class="navbar-nav navbar-nav-right">

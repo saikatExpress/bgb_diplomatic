@@ -37,12 +37,12 @@
                 <div class="submenu">
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">
+                            <a class="nav-link" href="{{ route('super_admin.pillars.create') }}">
                                 Add Pillar
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">
+                            <a class="nav-link" href="{{ route('super_admin.pillars') }}">
                                 All Pillars
                             </a>
                         </li>
