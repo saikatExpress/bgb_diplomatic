@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title')</title>
     <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/x-icon">
-    @include('web.style')
+    @include('web.layouts.style')
 </head>
 
 <body>
@@ -17,7 +17,7 @@
                     <img src="{{ asset('assets/img/logo.png') }}" width="160px" alt="BGB logo">
                 </a>
             </div>
-            @include('web.header')
+            @include('web.layouts.header')
             <div>
                 <div class="white-space"></div>
             </div>
@@ -27,6 +27,8 @@
         @yield('content')
 
     </div>
+
+    @include('web.layouts.scripts')
 </body>
 <script>
     document

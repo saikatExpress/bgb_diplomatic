@@ -58,12 +58,12 @@
                 <div class="submenu">
                     <ul>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">
+                            <a class="nav-link" href="{{ route('super_admin.ltr.create') }}">
                                 Add LTR
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">
+                            <a class="nav-link" href="{{ route('super_admin.ltr') }}">
                                 All LTR
                             </a>
                         </li>

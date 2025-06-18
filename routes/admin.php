@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\PillarController;
+use App\Http\Controllers\LTRController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function(){
@@ -26,5 +27,14 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/pillars/{pillar}/edit', 'edit')->name('super_admin.pillars.edit');
         Route::put('/super/admin/pillars/{pillar}/update', 'update')->name('super_admin.pillars.update');
         Route::delete('/super/admin/pillars/{pillar}/destroy', 'destroy')->name('super_admin.pillars.destroy');
+    });
+
+    Route::controller(LTRController::class)->group(function(){
+        Route::get('/super/admin/ltr', 'index')->name('super_admin.ltr');
+        Route::get('/super/admin/ltr/create', 'create')->name('super_admin.ltr.create');
+        Route::post('/super/admin/ltr/store', 'store')->name('super_admin.ltr.store');
+        Route::get('/super/admin/ltr/{ltr}/edit', 'edit')->name('super_admin.ltr.edit');
+        Route::put('/super/admin/ltr/{ltr}/update', 'update')->name('super_admin.ltr.update');
+        Route::delete('/super/admin/ltr/{ltr}/destroy', 'destroy')->name('super_admin.ltr.destroy');
     });
 });

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('web.app')
 @section('title', 'Dashboard')
 @section('content')
     <div class="form-body">
@@ -89,42 +89,131 @@
                                 <label for="#">LTR Sub</label>
                                 <select>
                                     <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
+                                    @foreach ($ltrs as $ltr)
+                                        <option value="{{ $ltr->id }}">{{ $ltr->name }}</option>
+                                    @endforeach
                                 </select>
-                                <button type="button">
+                                <button type="button" data-toggle="modal" data-target="#ltrModal">
                                     <span style="margin-right: 10px;">+</span> Add New
                                 </button>
                             </div>
                         </div>
+
+                        {{-- LTR Modal Start --}}
+                        <div class="modal fade" id="ltrModal" tabindex="-1" role="dialog" aria-labelledby="ltrModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ltrModalLabel">Add New LTR Subject</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!-- Your form/input content goes here -->
+                                        <p>This is a modal body content.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- LTR Modal End --}}
+
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Type Of Incident</label>
                                 <select>
                                     <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
+                                    @foreach ($incidents as $incident)
+                                        <option value="{{ $incident->id }}">{{ $incident->title }}</option>
+                                    @endforeach
                                 </select>
-                                <button type="button">
+                                <button type="button" data-toggle="modal" data-target="#incidentModal">
                                     <span style="margin-right: 10px;">+</span> Add New
                                 </button>
                             </div>
                         </div>
+
+                        {{-- Incident Modal Start --}}
+                        <div class="modal fade" id="incidentModal" tabindex="-1" role="dialog"
+                            aria-labelledby="incidentModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="incidentModalLabel">Add New Incident</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!-- Your form/input content goes here -->
+                                        <p>This is a modal body content.</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Incident Modal End --}}
+
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
                             <div class="form-group3">
-                                <label for="#">Piller No.</label>
+                                <label for="#">Pillar No.</label>
                                 <select>
                                     <option>Select Subject</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
+                                    @foreach ($pillars as $pillar)
+                                        <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
+                                    @endforeach
                                 </select>
-                                <button type="button">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#addPillarModal">
                                     <span style="margin-right: 10px;">+</span> Add New
                                 </button>
                             </div>
                         </div>
+
+                        {{-- Pillar Modal Start --}}
+                        <div class="modal fade" id="addPillarModal" tabindex="-1" role="dialog"
+                            aria-labelledby="addPillarModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addNewModalLabel">Add New Item</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!-- Your form/input content goes here -->
+                                        <p>This is a modal body content.</p>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Pillar Modal End --}}
+
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
@@ -156,11 +245,11 @@
                             <!-- form group4 second -->
                             <div class="form-group4">
                                 <!-- <div class="border-label-group">
-                        <label for="killing">
-                          <i class="fas fa-skull-crossbones me-2"></i>Killing
-                        </label>
-                        <input type="text" id="killing" placeholder="No Of Killing...." />
-                      </div> -->
+                                                                    <label for="killing">
+                                                                      <i class="fas fa-skull-crossbones me-2"></i>Killing
+                                                                    </label>
+                                                                    <input type="text" id="killing" placeholder="No Of Killing...." />
+                                                                  </div> -->
                                 <div class="border-label-group">
                                     <label for="killing">
                                         Killing

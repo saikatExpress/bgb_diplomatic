@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DashboardController;
+use App\Models\LTR;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +42,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::controller(HomeController::class)->group(function(){
+        Route::get('/dashboard', 'index')->name('dashboard');
+    });
+});
 
 require __DIR__.'/auth.php';
