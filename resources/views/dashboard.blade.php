@@ -141,34 +141,6 @@
                             </div>
                         </div>
 
-                        {{-- Incident Modal Start --}}
-                        <div class="modal fade" id="incidentModal" tabindex="-1" role="dialog"
-                            aria-labelledby="incidentModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="incidentModalLabel">Add New Incident</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <!-- Your form/input content goes here -->
-                                        <p>This is a modal body content.</p>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Incident Modal End --}}
-
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
                             <div class="form-group3">
@@ -449,6 +421,34 @@
         </div>
     </div>
 
+    {{-- Incident Modal Start --}}
+    <div class="modal fade" id="incidentModal" tabindex="-1" role="dialog" aria-labelledby="incidentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="incidentModalLabel">Add New Incident</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Your form/input content goes here -->
+                    <p>This is a modal body content.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- Incident Modal End --}}
+
     {{-- Pillar Modal Start --}}
     <div class="modal fade" id="addPillarModal" tabindex="-1" role="dialog" aria-labelledby="addPillarModalLabel"
         aria-hidden="true">
@@ -467,15 +467,9 @@
                         @csrf
                         <div class="form-group">
                             <label for="pillarName">Pillar Name</label>
-                            <input type="text" id="pillarName" name="pillar_name" placeholder="Enter Pillar Name"
-                                required />
+                            <input type="text" id="pillarName" class="form-control" name="pillar_name"
+                                placeholder="Enter Pillar Name" required />
                         </div>
-                        <div class="form-group">
-                            <label for="pillarDescription">Description</label>
-                            <textarea id="pillarDescription" name="pillar_description" placeholder="Enter Description"
-                                rows="4" required></textarea>
-                        </div>
-
                         <button type="button" id="submitPillar" class="btn btn-primary">Save Pillar</button>
                     </form>
                 </div>
@@ -504,14 +498,11 @@
                     data: formData,
                     success: function (response) {
                         if (response.status === 'success') {
-                            // Append new option to select
                             let newOption = `<option value="${response.pillar.id}" selected>${response.pillar.name}</option>`;
                             $('#pillarSelect').append(newOption);
 
-                            // Reset form
                             form[0].reset();
 
-                            // Hide modal
                             $('#addPillarModal').modal('hide');
                         }
                     },

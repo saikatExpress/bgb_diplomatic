@@ -17,7 +17,7 @@ class PillarController extends Controller
 
         $pillar = Pillar::create([
             'name' => $request->pillar_name,
-            'description' => $request->pillar_description,
+            'description' => 'this is a pillar',
         ]);
 
         return response()->json([
