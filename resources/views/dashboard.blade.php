@@ -244,12 +244,7 @@
                             </div>
                             <!-- form group4 second -->
                             <div class="form-group4">
-                                <!-- <div class="border-label-group">
-                                                                    <label for="killing">
-                                                                      <i class="fas fa-skull-crossbones me-2"></i>Killing
-                                                                    </label>
-                                                                    <input type="text" id="killing" placeholder="No Of Killing...." />
-                                                                  </div> -->
+
                                 <div class="border-label-group">
                                     <label for="killing">
                                         Killing
@@ -295,9 +290,6 @@
                                         <input type="text" id="crossing" placeholder="No. Of Illegal Crossing..." />
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
@@ -338,7 +330,6 @@
                             <label class="upload-label">
                                 <div class="upload-title upload-title-three">Reply from BSF</div>
                                 <div class="upload-box">
-                                    <!-- <i class="fa-regular fa-file"></i> -->
                                     <i class="fa-solid fa-file-circle-plus"></i>
                                     <span class="upload-instruction">Drag / Drop file here</span>
                                     <input type="file" class="file-input" onchange="handleFile(this)">
@@ -485,6 +476,5 @@
                 <button class="selected-btn">Print Selected</button>
             </div>
         </div>
-
     </div>
 @endsection

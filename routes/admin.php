@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BattalionController;
 use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\PillarController;
+use App\Http\Controllers\Admin\RegionController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\LTRController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +40,32 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/ltr/{ltr}/edit', 'edit')->name('super_admin.ltr.edit');
         Route::put('/super/admin/ltr/{ltr}/update', 'update')->name('super_admin.ltr.update');
         Route::delete('/super/admin/ltr/{ltr}/destroy', 'destroy')->name('super_admin.ltr.destroy');
+    });
+
+    Route::controller(RegionController::class)->group(function(){
+        Route::get('/super/admin/regions', 'index')->name('super_admin.regions');
+        Route::get('/super/admin/regions/create', 'create')->name('super_admin.regions.create');
+        Route::post('/super/admin/regions/store', 'store')->name('super_admin.regions.store');
+        Route::get('/super/admin/regions/{region}/edit', 'edit')->name('super_admin.regions.edit');
+        Route::put('/super/admin/regions/{region}/update', 'update')->name('super_admin.regions.update');
+        Route::delete('/super/admin/regions/{region}/destroy', 'destroy')->name('super_admin.regions.destroy');
+    });
+
+    Route::controller(SectorController::class)->group(function(){
+        Route::get('/super/admin/sectors', 'index')->name('super_admin.sectors');
+        Route::get('/super/admin/sectors/create', 'create')->name('super_admin.sectors.create');
+        Route::post('/super/admin/sectors/store', 'store')->name('super_admin.sectors.store');
+        Route::get('/super/admin/sectors/{section}/edit', 'edit')->name('super_admin.sectors.edit');
+        Route::put('/super/admin/sectors/{section}/update', 'update')->name('super_admin.sectors.update');
+        Route::delete('/super/admin/sectors/{section}/destroy', 'destroy')->name('super_admin.sectors.destroy');
+    });
+
+    Route::controller(BattalionController::class)->group(function(){
+        Route::get('/super/admin/battalions', 'index')->name('super_admin.battalions');
+        Route::get('/super/admin/battalions/create', 'create')->name('super_admin.battalions.create');
+        Route::post('/super/admin/battalions/store', 'store')->name('super_admin.battalions.store');
+        Route::get('/super/admin/battalions/{battalion}/edit', 'edit')->name('super_admin.battalions.edit');
+        Route::put('/super/admin/battalions/{battalion}/update', 'update')->name('super_admin.battalions.update');
+        Route::delete('/super/admin/battalions/{battalion}/destroy', 'destroy')->name('super_admin.battalions.destroy');
     });
 });

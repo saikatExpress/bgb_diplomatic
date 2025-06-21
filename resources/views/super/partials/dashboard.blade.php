@@ -115,8 +115,8 @@
                         <div class="card congratulation-bg text-center">
                             <div class="card-body pb-0">
                                 <img src="{{ asset('assets/super/images/dashboard/face29.png') }}" alt="">
-                                <h2 class="mt-3 text-white mb-3 font-weight-bold">Congratulations
-                                    Johnson
+                                <h2 class="mt-3 text-white mb-3 font-weight-bold">
+                                    Welcome {{ auth()->user()->name }}
                                 </h2>
                                 <p>You have done 57.6% more sales today.
                                     Check your new badge in your profile.

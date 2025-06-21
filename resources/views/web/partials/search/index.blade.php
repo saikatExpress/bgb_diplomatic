@@ -1,4 +1,4 @@
-@extends('app')
+@extends('web.app')
 @section('title', 'Search Claim')
 @section('content')
     <div class="form-body">

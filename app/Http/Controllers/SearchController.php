@@ -8,6 +8,6 @@ class SearchController extends Controller
 {
     public function index()
     {
-        return view('web.search.index');
+        return view('web.partials.search.index');
     }
 }

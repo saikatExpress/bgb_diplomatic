@@ -101,19 +101,50 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="mdi mdi-codepen menu-icon"></i>
-                    <span class="menu-title">Sample Pages</span>
+                    <span class="menu-title">Region</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="submenu">
                     <ul class="submenu-item">
-                        <li class="nav-item"><a class="nav-link" href="pages/samples/login.html">Login</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.regions.create') }}">
+                                Region
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="pages/samples/login-2.html">Login
-                                2</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/samples/register.html">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pages/samples/register-2.html">Register 2</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.regions') }}">
+                                All Region
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="pages/samples/lock-screen.html">Lockscreen</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.sectors.create') }}">
+                                Add Sector
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.sectors') }}">
+                                All Sector
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.battalions.create') }}">
+                                Add Battalion
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.battalions') }}">
+                                All Battalion
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/samples/lock-screen.html">
+                                Add Company
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/samples/lock-screen.html">
+                                All Company
+                            </a>
                         </li>
                     </ul>
                 </div>
