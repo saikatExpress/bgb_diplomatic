@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Web\PillarController;
 use App\Models\LTR;
 
 /*
@@ -46,6 +47,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::controller(HomeController::class)->group(function(){
         Route::get('/dashboard', 'index')->name('dashboard');
     });
+});
+
+Route::controller(PillarController::class)->group(function () {
+    Route::post('/pillars', 'store')->name('pillars.store');
 });
 
 require __DIR__.'/auth.php';

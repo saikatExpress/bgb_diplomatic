@@ -173,7 +173,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Pillar No.</label>
-                                <select>
+                                <select id="pillarSelect" name="pillar_id">
                                     <option>Select Subject</option>
                                     @foreach ($pillars as $pillar)
                                         <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
@@ -185,35 +185,6 @@
                                 </button>
                             </div>
                         </div>
-
-                        {{-- Pillar Modal Start --}}
-                        <div class="modal fade" id="addPillarModal" tabindex="-1" role="dialog"
-                            aria-labelledby="addPillarModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="addNewModalLabel">Add New Item</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <!-- Your form/input content goes here -->
-                                        <p>This is a modal body content.</p>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Pillar Modal End --}}
-
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
@@ -477,4 +448,79 @@
             </div>
         </div>
     </div>
+
+    {{-- Pillar Modal Start --}}
+    <div class="modal fade" id="addPillarModal" tabindex="-1" role="dialog" aria-labelledby="addPillarModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewModalLabel">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="pillarForm" action="{{ route('pillars.store') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="pillarName">Pillar Name</label>
+                            <input type="text" id="pillarName" name="pillar_name" placeholder="Enter Pillar Name"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="pillarDescription">Description</label>
+                            <textarea id="pillarDescription" name="pillar_description" placeholder="Enter Description"
+                                rows="4" required></textarea>
+                        </div>
+
+                        <button type="button" id="submitPillar" class="btn btn-primary">Save Pillar</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- Pillar Modal End --}}
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#submitPillar').on('click', function () {
+                let form = $('#pillarForm');
+                let url = form.attr('action');
+                let formData = form.serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // Append new option to select
+                            let newOption = `<option value="${response.pillar.id}" selected>${response.pillar.name}</option>`;
+                            $('#pillarSelect').append(newOption);
+
+                            // Reset form
+                            form[0].reset();
+
+                            // Hide modal
+                            $('#addPillarModal').modal('hide');
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error(xhr);
+                        alert("Something went wrong while saving the pillar.");
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
