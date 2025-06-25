@@ -2,46 +2,50 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBattalionRequest;
+use App\Http\Requests\updateBattalionRequest;
+use App\Models\Sector;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Battalion;
 
 class BattalionController extends Controller
 {
     public function index()
     {
-        // Logic to display the list of battalions
-        return view('super.partials.battalions.index');
+        $data['battalions'] = Battalion::with('sector')->get();
+        return view('super.partials.battalions.index', $data);
     }
 
     public function create()
     {
-        // Logic to show the form for creating a new battalion
-        return view('super.partials.battalions.create');
+        $data['sectors'] = Sector::all();
+
+        return view('super.partials.battalions.create', $data);
     }
 
-    public function store(Request $request)
+    public function store(StoreBattalionRequest $request)
     {
-        // Logic to store a new battalion
-        // Validate and save the battalion data
-        return redirect()->route('super_admin.battalions.index');
+        return Battalion::store($request->validated());
     }
 
     public function edit($id)
     {
-        // Logic to show the form for editing an existing battalion
-        return view('super.partials.battalions.edit', compact('id'));
+        $data['battalion'] = Battalion::findOrFail($id);
+        $data['sectors'] = Sector::all();
+
+        return view('super.partials.battalions.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(updateBattalionRequest $request, $id)
     {
-        // Logic to update an existing battalion
-        // Validate and update the battalion data
-        return redirect()->route('super_admin.battalions.index');
+        return Battalion::updateBattalion($request->validated(), $id);
     }
 
     public function destroy($id)
     {
-        // Logic to delete a battalion
-        return redirect()->route('super_admin.battalions.index');
+        $battalion = Battalion::findOrFail($id);
+        $battalion->delete();
+        return redirect()->route('super_admin.battalions');
     }
 }

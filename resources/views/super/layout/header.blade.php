@@ -148,13 +148,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/samples/lock-screen.html">
+                            <a class="nav-link" href="{{ route('super_admin.companies.create') }}">
                                 Add Company
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/samples/lock-screen.html">
+                            <a class="nav-link" href="{{ route('super_admin.companies') }}">
                                 All Company
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.bops.create') }}">
+                                Add BOP
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.bops') }}">
+                                All BOP
                             </a>
                         </li>
                     </ul>

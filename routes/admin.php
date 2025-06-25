@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BattalionController;
+use App\Http\Controllers\Admin\BOPController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\PillarController;
 use App\Http\Controllers\Admin\RegionController;
@@ -77,5 +79,23 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/battalions/{battalion}/edit', 'edit')->name('super_admin.battalions.edit');
         Route::put('/super/admin/battalions/{battalion}/update', 'update')->name('super_admin.battalions.update');
         Route::delete('/super/admin/battalions/{battalion}/destroy', 'destroy')->name('super_admin.battalions.destroy');
+    });
+
+    Route::controller(CompanyController::class)->group(function(){
+        Route::get('/super/admin/companies', 'index')->name('super_admin.companies');
+        Route::get('/super/admin/companies/create', 'create')->name('super_admin.companies.create');
+        Route::post('/super/admin/companies/store', 'store')->name('super_admin.companies.store');
+        Route::get('/super/admin/companies/{company}/edit', 'edit')->name('super_admin.companies.edit');
+        Route::put('/super/admin/companies/{company}/update', 'update')->name('super_admin.companies.update');
+        Route::delete('/super/admin/companies/{company}/destroy', 'destroy')->name('super_admin.companies.destroy');
+    });
+
+    Route::controller(BOPController::class)->group(function(){
+        Route::get('/super/admin/bops', 'index')->name('super_admin.bops');
+        Route::get('/super/admin/bops/create', 'create')->name('super_admin.bops.create');
+        Route::post('/super/admin/bops/store', 'store')->name('super_admin.bops.store');
+        Route::get('/super/admin/bops/{bop}/edit', 'edit')->name('super_admin.bops.edit');
+        Route::put('/super/admin/bops/{bop}/update', 'update')->name('super_admin.bops.update');
+        Route::delete('/super/admin/bops/{bop}/destroy', 'destroy')->name('super_admin.bops.destroy');
     });
 });

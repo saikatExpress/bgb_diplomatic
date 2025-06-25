@@ -8,18 +8,19 @@
                 <form action="#">
                     <div class="from-letter-by-select">
                         <label for="#" class="letter-by-label">Letter By</label>
-                        <select name="" id="" class="letter-by-select">
+                        <select name="letter_by" id="letterBy" class="letter-by-select">
                             <option value="BGB">BGB</option>
                             <option value="BSF">BSF</option>
                         </select>
                     </div>
                     <div class="form-border-area">
                         <span class="span-from-text">From</span>
-                        <div class="select-form-one">
+                        <div class="select-form-one" id="fromBox">
                             <select>
-                                <option>Select 1</option>
-                                <option>Rigion HQ, Sarail</option>
-                                <option>Option B</option>
+                                <option value="" selected disabled>Select Region</option>
+                                @foreach ($bgbRegions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
                             </select>
                             <select>
                                 <option>Select SEC</option>
@@ -45,11 +46,12 @@
                         <div class="to-inputs">
                             <span class="span-to-text">To</span>
                         </div>
-                        <div class="select-form-two">
+                        <div class="select-form-two" id="toBox">
                             <select>
-                                <option>Select 1</option>
-                                <option>BSF Rigion</option>
-                                <option>Option B</option>
+                                <option value="" selected disabled>Select Region</option>
+                                @foreach ($bsfRegions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
                             </select>
                             <select>
                                 <option>Select SEC</option>
@@ -599,6 +601,32 @@
                         alert("Something went wrong while saving the pillar.");
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            const $fromBox = $('#fromBox');
+            const $toBox = $('#toBox');
+
+            // Save initial content
+            const originalFrom = $fromBox.html();
+            const originalTo = $toBox.html();
+
+            $('#letterBy').on('change', function () {
+                const value = $(this).val();
+                if (value === 'BSF') {
+                    $fromBox.html(originalTo);
+                    $toBox.html(originalFrom);
+                } else {
+                    $fromBox.html(originalFrom);
+                    $toBox.html(originalTo);
+                }
+
+                // Optional: always reset labels
+                $('.span-from-text').text('From');
+                $('.span-to-text').text('To');
             });
         });
     </script>
