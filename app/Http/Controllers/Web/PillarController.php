@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Pillar;
+use App\Models\SubPillar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -23,6 +24,24 @@ class PillarController extends Controller
         return response()->json([
             'status' => 'success',
             'pillar' => $pillar,
+        ]);
+    }
+
+    public function subpillarStore(Request $request)
+    {
+        $request->validate([
+            'pillar_id'       => 'required',
+            'sub_pillar_name' => 'required|string',
+        ]);
+
+        $subpillar = SubPillar::create([
+            'name'      => $request->sub_pillar_name,
+            'pillar_id' => $request->pillar_id,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'subpillar' => $subpillar,
         ]);
     }
 }

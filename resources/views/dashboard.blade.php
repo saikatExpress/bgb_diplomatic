@@ -157,6 +157,23 @@
                                 </button>
                             </div>
                         </div>
+
+                        <div class="ltr-type-incident">
+                            <div class="form-group3">
+                                <label for="#">Sub Pillar No.</label>
+                                <select id="subpillarSelect" name="subpillar_id">
+                                    <option>Select Subject</option>
+                                    @foreach ($subpillars as $subpillar)
+                                        <option value="{{ $subpillar->id }}">{{ $subpillar->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#addSubPillarModal">
+                                    <span style="margin-right: 10px;">+</span> Add New
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
@@ -482,6 +499,51 @@
         </div>
     </div>
     {{-- Pillar Modal End --}}
+
+    {{-- Sub Pillar Modal Start --}}
+    <div class="modal fade" id="addSubPillarModal" tabindex="-1" role="dialog" aria-labelledby="addSubPillarModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSubPillarModal">Add Sub Pillar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="subPillarForm" action="{{ route('subpillars.store') }}" method="post">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="subPillarName">Pillar Name</label>
+                            <select name="pillar_id" class="form-control" required>
+                                <option value="">Select Pillar</option>
+                                @foreach ($pillars as $pillar)
+                                    <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subPillarName">Sub Pillar Name</label>
+                            <input type="text" id="subPillarName" class="form-control" name="sub_pillar_name"
+                                placeholder="Enter Sub Pillar Name" required />
+                        </div>
+                        <button type="button" id="submitSubPillar" class="btn btn-primary">Save Sub Pillar</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- Pillar Modal End --}}
 @endsection
 
 @push('script')
@@ -504,6 +566,32 @@
                             form[0].reset();
 
                             $('#addPillarModal').modal('hide');
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error(xhr);
+                        alert("Something went wrong while saving the pillar.");
+                    }
+                });
+            });
+
+            $('#submitSubPillar').on('click', function () {
+                let form = $('#subPillarForm');
+                let url = form.attr('action');
+                let formData = form.serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            let newOption = `<option value="${response.subpillar.id}" selected>${response.subpillar.name}</option>`;
+                            $('#subpillarSelect').append(newOption);
+
+                            form[0].reset();
+
+                            $('#addSubPillarModal').modal('hide');
                         }
                     },
                     error: function (xhr) {
