@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PillarController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Admin\SubpillarController;
 use App\Http\Controllers\LTRController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,15 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/pillars/{pillar}/edit', 'edit')->name('super_admin.pillars.edit');
         Route::put('/super/admin/pillars/{pillar}/update', 'update')->name('super_admin.pillars.update');
         Route::delete('/super/admin/pillars/{pillar}/destroy', 'destroy')->name('super_admin.pillars.destroy');
+    });
+
+    Route::controller(SubpillarController::class)->group(function(){
+        Route::get('/super/admin/subpillars', 'index')->name('super_admin.subpillars');
+        Route::get('/super/admin/subpillars/create', 'create')->name('super_admin.subpillars.create');
+        Route::post('/super/admin/subpillars/store', 'store')->name('super_admin.subpillars.store');
+        Route::get('/super/admin/subpillars/{subpillar}/edit', 'edit')->name('super_admin.subpillars.edit');
+        Route::put('/super/admin/subpillars/{subpillar}/update', 'update')->name('super_admin.subpillars.update');
+        Route::delete('/super/admin/subpillars/{subpillar}/destroy', 'destroy')->name('super_admin.subpillars.destroy');
     });
 
     Route::controller(LTRController::class)->group(function(){

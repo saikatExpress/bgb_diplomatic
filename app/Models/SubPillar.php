@@ -23,4 +23,9 @@ class SubPillar extends Model
             'message' => 'SubPillar created successfully',
         ]);
     }
+
+    public function pillar()
+    {
+        return $this->belongsTo(Pillar::class);
+    }
 }
