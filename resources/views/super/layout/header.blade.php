@@ -60,6 +60,7 @@
                     </ul>
                 </div>
             </li>
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="mdi mdi-cube-outline menu-icon"></i>
@@ -81,13 +82,39 @@
                     </ul>
                 </div>
             </li>
+
             <li class="nav-item">
-                <a href="pages/forms/basic_elements.html" class="nav-link">
-                    <i class="mdi mdi-chart-areaspline menu-icon"></i>
-                    <span class="menu-title">Form Elements</span>
+                <a href="#" class="nav-link">
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                    <span class="menu-title">TAG</span>
                     <i class="menu-arrow"></i>
                 </a>
+                <div class="submenu">
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.tags.create') }}">
+                                Add TAG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.tags') }}">
+                                All TAG
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.tags.create') }}">
+                                Add Input TAG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('super_admin.tags') }}">
+                                All Input TAG
+                            </a>
+                        </li> --}}
+                    </ul>
+                </div>
             </li>
+
             <li class="nav-item">
                 <a href="pages/charts/chartjs.html" class="nav-link">
                     <i class="mdi mdi-finance menu-icon"></i>

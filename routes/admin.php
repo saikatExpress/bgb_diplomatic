@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\SubpillarController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\LTRController;
 use Illuminate\Support\Facades\Route;
 
@@ -97,5 +98,14 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/bops/{bop}/edit', 'edit')->name('super_admin.bops.edit');
         Route::put('/super/admin/bops/{bop}/update', 'update')->name('super_admin.bops.update');
         Route::delete('/super/admin/bops/{bop}/destroy', 'destroy')->name('super_admin.bops.destroy');
+    });
+
+    Route::controller(TagController::class)->group(function(){
+        Route::get('/super/admin/tags', 'index')->name('super_admin.tags');
+        Route::get('/super/admin/tags/create', 'create')->name('super_admin.tags.create');
+        Route::post('/super/admin/tags/store', 'store')->name('super_admin.tags.store');
+        Route::get('/super/admin/tags/{tag}/edit', 'edit')->name('super_admin.tags.edit');
+        Route::put('/super/admin/tags/{tag}/update', 'update')->name('super_admin.tags.update');
+        Route::delete('/super/admin/tags/{tag}/destroy', 'destroy')->name('super_admin.tags.destroy');
     });
 });

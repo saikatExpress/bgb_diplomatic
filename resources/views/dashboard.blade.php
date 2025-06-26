@@ -187,7 +187,8 @@
                                 </div>
 
                                 <div class="border-label-group">
-                                    <label for="injuring"> Injuring
+                                    <label for="injuring">
+                                        Injuring
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-notes-medical input-icon"></i>
