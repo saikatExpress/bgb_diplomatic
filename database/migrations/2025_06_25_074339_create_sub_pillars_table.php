@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pillar_id');
             $table->string('name');
+            $table->string('type', 50);
             $table->timestamps();
         });
     }

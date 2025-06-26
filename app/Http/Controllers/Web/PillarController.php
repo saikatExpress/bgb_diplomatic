@@ -32,11 +32,13 @@ class PillarController extends Controller
         $request->validate([
             'pillar_id'       => 'required',
             'sub_pillar_name' => 'required|string',
+            'type'            => 'required|string',
         ]);
 
         $subpillar = SubPillar::create([
             'name'      => $request->sub_pillar_name,
             'pillar_id' => $request->pillar_id,
+            'type'      => $request->type,
         ]);
 
         return response()->json([

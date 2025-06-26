@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -46,12 +47,21 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::controller(HomeController::class)->group(function(){
         Route::get('/dashboard', 'index')->name('dashboard');
+        Route::post('/ltrs', 'store')->name('ltrs.store');
+        Route::post('/incidents', 'incidentStore')->name('incidents.store');
     });
 });
 
 Route::controller(PillarController::class)->group(function () {
     Route::post('/pillars', 'store')->name('pillars.store');
     Route::post('/subpillars', 'subpillarStore')->name('subpillars.store');
+});
+
+Route::controller(AjaxController::class)->group(function(){
+    Route::get('/fetchsector', 'getSectorsByRegion')->name('fetchsector');
+    Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');
+    Route::get('/fetchcompany', 'getCompaniesByBattalion')->name('fetchcompany');
+    Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
 });
 
 require __DIR__.'/auth.php';

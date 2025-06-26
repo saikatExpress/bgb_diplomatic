@@ -16,80 +16,72 @@
                     <div class="form-border-area">
                         <span class="span-from-text">From</span>
                         <div class="select-form-one" id="fromBox">
-                            <select>
+                            <select id="selectBgbRegion" name="bgb_region_id">
                                 <option value="" selected disabled>Select Region</option>
                                 @foreach ($bgbRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
-                            <select>
+
+                            <select id="selectBgbSec" name="bgb_sec_id">
                                 <option>Select SEC</option>
-                                <option>Option A</option>
-                                <option>Option B</option>
                             </select>
-                            <select>
-                                <option>Select 3</option>
-                                <option>Battalion</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbBattalion" name="bgb_battalion_id">
+                                <option>Select Battalion</option>
                             </select>
-                            <select>
-                                <option>Select 4</option>
-                                <option>Select Coy</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbCoy" name="bgb_coy_id">
+                                <option>Select Company</option>
                             </select>
-                            <select>
-                                <option>Select 5</option>
-                                <option>Select Bop</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbBop" name="bgb_bop_id">
+                                <option>Select BOP</option>
                             </select>
                         </div>
                         <div class="to-inputs">
                             <span class="span-to-text">To</span>
                         </div>
                         <div class="select-form-two" id="toBox">
-                            <select>
-                                <option value="" selected disabled>Select Region</option>
+                            <select id="selectBsfRegion" name="bsf_region_id">
+                                <option value="" selected disabled>Select Frontier</option>
                                 @foreach ($bsfRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
-                            <select>
+
+                            <select id="selectBsfSec" name="bsf_sec_id">
                                 <option>Select SEC</option>
-                                <option>Option A</option>
-                                <option>Option B</option>
                             </select>
-                            <select>
-                                <option>Select 3</option>
-                                <option>Battalion</option>
-                                <option>Option B</option>
+
+                            <select id="selectBsfBattalion" name="bsf_battalion_id">
+                                <option>Select Battalion</option>
                             </select>
-                            <select>
-                                <option>Select 4</option>
-                                <option>Select Coy</option>
-                                <option>Option B</option>
+
+                            <select id="selectBsfCoy" name="bsf_coy_id">
+                                <option>Select Company</option>
                             </select>
-                            <select>
-                                <option>Select 5</option>
+
+                            <select id="selectBsfBop" name="bsf_bop_id">
                                 <option>Select BOP</option>
-                                <option>Option B</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->
                         <div class="ltr-no-date">
                             <div class="form-group">
                                 <label for="#">LTR No.</label>
-                                <input type="text" placeholder="NO." />
+                                <input type="text" name="letter_no" placeholder="NO." />
                             </div>
                             <div class="form-group">
                                 <label for="#">LTR Date.</label>
-                                <input type="date" class="date-input" />
+                                <input type="date" name="letter_date" class="date-input" />
                             </div>
                         </div>
                         <!-- Subject Section -->
                         <div class="ltr-subject">
                             <div class="form-group2">
                                 <label for="#">LTR Sub</label>
-                                <select>
+                                <select name="ltr_subject" id="ltrSubjectSelect">
                                     <option>Select Subject</option>
                                     @foreach ($ltrs as $ltr)
                                         <option value="{{ $ltr->id }}">{{ $ltr->name }}</option>
@@ -101,37 +93,11 @@
                             </div>
                         </div>
 
-                        {{-- LTR Modal Start --}}
-                        <div class="modal fade" id="ltrModal" tabindex="-1" role="dialog" aria-labelledby="ltrModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="ltrModalLabel">Add New LTR Subject</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <!-- Your form/input content goes here -->
-                                        <p>This is a modal body content.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- LTR Modal End --}}
-
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Type Of Incident</label>
-                                <select>
+                                <select id="incidentSelect" name="incident_id">
                                     <option>Select Subject</option>
                                     @foreach ($incidents as $incident)
                                         <option value="{{ $incident->id }}">{{ $incident->title }}</option>
@@ -180,22 +146,25 @@
                         <div class="box-checks">
                             <div class="form-group4">
                                 <label class="check-label d-flex align-items-center gap-2">
-                                    <input type="checkbox" name="distance" value="150" class="custom-checkbox" />
+                                    <input type="checkbox" name="within_distance" value="150" class="custom-checkbox" />
                                     Within 150km
                                 </label>
 
                                 <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="distance" value="outside-150km" />
+                                    <input type="checkbox" class="custom-checkbox" name="outside_distance"
+                                        value="outside-150km" />
                                     OutSide 150km
                                 </label>
 
                                 <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="location" value="inside-bd" />
+                                    <input type="checkbox" class="custom-checkbox" name="inside_bangladesh"
+                                        value="inside-bd" />
                                     Inside BD
                                 </label>
 
                                 <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="location" value="inside-india" />
+                                    <input type="checkbox" class="custom-checkbox" name="inside_india"
+                                        value="inside-india" />
                                     Inside India
                                 </label>
 
@@ -213,7 +182,7 @@
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-skull-crossbones input-icon"></i>
-                                        <input type="text" id="killing" placeholder="No. of Killing..." />
+                                        <input type="text" id="killing" name="killing" placeholder="No. of Killing..." />
                                     </div>
                                 </div>
 
@@ -222,7 +191,7 @@
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-notes-medical input-icon"></i>
-                                        <input type="text" id="injuring" placeholder="No. Of Injuring..." />
+                                        <input type="text" id="injuring" name="injuring" placeholder="No. Of Injuring..." />
                                     </div>
                                 </div>
 
@@ -231,7 +200,7 @@
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-hand-fist input-icon"></i>
-                                        <input type="text" id="beating" placeholder="No. Of Beating..." />
+                                        <input type="text" id="beating" name="beating" placeholder="No. Of Beating..." />
                                     </div>
                                 </div>
 
@@ -240,7 +209,7 @@
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-fire input-icon"></i>
-                                        <input type="text" id="firing" placeholder="No. Of Firing..." />
+                                        <input type="text" id="firing" name="firing" placeholder="No. Of Firing..." />
                                     </div>
                                 </div>
 
@@ -249,7 +218,8 @@
                                     </label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-road input-icon"></i>
-                                        <input type="text" id="crossing" placeholder="No. Of Illegal Crossing..." />
+                                        <input type="text" id="crossing" name="crossing"
+                                            placeholder="No. Of Illegal Crossing..." />
                                     </div>
                                 </div>
                             </div>
@@ -288,13 +258,17 @@
                             </label>
                         </div>
 
-                        <div class="upload-card">
+                        <div class="upload-card" id="uploadCard">
                             <label class="upload-label">
-                                <div class="upload-title upload-title-three">Reply from BSF</div>
+                                <div class="upload-title upload-title-three" id="uploadTitle">Reply from BSF</div>
                                 <div class="upload-box">
                                     <i class="fa-solid fa-file-circle-plus"></i>
                                     <span class="upload-instruction">Drag / Drop file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
+
+                                    <!-- Make this input name and ID dynamic -->
+                                    <input type="file" class="file-input" id="replyFile" name="bgb_reply"
+                                        onchange="handleFile(this)">
+
                                     <div class="file-info">
                                         <span class="file-name"></span>
                                         <button class="remove-btn" onclick="removeFile(this)">✖</button>
@@ -302,6 +276,7 @@
                                 </div>
                             </label>
                         </div>
+
                     </div>
 
                     <!-- Form table data show  -->
@@ -379,8 +354,11 @@
                             </table>
                         </div>
                     </div>
+
                     <div>
-                        <h3 class="table-letter-heading table-letter-heading_three">Reply from BSF</h3>
+                        <h3 class="table-letter-heading table-letter-heading_three" id="replyHeading">
+                            Reply from BSF
+                        </h3>
                         <div class="table-container">
                             <table>
                                 <thead>
@@ -416,6 +394,7 @@
                             </table>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -434,7 +413,7 @@
                 <button class="main-ltr-btn">Print Main Ltr</button>
                 <button class="all-ltr-btn">Print All Ltr</button>
                 <button class="all-ref-ltr-btn">Print All Ref Ltr</button>
-                <button class="bsf-btn">Print BSF Reply</button>
+                <button class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
                 <button class="selected-btn">Print Selected</button>
             </div>
         </div>
@@ -454,13 +433,25 @@
                 </div>
 
                 <div class="modal-body">
-                    <!-- Your form/input content goes here -->
-                    <p>This is a modal body content.</p>
+                    <form action="{{ route('incidents.store') }}" method="post" id="incidentForm">
+                        @csrf
+                        <div class="form-group">
+                            <label for="incidentDescription">Incident Title</label>
+                            <input type="text" id="incidentTitle" class="form-control" name="title"
+                                placeholder="Enter Incident Title" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="incidentDescription">Incident Description</label>
+                            <textarea id="incidentDescription" class="form-control" name="description" rows="3"
+                                required></textarea>
+                        </div>
+
+                        <button type="button" id="submitIncident" class="btn btn-primary">Save Incident</button>
+                    </form>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
 
             </div>
@@ -534,6 +525,17 @@
                             <input type="text" id="subPillarName" class="form-control" name="sub_pillar_name"
                                 placeholder="Enter Sub Pillar Name" required />
                         </div>
+
+                        <div class="form-group">
+                            <label for="subPillarName">Type</label>
+                            <select name="type" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="s">S</option>
+                                <option value="t">T</option>
+                                <option value="r">R</option>
+                                <option value="pull">Pull</option>
+                            </select>
+                        </div>
                         <button type="button" id="submitSubPillar" class="btn btn-primary">Save Sub Pillar</button>
                     </form>
                 </div>
@@ -546,88 +548,41 @@
         </div>
     </div>
     {{-- Pillar Modal End --}}
+
+    {{-- LTR Modal Start --}}
+    <div class="modal fade" id="ltrModal" tabindex="-1" role="dialog" aria-labelledby="ltrModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ltrModalLabel">Add New LTR Subject</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="ltrForm" action="{{ route('ltrs.store') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="ltrName">LTR Subject Name</label>
+                            <input type="text" id="ltrName" class="form-control" name="ltr_name"
+                                placeholder="Enter LTR Subject Name" required />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="submitLtr">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- LTR Modal End --}}
 @endsection
 
 @push('script')
-    <script>
-        $(document).ready(function () {
-            $('#submitPillar').on('click', function () {
-                let form = $('#pillarForm');
-                let url = form.attr('action');
-                let formData = form.serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            let newOption = `<option value="${response.pillar.id}" selected>${response.pillar.name}</option>`;
-                            $('#pillarSelect').append(newOption);
-
-                            form[0].reset();
-
-                            $('#addPillarModal').modal('hide');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error(xhr);
-                        alert("Something went wrong while saving the pillar.");
-                    }
-                });
-            });
-
-            $('#submitSubPillar').on('click', function () {
-                let form = $('#subPillarForm');
-                let url = form.attr('action');
-                let formData = form.serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            let newOption = `<option value="${response.subpillar.id}" selected>${response.subpillar.name}</option>`;
-                            $('#subpillarSelect').append(newOption);
-
-                            form[0].reset();
-
-                            $('#addSubPillarModal').modal('hide');
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error(xhr);
-                        alert("Something went wrong while saving the pillar.");
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            const $fromBox = $('#fromBox');
-            const $toBox = $('#toBox');
-
-            // Save initial content
-            const originalFrom = $fromBox.html();
-            const originalTo = $toBox.html();
-
-            $('#letterBy').on('change', function () {
-                const value = $(this).val();
-                if (value === 'BSF') {
-                    $fromBox.html(originalTo);
-                    $toBox.html(originalFrom);
-                } else {
-                    $fromBox.html(originalFrom);
-                    $toBox.html(originalTo);
-                }
-
-                // Optional: always reset labels
-                $('.span-from-text').text('From');
-                $('.span-to-text').text('To');
-            });
-        });
-    </script>
+    <script src="{{ asset('assets/js/ajax.js') }}"></script>
+    <script src="{{ asset('assets/js/home.js') }}"></script>
+    <script src="{{ asset('assets/js/form.js') }}"></script>
 @endpush

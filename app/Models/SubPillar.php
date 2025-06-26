@@ -12,6 +12,7 @@ class SubPillar extends Model
     protected $fillable = [
         'pillar_id',
         'name',
+        'type',
     ];
 
     protected function store($data)

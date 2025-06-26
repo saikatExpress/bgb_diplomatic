@@ -23,4 +23,39 @@ class HomeController extends Controller
 
         return view('dashboard', $data);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'ltr_name' => 'required|string',
+        ]);
+
+        $ltr = LTR::create([
+            'name' => $request->ltr_name,
+            'description' => 'Ltr Subject',
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'ltr' => $ltr,
+        ]);
+    }
+
+    public function incidentStore(Request $request)
+    {
+        $request->validate([
+            'title'                => 'required|string',
+            'incident_description' => 'nullable|string',
+        ]);
+
+        $incident = Incident::create([
+            'title'       => $request->title,
+            'description' => $request->incident_description,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'incident' => $incident,
+        ]);
+    }
 }
