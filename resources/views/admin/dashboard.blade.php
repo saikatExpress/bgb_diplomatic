@@ -11,7 +11,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 </head>
-<style></style>
 
 <body>
     <div class="top-header" style="background-image: url('{{ asset('assets/img/header.jpg') }}');">

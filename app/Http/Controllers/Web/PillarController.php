@@ -46,4 +46,15 @@ class PillarController extends Controller
             'subpillar' => $subpillar,
         ]);
     }
+
+    public function getSubpillars(Request $request)
+    {
+        $subpillars = SubPillar::where('pillar_id', $request->query('pillar_id'))->get();
+
+        return response()->json([
+            'status' => 'success',
+            'subpillars' => $subpillars,
+        ]);
+    }
+
 }

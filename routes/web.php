@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::controller(PillarController::class)->group(function () {
     Route::post('/pillars', 'store')->name('pillars.store');
     Route::post('/subpillars', 'subpillarStore')->name('subpillars.store');
+    Route::get('/get/subpillars', 'getSubpillars')->name('getSubPillars');
 });
 
 Route::controller(AjaxController::class)->group(function(){

@@ -97,7 +97,22 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Piller No.</label>
-                                <input type="text" class="piller-input" placeholder="No. ">
+                                <select name="pillar_no" id="pillar_no">
+                                    <option>Select Piller</option>
+                                    @foreach ($pillars as $pillar)
+                                        <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ltr-type-incident">
+                            <div class="form-group3 search-page-form-group3">
+                                <label for="#">Sub Piller No.</label>
+                                <select name="sub_pillar_no" id="sub_pillar_no">
+                                    <option>Select Sub Piller</option>
+
+                                </select>
                             </div>
                         </div>
                         <!-- Type of Incident Section -->
@@ -279,6 +294,38 @@
                 <button class="selected-btn">Print Selected</button>
             </div>
         </div>
-
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#pillar_no').change(function () {
+                var pillarId = $(this).val();
+                if (pillarId) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/get/subpillars",
+                        data: { pillar_id: pillarId },
+                        success: function (res) {
+                            if (res && res.subpillars) {
+                                $("#sub_pillar_no").empty();
+                                $("#sub_pillar_no").append('<option>Select Sub Pillar</option>');
+                                $.each(res.subpillars, function (key, value) {
+                                    $("#sub_pillar_no").append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            } else {
+                                $("#sub_pillar_no").empty();
+                            }
+                        },
+                        error: function () {
+                            alert("Error loading sub pillars.");
+                        }
+                    });
+                } else {
+                    $("#sub_pillar_no").empty();
+                }
+            });
+        });
+    </script>
+@endpush
