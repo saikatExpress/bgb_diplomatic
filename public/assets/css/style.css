@@ -654,18 +654,32 @@ body {
     box-sizing: border-box;
 }
 
+.div_loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    text-align: center;
+    padding-top: 200px;
+    font-size: 18px;
+    color: #333;
+}
+
 .upload-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    padding: 20px;
+    gap: 5px;
+    padding: 5px;
     justify-content: center;
 }
 
 .upload-card {
     flex: 1 1 260px;
     max-width: 280px;
-    /* background: #fff; */
     border: 1px solid #800000;
     border-radius: 10px;
     overflow: hidden;
@@ -809,7 +823,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Make all columns fixed-width */
+    /* table-layout: fixed; */
 }
 
 th,
@@ -818,7 +832,6 @@ td {
     padding: 8px;
     text-align: left;
     font-size: 14px;
-    word-break: break-word; /* Wrap text if too long */
     overflow: hidden;
     text-overflow: ellipsis;
 }

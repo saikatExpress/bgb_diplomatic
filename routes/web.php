@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('/dashboard', 'index')->name('dashboard');
         Route::post('/ltrs', 'store')->name('ltrs.store');
         Route::post('/incidents', 'incidentStore')->name('incidents.store');
+        Route::post('/action', 'actionStore')->name('action.store');
     });
 });
 

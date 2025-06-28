@@ -1,11 +1,26 @@
 @extends('web.app')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+@endpush
 @section('title', 'Dashboard')
 @section('content')
+
+    {{-- Page Loader --}}
+    <div id="pageLoader" class="div_loader">
+        <div class="spinner-border" style="width:3rem;height:3rem;" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+        <div>Loading...</div>
+    </div>
+    {{-- Page Loader --}}
+
+
     <div class="form-body">
         <div class="left-form-content">
             <div class="top-title">Input Form</div>
             <div class="forms">
-                <form action="#">
+                <form action="{{ route('action.store') }}" method="post" id="actionForm" enctype="multipart/form-data">
+                    @csrf
                     <div class="from-letter-by-select">
                         <label for="#" class="letter-by-label">Letter By</label>
                         <select name="letter_by" id="letterBy" class="letter-by-select">
@@ -145,28 +160,14 @@
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
-                                <label class="check-label d-flex align-items-center gap-2">
-                                    <input type="checkbox" name="within_distance" value="150" class="custom-checkbox" />
-                                    Within 150km
-                                </label>
 
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="outside_distance"
-                                        value="outside-150km" />
-                                    OutSide 150km
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="inside_bangladesh"
-                                        value="inside-bd" />
-                                    Inside BD
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="inside_india"
-                                        value="inside-india" />
-                                    Inside India
-                                </label>
+                                @foreach ($tags as $tag)
+                                    <label class="check-label d-flex align-items-center gap-2">
+                                        <input type="checkbox" name="{{ $tag->input_name }}" value="{{ $tag->input_name }}"
+                                            class="custom-checkbox" />
+                                        {{ $tag->title }}
+                                    </label>
+                                @endforeach
 
                                 <label class="check-label">
                                     <input type="checkbox" class="custom-checkbox" name="other" value="other" />
@@ -229,51 +230,40 @@
 
                     <!-- =============== -->
                     <div class="upload-container">
-                        <div class="upload-card">
+                        <div class="upload-card" style="height: 150px !important;">
                             <label class="upload-label">
                                 <div class="upload-title">Main Letter</div>
                                 <div class="upload-box">
                                     <i class="fa-solid fa-file-circle-plus"></i>
                                     <span class="upload-instruction">Drag / Drop file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
+                                    <input type="file" class="file-input" id="fileInput" multiple accept="application/pdf">
                                 </div>
                             </label>
                         </div>
 
-                        <div class="upload-card">
+                        <div class="upload-card" style="height: 150px !important;">
                             <label class="upload-label">
                                 <div class="upload-title upload-title-two">All Ref (Connecting LTR)</div>
                                 <div class="upload-box">
                                     <i class="fa-solid fa-file-circle-plus"></i>
-                                    <span class="upload-instruction">Add file here</span>
-                                    <input type="file" class="file-input" onchange="handleFile(this)">
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
+                                    <span class="upload-instruction">Drag / Drop file here</span>
+                                    <input type="file" class="file-input" id="refFileInput" multiple
+                                        accept="application/pdf">
                                 </div>
                             </label>
                         </div>
 
-                        <div class="upload-card" id="uploadCard">
+                        <div class="upload-card" id="uploadCard" style="height: 150px !important;">
                             <label class="upload-label">
-                                <div class="upload-title upload-title-three" id="uploadTitle">Reply from BSF</div>
+                                <div class="upload-title upload-title-three" id="uploadTitle">Reply from BSF
+                                </div>
                                 <div class="upload-box">
                                     <i class="fa-solid fa-file-circle-plus"></i>
                                     <span class="upload-instruction">Drag / Drop file here</span>
 
-                                    <!-- Make this input name and ID dynamic -->
-                                    <input type="file" class="file-input" id="replyFile" name="bgb_reply"
-                                        onchange="handleFile(this)">
+                                    <input type="file" class="file-input" id="replyFile" name="bgb_reply" multiple
+                                        accept="application/pdf">
 
-                                    <div class="file-info">
-                                        <span class="file-name"></span>
-                                        <button class="remove-btn" onclick="removeFile(this)">✖</button>
-                                    </div>
                                 </div>
                             </label>
                         </div>
@@ -284,36 +274,24 @@
                     <div>
                         <h3 class="table-letter-heading table-letter-heading_one">Main Letter</h3>
                         <div class="table-container">
-                            <table>
+                            <table id="fileTable">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="selectAllFiles"></th>
                                         <th>Sl No.</th>
                                         <th>Ltr Date</th>
                                         <th>Region</th>
-                                        <th>Section</th>
+                                        <th>Sector</th>
                                         <th>Battalion</th>
                                         <th>Coy</th>
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
-                                        <th class="remarks">Remarks</th>
+                                        <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2025-05-14</td>
-                                        <td>North</td>
-                                        <td>Sec-1</td>
-                                        <td>7</td>
-                                        <td>Alpha</td>
-                                        <td>BOP-21</td>
-                                        <td>PL-100</td>
-                                        <td>ML-01</td>
-                                        <td class="remarks">
-                                            Observation conducted. All units reported.
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -321,9 +299,10 @@
                     <div>
                         <h3 class="table-letter-heading table-letter-heading_two">All Ref (Connecting LTR)</h3>
                         <div class="table-container">
-                            <table>
+                            <table id="refFileTable">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="selectRefAllFiles"></th>
                                         <th>Sl No.</th>
                                         <th>Ltr Date</th>
                                         <th>Region</th>
@@ -333,24 +312,11 @@
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
-                                        <th class="remarks">Remarks</th>
+                                        <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2025-05-14</td>
-                                        <td>North</td>
-                                        <td>Sec-1</td>
-                                        <td>7</td>
-                                        <td>Alpha</td>
-                                        <td>BOP-21</td>
-                                        <td>PL-100</td>
-                                        <td>ML-01</td>
-                                        <td class="remarks">
-                                            Observation conducted. All units reported.
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -361,9 +327,10 @@
                             Reply from BSF
                         </h3>
                         <div class="table-container">
-                            <table>
+                            <table id="replyFileTable">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="selectActionAllFiles"></th>
                                         <th>Sl No.</th>
                                         <th>Ltr Date</th>
                                         <th>Region</th>
@@ -373,29 +340,15 @@
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
-                                        <th class="remarks">Remarks</th>
+                                        <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2025-05-14</td>
-                                        <td>North</td>
-                                        <td>Sec-1</td>
-                                        <td>7</td>
-                                        <td>Alpha</td>
-                                        <td>BOP-21</td>
-                                        <td>PL-100</td>
-                                        <td>ML-01</td>
-                                        <td class="remarks">
-                                            Observation conducted. All units reported.
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -409,13 +362,14 @@
                 <button type="button">Upload</button>
             </div>
         </div>
+
         <div class="right-btns">
             <div class="all-print-btn">
-                <button class="main-ltr-btn">Print Main Ltr</button>
-                <button class="all-ltr-btn">Print All Ltr</button>
-                <button class="all-ref-ltr-btn">Print All Ref Ltr</button>
+                <button class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
+                <button class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
+                <button class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
                 <button class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
-                <button class="selected-btn">Print Selected</button>
+                <button class="selected-btn" id="printSelectedBtn">Print Selected</button>
             </div>
         </div>
     </div>
@@ -586,4 +540,7 @@
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/home.js') }}"></script>
     <script src="{{ asset('assets/js/form.js') }}"></script>
+    <script src="{{ asset('assets/js/main_file.js') }}"></script>
+    <script src="{{ asset('assets/js/ref_file.js') }}"></script>
+    <script src="{{ asset('assets/js/reply_file.js') }}"></script>
 @endpush
