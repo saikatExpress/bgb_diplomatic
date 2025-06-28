@@ -14,36 +14,41 @@
 
 <body>
     <div class="top-header" style="background-image: url('{{ asset('assets/img/header.jpg') }}');">
-        <div class="container heading-content-parent">
-            <div class="logo-area">
-                <a href="{{ route('dashboard') }}">
-                    <img src="{{ asset('assets/img/logo.png') }}" class="" width="160px" alt="BGB logo">
-                </a>
+        <div class="container">
+            <div class="heading-content-parent">
+                <div class="logo-area">
+                    <a href="{{ route('dashboard') }}">
+                        <img src="{{ asset('assets/img/logo.png') }}" class="" width="160px" alt="BGB logo">
+                    </a>
+                </div>
+                <div class="header-content">
+                    <h2 class="top-title-header">Diplomatic LTR Bank</h2>
+                    <p>North East Region, Sarail</p>
+                    <nav class="navbar">
+                        <ul>
+                            <li><a href="{{ route('dashboard') }}">Home</a></li>
+                            <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
+                            <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ url('/search') }}">Search</a></li>
+                            @if (auth()->check())
+                                <li>
+                                    <a href="#"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                </div>
+                <div>
+                    <div class="white-space"></div>
+                </div>
             </div>
-            <div class="header-content">
-                <h2 class="top-title-header">Diplomatic LTR Bank</h2>
-                <p>North East Region, Sarail</p>
-                <nav class="navbar">
-                    <ul>
-                        <li><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
-                        <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ url('/search') }}">Search</a></li>
-                        @if (auth()->check())
-                            <li>
-                                <a href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
-            </div>
-            <div>
-                <div class="white-space"></div>
-            </div>
+
+
         </div>
     </div>
     <div class="container">

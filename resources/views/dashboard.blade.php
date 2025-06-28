@@ -157,6 +157,22 @@
                             </div>
                         </div>
 
+                        <div class="ltr-type-incident">
+                            <div class="form-group3">
+                                <label for="#">Distance From Zero Point</label>
+                                <input type="text" id="distanceFromZero" class="form-control" name="distance_from_zero"
+                                    placeholder="Enter Distance" />
+                                <div>
+                                    <select name="distance_unit" id="distanceUnit">
+                                        <option value="" selected>Select Unit</option>
+                                        <option value="meters">Meters</option>
+                                        <option value="kilometers">Kilometers</option>
+                                        <option value="miles">Miles</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">

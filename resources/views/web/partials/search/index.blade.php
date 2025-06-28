@@ -1,6 +1,16 @@
 @extends('web.app')
 @section('title', 'Search Claim')
 @section('content')
+
+    {{-- Page Loader --}}
+    <div id="pageLoader" class="div_loader">
+        <div class="spinner-border" style="width:3rem;height:3rem;" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+        <div>Loading...</div>
+    </div>
+    {{-- Page Loader --}}
+
     <div class="form-body">
         <div class="left-form-content">
             <!-- <div class="top-title">Input Form</div> -->
@@ -12,12 +22,13 @@
             </div>
 
             <div class="forms">
-                <form action="#">
+                <form action="{{ route('search.action') }}" method="POST" id="search-form">
+                    @csrf
                     <div class="from-letter-by-select search-page-letter-by">
                         <!-- <span class="span-from-text">From</span> -->
                         <div>
                             <label for="#" class="letter-by-label">Letter By</label>
-                            <select name="" id="" class="letter-by-select">
+                            <select name="letter_by" id="letterBy" class="letter-by-select">
                                 <option value="BGB">BGB</option>
                                 <option value="BSF">BSF</option>
                             </select>
@@ -35,61 +46,57 @@
                     </div>
                     <div class="form-border-area">
                         <span class="span-from-text">From Unit</span>
-                        <div class="select-form-one">
-                            <select>
-                                <option>Rigion HQ</option>
-                                <option>Rigion HQ, Sarail</option>
-                                <option>Option B</option>
+                        <div class="select-form-one" id="fromBox">
+                            <select id="selectBgbRegion" name="bgb_region_id">
+                                <option>Select Region</option>
+                                @foreach ($bgbregions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
                             </select>
-                            <select>
-                                <option>Select SEC</option>
-                                <option>Option A</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbSec" name="bgb_sec_id">
+                                <option>Select Sector</option>
                             </select>
-                            <select>
-                                <option>Battalion</option>
-                                <option>Battalion</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbBattalion" name="bgb_battalion_id">
+                                <option>Select Battalion</option>
                             </select>
-                            <select>
-                                <option>Select HQ</option>
-                                <option>Select HQ</option>
-                                <option>Option B</option>
+
+                            <select id="selectBgbCoy" name="bgb_coy_id">
+                                <option>Select Company</option>
                             </select>
-                            <select>
+
+                            <select id="selectBgbBop" name="bgb_bop_id">
                                 <option>Select Bop</option>
-                                <option>Select Bop</option>
-                                <option>Option B</option>
                             </select>
                         </div>
+
                         <div class="to-inputs">
                             <span class="span-to-text">To Unit</span>
                         </div>
-                        <div class="select-form-two">
-                            <select>
-                                <option>BSF Rigion</option>
-                                <option>BSF Rigion</option>
-                                <option>Option B</option>
+
+                        <div class="select-form-two" id="toBox">
+                            <select id="selectBsfRegion" name="bsf_region_id">
+                                <option>Select Frontier</option>
+                                @foreach ($bsfregions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
                             </select>
-                            <select>
-                                <option>Select SEC</option>
-                                <option>Option A</option>
-                                <option>Option B</option>
+
+                            <select id="selectBsfSec" name="bsf_sec_id">
+                                <option>Select Sector</option>
                             </select>
-                            <select>
-                                <option>Battalion</option>
-                                <option>Battalion</option>
-                                <option>Option B</option>
+
+                            <select id="selectBsfBattalion" name="bsf_battalion_id">
+                                <option>Select Battalion</option>
                             </select>
-                            <select>
-                                <option>Select HQ</option>
-                                <option>Select HQ</option>
-                                <option>Option B</option>
+
+                            <select id="selectBsfCoy" name="bsf_coy_id">
+                                <option>Select Company</option>
                             </select>
-                            <select>
+
+                            <select id="selectBsfBop" name="bsf_bop_id">
                                 <option>Select BOP</option>
-                                <option>Select BOP</option>
-                                <option>Option B</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->
@@ -97,7 +104,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Piller No.</label>
-                                <select name="pillar_no" id="pillar_no">
+                                <select name="pillar_no" id="pillar_no" class="select3">
                                     <option>Select Piller</option>
                                     @foreach ($pillars as $pillar)
                                         <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
@@ -119,10 +126,11 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Type Of Incident</label>
-                                <select>
+                                <select class="select3">
                                     <option>Select Incident</option>
-                                    <option>Incident 1</option>
-                                    <option>Incident 2</option>
+                                    @foreach ($incidents as $incident)
+                                        <option value="{{ $incident->id }}">{{ $incident->title }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -155,7 +163,7 @@
                                 </label>
                             </div>
                             <div class="search-button">
-                                <button>Search</button>
+                                <button type="button" id="searchBtn">Search</button>
                             </div>
                         </div>
                     </div>
@@ -298,6 +306,14 @@
 @endsection
 
 @push('script')
+    <script src="{{ asset('assets/js/home.js') }}"></script>
+    <script src="{{ asset('assets/js/ajax.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select3').select2();
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             $('#pillar_no').change(function () {
@@ -325,6 +341,31 @@
                 } else {
                     $("#sub_pillar_no").empty();
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchBtn').on('click', function () {
+                let form = $("#search-form");
+                let url = form.attr("action");
+                let formData = form.serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    success: function (response) {
+                        if (response.status === "success") {
+                            console.log(response);
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error(xhr);
+                        alert("Something went wrong while saving the pillar.");
+                    },
+                });
             });
         });
     </script>

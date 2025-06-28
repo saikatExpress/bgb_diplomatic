@@ -31,7 +31,8 @@ body {
     justify-content: center;
 }
 .logo-area {
-    margin-right: 250px;
+    /* margin-right: 250px; */
+    margin-left: -140px;
 }
 .logo-area a {
     text-decoration: none;
