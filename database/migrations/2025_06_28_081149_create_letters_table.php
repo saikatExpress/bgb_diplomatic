@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('ltr_incident');
             $table->integer('pillar_id');
             $table->integer('subpillar_id');
+            $table->string('distance_from', 250);
             $table->string('within_150_km', 250);
             $table->string('outside_150_km', 250);
             $table->integer('killing');

@@ -31,26 +31,26 @@
                     <div class="form-border-area">
                         <span class="span-from-text">From</span>
                         <div class="select-form-one" id="fromBox">
-                            <select id="selectBgbRegion" name="bgb_region_id">
+                            <select id="selectBgbRegion" name="bgb_region_id" class="select3">
                                 <option value="" selected disabled>Select Region</option>
                                 @foreach ($bgbRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select id="selectBgbSec" name="bgb_sec_id">
+                            <select id="selectBgbSec" name="bgb_sec_id" class="select3">
                                 <option>Select SEC</option>
                             </select>
 
-                            <select id="selectBgbBattalion" name="bgb_battalion_id">
+                            <select id="selectBgbBattalion" name="bgb_battalion_id" class="select3">
                                 <option>Select Battalion</option>
                             </select>
 
-                            <select id="selectBgbCoy" name="bgb_coy_id">
+                            <select id="selectBgbCoy" name="bgb_coy_id" class="select3">
                                 <option>Select Company</option>
                             </select>
 
-                            <select id="selectBgbBop" name="bgb_bop_id">
+                            <select id="selectBgbBop" name="bgb_bop_id" class="select3">
                                 <option>Select BOP</option>
                             </select>
                         </div>
@@ -58,26 +58,26 @@
                             <span class="span-to-text">To</span>
                         </div>
                         <div class="select-form-two" id="toBox">
-                            <select id="selectBsfRegion" name="bsf_region_id">
+                            <select id="selectBsfRegion" name="bsf_region_id" class="select3">
                                 <option value="" selected disabled>Select Frontier</option>
                                 @foreach ($bsfRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
-                            <select id="selectBsfSec" name="bsf_sec_id">
+                            <select id="selectBsfSec" name="bsf_sec_id" class="select3">
                                 <option>Select SEC</option>
                             </select>
 
-                            <select id="selectBsfBattalion" name="bsf_battalion_id">
+                            <select id="selectBsfBattalion" name="bsf_battalion_id" class="select3">
                                 <option>Select Battalion</option>
                             </select>
 
-                            <select id="selectBsfCoy" name="bsf_coy_id">
+                            <select id="selectBsfCoy" name="bsf_coy_id" class="select3">
                                 <option>Select Company</option>
                             </select>
 
-                            <select id="selectBsfBop" name="bsf_bop_id">
+                            <select id="selectBsfBop" name="bsf_bop_id" class="select3">
                                 <option>Select BOP</option>
                             </select>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="ltr-no-date">
                             <div class="form-group">
                                 <label for="#">LTR No.</label>
-                                <input type="text" name="letter_no" placeholder="NO." />
+                                <input type="text" name="letter_no" id="letter_no" placeholder="NO." />
                             </div>
                             <div class="form-group">
                                 <label for="#">LTR Date.</label>
@@ -96,7 +96,7 @@
                         <div class="ltr-subject">
                             <div class="form-group2">
                                 <label for="#">LTR Sub</label>
-                                <select name="ltr_subject" id="ltrSubjectSelect">
+                                <select name="ltr_subject" id="ltrSubjectSelect" class="select3">
                                     <option>Select Subject</option>
                                     @foreach ($ltrs as $ltr)
                                         <option value="{{ $ltr->id }}">{{ $ltr->name }}</option>
@@ -112,7 +112,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Type Of Incident</label>
-                                <select id="incidentSelect" name="incident_id">
+                                <select id="incidentSelect" name="incident_id" class="select3">
                                     <option>Select Subject</option>
                                     @foreach ($incidents as $incident)
                                         <option value="{{ $incident->id }}">{{ $incident->title }}</option>
@@ -128,7 +128,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Pillar No.</label>
-                                <select id="pillarSelect" name="pillar_id">
+                                <select id="pillarSelect" name="pillar_id" class="select3">
                                     <option>Select Subject</option>
                                     @foreach ($pillars as $pillar)
                                         <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
@@ -144,7 +144,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3">
                                 <label for="#">Sub Pillar No.</label>
-                                <select id="subpillarSelect" name="subpillar_id">
+                                <select id="subpillarSelect" name="subpillar_id" class="select3">
                                     <option>Select Subject</option>
                                     @foreach ($subpillars as $subpillar)
                                         <option value="{{ $subpillar->id }}">{{ $subpillar->name }}</option>
@@ -559,4 +559,10 @@
     <script src="{{ asset('assets/js/main_file.js') }}"></script>
     <script src="{{ asset('assets/js/ref_file.js') }}"></script>
     <script src="{{ asset('assets/js/reply_file.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.select3').select2();
+        });
+    </script>
 @endpush

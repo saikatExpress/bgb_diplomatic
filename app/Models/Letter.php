@@ -27,6 +27,7 @@ class Letter extends Model
         'ltr_incident',
         'pillar_id',
         'subpillar_id',
+        'distance_from',
         'within_150_km',
         'outside_150_km',
         'killing',

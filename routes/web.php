@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LetterFileController;
 use App\Http\Controllers\Web\PillarController;
 use App\Models\LTR;
 
@@ -65,6 +66,10 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');
     Route::get('/fetchcompany', 'getCompaniesByBattalion')->name('fetchcompany');
     Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
+});
+
+Route::controller(LetterFileController::class)->group(function(){
+    Route::post('/upload-letter-file', 'upload')->name('upload-letter-file');
 });
 
 require __DIR__.'/auth.php';

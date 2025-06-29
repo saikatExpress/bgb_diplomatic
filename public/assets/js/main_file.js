@@ -6,6 +6,8 @@ $(document).ready(function () {
 
         const fileType = $("#letterBy").val();
 
+        const letterNumber = $("#letter_no").val();
+
         // Capture form selections at the moment of file selection
         const ltrDate = $('input[name="letter_date"]').val();
         const region =
@@ -42,6 +44,25 @@ $(document).ready(function () {
                     coy: coy,
                     bop: bop,
                     pillar: pillar,
+                });
+
+                const formData = new FormData();
+                formData.append("file", files[i]);
+                formData.append("file_type", fileType);
+                formData.append("letter_number", letterNumber);
+
+                $.ajax({
+                    url: "/upload-letter-file",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log("File uploaded successfully:", response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Upload failed:", error);
+                    },
                 });
             }
         }
