@@ -12,6 +12,7 @@ class LetterFile extends Model
     protected $fillable = [
         'letter_by',
         'letter_number',
+        'file_prefix',
         'file_path',
     ];
 }

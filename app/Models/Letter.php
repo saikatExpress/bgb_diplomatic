@@ -28,12 +28,12 @@ class Letter extends Model
         'pillar_id',
         'subpillar_id',
         'distance_from',
-        'within_150_km',
-        'outside_150_km',
+        'tags',
         'killing',
         'injuring',
         'beating',
         'firing',
         'crossing',
+        'status',
     ];
 }

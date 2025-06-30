@@ -70,6 +70,7 @@ Route::controller(AjaxController::class)->group(function(){
 
 Route::controller(LetterFileController::class)->group(function(){
     Route::post('/upload-letter-file', 'upload')->name('upload-letter-file');
+    Route::post('/delete-letter-file', 'delete')->name('delete-letter-file');
 });
 
 require __DIR__.'/auth.php';

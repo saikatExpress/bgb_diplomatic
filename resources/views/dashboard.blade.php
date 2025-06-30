@@ -6,11 +6,14 @@
 @section('content')
 
     {{-- Page Loader --}}
-    <div id="pageLoader" class="div_loader">
-        <div class="spinner-border" style="width:3rem;height:3rem;" role="status">
-            <span class="visually-hidden"></span>
+    <div id="pageLoader" class="div_loader" style="display: none;">
+        <!-- Logo -->
+        <div style="margin-bottom: 10px;">
+            <img src="{{ asset('assets/img/cover_logo.png') }}" alt="Logo" style="height: 500px; width: 500px;">
         </div>
-        <div>Loading...</div>
+
+        <!-- Loading text -->
+        <div>NORTH EAST REGION</div>
     </div>
     {{-- Page Loader --}}
 
@@ -86,6 +89,7 @@
                             <div class="form-group">
                                 <label for="#">LTR No.</label>
                                 <input type="text" name="letter_no" id="letter_no" placeholder="NO." />
+                                <div class="invalid-feedback" id="error_letter_no"></div>
                             </div>
                             <div class="form-group">
                                 <label for="#">LTR Date.</label>
@@ -176,7 +180,6 @@
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
-
                                 @foreach ($tags as $tag)
                                     <label class="check-label d-flex align-items-center gap-2">
                                         <input type="checkbox" name="{{ $tag->input_name }}" value="{{ $tag->input_name }}"
@@ -184,11 +187,6 @@
                                         {{ $tag->title }}
                                     </label>
                                 @endforeach
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="other" value="other" />
-                                    Other
-                                </label>
                             </div>
                             <!-- form group4 second -->
                             <div class="form-group4">
@@ -375,7 +373,7 @@
 
         <div class="left-btn">
             <div class="upload-btn">
-                <button type="button">Upload</button>
+                <button type="button" id="actionFormBtn">Upload</button>
             </div>
         </div>
 
@@ -504,7 +502,7 @@
                                 <option value="s">S</option>
                                 <option value="t">T</option>
                                 <option value="r">R</option>
-                                <option value="pull">Pull</option>
+                                <option value="pool">Pool</option>
                             </select>
                         </div>
                         <button type="button" id="submitSubPillar" class="btn btn-primary">Save Sub Pillar</button>
@@ -559,6 +557,7 @@
     <script src="{{ asset('assets/js/main_file.js') }}"></script>
     <script src="{{ asset('assets/js/ref_file.js') }}"></script>
     <script src="{{ asset('assets/js/reply_file.js') }}"></script>
+    <script src="{{ asset('assets/js/action.js') }}"></script>
 
     <script>
         $(document).ready(function () {

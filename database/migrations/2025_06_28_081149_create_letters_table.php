@@ -31,13 +31,13 @@ return new class extends Migration
             $table->integer('pillar_id');
             $table->integer('subpillar_id');
             $table->string('distance_from', 250);
-            $table->string('within_150_km', 250);
-            $table->string('outside_150_km', 250);
+            $table->string('tags', 500);
             $table->integer('killing');
             $table->integer('injuring');
             $table->integer('beating');
             $table->integer('firing');
             $table->integer('crossing');
+            $table->enum('status', ['replied', 'no_reply'])->default('no_reply');
             $table->timestamps();
         });
     }

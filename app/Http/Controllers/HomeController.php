@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\LTR;
 use App\Models\Tag;
+use App\Models\Letter;
 use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
 use App\Models\SubPillar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -64,6 +66,59 @@ class HomeController extends Controller
 
     public function actionStore(Request $request)
     {
-        return $request->all();
+        $validator = Validator::make($request->all(), [
+            'letter_no'    => 'required',
+            'letter_date'  => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $tags = Tag::all();
+
+        $selectedTags = [];
+        foreach ($tags as $inputName) {
+            if ($request->has($inputName->input_name)) {
+                $selectedTags[] = $inputName->input_name;
+            }
+        }
+
+        $data = [
+            'letter_by'        => $request->letter_by,
+            'bgb_region_id'    => $request->bgb_region_id,
+            'bgb_sec_id'       => $request->bgb_sec_id,
+            'bgb_battalion_id' => $request->bgb_battalion_id,
+            'bgb_coy_id'       => $request->bgb_coy_id,
+            'bgb_bop_id'       => $request->bgb_bop_id,
+            'bsf_region_id'    => $request->bsf_region_id,
+            'bsf_sec_id'       => $request->bsf_sec_id,
+            'bsf_battalion_id' => $request->bsf_battalion_id,
+            'bsf_coy_id'       => $request->bsf_coy_id,
+            'bsf_bop_id'       => $request->bsf_bop_id,
+            'letter_no'        => $request->letter_no,
+            'letter_date'      => $request->letter_date,
+            'ltr_subject'      => $request->ltr_subject,
+            'ltr_incident'     => $request->incident_id,
+            'pillar_id'        => $request->pillar_id,
+            'subpillar_id'     => $request->subpillar_id,
+            'distance_from'    => $request->distance_from_zero,
+            'tags'             => implode(',', $selectedTags),
+            'distance_unit'    => $request->distance_unit,
+            'killing'          => $request->killing,
+            'injuring'         => $request->injuring,
+            'beating'          => $request->beating,
+            'firing'           => $request->firing,
+            'crossing'         => $request->crossing,
+        ];
+
+        Letter::create($data);
+
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

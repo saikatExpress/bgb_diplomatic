@@ -18,6 +18,7 @@
                                     <th>SL</th>
                                     <th>Pillar</th>
                                     <th>Name</th>
+                                    <th>Type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -27,6 +28,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ filter($subpillar->pillar->name) }}</td>
                                         <td>{{ filter($subpillar->name) }}</td>
+                                        <td>{{ filter($subpillar->type) }}</td>
                                         <td>
                                             <a href="{{ route('super_admin.subpillars.edit', $subpillar->id) }}"
                                                 class="btn btn-primary btn-sm">

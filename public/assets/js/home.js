@@ -54,6 +54,6 @@ $(document).ready(function () {
         // Keep loader visible for 3 seconds, then hide
         setTimeout(function () {
             $("#pageLoader").hide();
-        }, 2000);
+        }, 300);
     });
 });

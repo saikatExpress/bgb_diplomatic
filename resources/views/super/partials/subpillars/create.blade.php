@@ -29,6 +29,20 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select name="type" id="type" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="s">S</option>
+                                <option value="t">T</option>
+                                <option value="r">R</option>
+                                <option value="pool">Pool</option>
+                            </select>
+                            @error('type')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary mr-2">Create</button>
                         <button class="btn btn-light">Cancel</button>
                     </form>

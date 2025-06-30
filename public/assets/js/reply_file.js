@@ -6,8 +6,16 @@ $(document).ready(function () {
 
         const fileType = $("#letterBy").val();
 
+        const letterNumber = $("#letter_no").val();
+
+        if (letterNumber == "") {
+            alert("Please enter a letter number.");
+            return;
+        }
+
         // Capture form selections at the moment of file selection
         const ltrDate = $('input[name="letter_date"]').val();
+        const prefix = fileType == "BGB" ? "BSF" : "BGB";
         const region =
             fileType == "BGB"
                 ? $("#selectBsfRegion option:selected").text()
@@ -36,12 +44,40 @@ $(document).ready(function () {
                 selectedReplyFiles.push({
                     file: files[i],
                     ltrDate: ltrDate,
+                    fileType: fileType,
+                    letterNumber: letterNumber,
                     region: region,
                     sector: sector,
                     battalion: battalion,
                     coy: coy,
                     bop: bop,
                     pillar: pillar,
+                });
+
+                const formData = new FormData();
+                const csrfToken = $('meta[name="csrf-token"]').attr("content");
+                formData.append("_token", csrfToken);
+                formData.append("file", files[i]);
+                formData.append("file_type", prefix);
+                formData.append("letter_number", letterNumber);
+                formData.append("file_prefix", "reply_file");
+
+                $.ajax({
+                    url: "/upload-letter-file",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        selectedReplyFiles[
+                            selectedReplyFiles.length - 1
+                        ].serverPath = response.file_path;
+                        selectedReplyFiles[selectedReplyFiles.length - 1].id =
+                            response.last_id;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Upload failed:", error);
+                    },
                 });
             }
         }
@@ -118,13 +154,35 @@ function showReplyPdf(file) {
 }
 
 function deleteReplyFile(index) {
-    selectedReplyFiles.splice(index, 1);
-    renderReplyTable();
+    const file = selectedReplyFiles[index];
 
-    // Optional: clear preview if no files left
-    if (selectedReplyFiles.length === 0) {
-        $("#file-preview").find("iframe").remove();
+    if (!confirm("Are you sure you want to delete this file?")) {
+        return;
     }
+
+    $.ajax({
+        url: "/delete-letter-file",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            last_id: file.id,
+            file_type: file.fileType,
+            letter_number: file.letterNumber,
+        },
+        success: function (response) {
+            // Remove from array
+            selectedReplyFiles.splice(index, 1);
+            renderReplyTable();
+
+            // Clear preview if no files left
+            if (selectedReplyFiles.length === 0) {
+                $("#file-preview").find("iframe").remove();
+            }
+        },
+        error: function (xhr, status, error) {
+            toastr.error("Delete failed:", error);
+        },
+    });
 }
 
 $(document).on("change", "#selectActionAllFiles", function () {

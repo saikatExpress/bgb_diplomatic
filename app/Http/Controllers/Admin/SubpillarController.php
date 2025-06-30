@@ -26,11 +26,13 @@ class SubpillarController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'pillar_id' => 'required|exists:pillars,id',
+            'type'      => 'required|string|max:255',
         ]);
 
         $subpillar            = new SubPillar();
         $subpillar->name      = $request->name;
         $subpillar->pillar_id = $request->pillar_id;
+        $subpillar->type      = $request->type;
         $subpillar->save();
 
         return redirect()->route('super_admin.subpillars')->with('success', 'Subpillar created successfully.');
@@ -48,10 +50,12 @@ class SubpillarController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'pillar_id' => 'required|exists:pillars,id',
+            'type'      => 'required|string|max:255',
         ]);
 
         $subpillar->name      = $request->name;
         $subpillar->pillar_id = $request->pillar_id;
+        $subpillar->type      = $request->type;
         $subpillar->save();
 
         return redirect()->route('super_admin.subpillars')->with('success', 'Subpillar updated successfully.');

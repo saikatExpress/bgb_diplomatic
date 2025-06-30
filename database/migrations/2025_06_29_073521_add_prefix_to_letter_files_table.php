@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('letter_files', function (Blueprint $table) {
-            $table->id();
-            $table->string('letter_by', 50);
-            $table->string('letter_number', 100);
-            $table->string('file_path', 250);
-            $table->timestamps();
+        Schema::table('letter_files', function (Blueprint $table) {
+            $table->string('file_prefix', 255)->after('letter_number')->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('letter_files');
+        Schema::table('letter_files', function (Blueprint $table) {
+            $table->dropColumn('file_prefix');
+        });
     }
 };

@@ -8,6 +8,11 @@ $(document).ready(function () {
 
         const letterNumber = $("#letter_no").val();
 
+        if (letterNumber == "") {
+            alert("Please enter a letter number.");
+            return;
+        }
+
         // Capture form selections at the moment of file selection
         const ltrDate = $('input[name="letter_date"]').val();
         const region =
@@ -38,6 +43,8 @@ $(document).ready(function () {
                 selectedFiles.push({
                     file: files[i],
                     ltrDate: ltrDate,
+                    fileType: fileType,
+                    letterNumber: letterNumber,
                     region: region,
                     sector: sector,
                     battalion: battalion,
@@ -47,9 +54,12 @@ $(document).ready(function () {
                 });
 
                 const formData = new FormData();
+                const csrfToken = $('meta[name="csrf-token"]').attr("content");
+                formData.append("_token", csrfToken);
                 formData.append("file", files[i]);
                 formData.append("file_type", fileType);
                 formData.append("letter_number", letterNumber);
+                formData.append("file_prefix", "main");
 
                 $.ajax({
                     url: "/upload-letter-file",
@@ -59,6 +69,11 @@ $(document).ready(function () {
                     contentType: false,
                     success: function (response) {
                         console.log("File uploaded successfully:", response);
+
+                        selectedFiles[selectedFiles.length - 1].serverPath =
+                            response.file_path;
+                        selectedFiles[selectedFiles.length - 1].id =
+                            response.last_id;
                     },
                     error: function (xhr, status, error) {
                         console.error("Upload failed:", error);
@@ -139,13 +154,35 @@ function showPDF(file) {
 }
 
 function deleteFile(index) {
-    selectedFiles.splice(index, 1);
-    renderTable();
+    const file = selectedFiles[index];
 
-    // Optional: clear preview if no files left
-    if (selectedFiles.length === 0) {
-        $("#file-preview").find("iframe").remove();
+    if (!confirm("Are you sure you want to delete this file?")) {
+        return;
     }
+
+    $.ajax({
+        url: "/delete-letter-file",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            last_id: file.id,
+            file_type: file.fileType,
+            letter_number: file.letterNumber,
+        },
+        success: function (response) {
+            // Remove from array
+            selectedFiles.splice(index, 1);
+            renderTable();
+
+            // Clear preview if no files left
+            if (selectedFiles.length === 0) {
+                $("#file-preview").find("iframe").remove();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Delete failed:", error);
+        },
+    });
 }
 
 // Handle Select All checkbox
