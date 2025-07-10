@@ -241,5 +241,3 @@ $(document).on("click", "#printMainLtrBtn", function () {
 
     openAndPrintNext();
 });
-
-// Print Media Code Start From here

@@ -66,6 +66,8 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');
     Route::get('/fetchcompany', 'getCompaniesByBattalion')->name('fetchcompany');
     Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
+    Route::get('/fetched/letters', 'fetchedLetter')->name('fetched.letter');
+    Route::get('/delete/file/{id}', 'deleteFile')->name('delete.file');
 });
 
 Route::controller(LetterFileController::class)->group(function(){

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Models\BOP;
 use App\Models\Sector;
+use App\Models\Company;
 use App\Models\Battalion;
+use App\Models\LetterFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use Illuminate\Support\Facades\Storage;
 
 class AjaxController extends Controller
 {
@@ -49,5 +51,34 @@ class AjaxController extends Controller
         $bops = BOP::where('company_id', $companyId)->get();
 
         return response()->json($bops);
+    }
+
+    public function fetchedLetter(Request $request)
+    {
+        $letterNo = $request->get('letterNo');
+        $letterBy = $request->get('letterBy');
+
+
+        $letters = LetterFile::where('letter_number', $letterNo)->get();
+
+        return  response()->json($letters);
+    }
+
+    public function deleteFile($id)
+    {
+        $file = LetterFile::find($id);
+        if($file){
+            $storagePath = str_replace('/storage/', 'public/', $file->file_path);
+
+            if (Storage::exists($storagePath)) {
+                Storage::delete($storagePath);
+            }
+
+            $file->delete();
+
+            return response()->json(['status' => 'success']);
+        }else{
+            return response()->json(['status' => 'error']);
+        }
     }
 }

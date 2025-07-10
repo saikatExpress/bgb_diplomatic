@@ -242,6 +242,30 @@
                         </div>
                     </div>
 
+                    <div class="form-border-area"
+                        style="margin-top: 10px;margin-bottom: 10px; display: none; overflow: scroll; height: 400px;"
+                        id="search_table_container">
+                        <div class="table-container">
+                            <table id="searchingTable">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th>SL</th>
+                                        <th>Entry Date</th>
+                                        <th>Letter By</th>
+                                        <th>Letter No</th>
+                                        <th>File Type</th>
+                                        <th>File</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- =============== -->
                     <div class="upload-container">
                         <div class="upload-card" style="height: 150px !important;">
@@ -277,7 +301,6 @@
 
                                     <input type="file" class="file-input" id="replyFile" name="bgb_reply" multiple
                                         accept="application/pdf">
-
                                 </div>
                             </label>
                         </div>
@@ -558,6 +581,7 @@
     <script src="{{ asset('assets/js/ref_file.js') }}"></script>
     <script src="{{ asset('assets/js/reply_file.js') }}"></script>
     <script src="{{ asset('assets/js/action.js') }}"></script>
+    <script src="{{ asset('assets/js/file.js') }}"></script>
 
     <script>
         $(document).ready(function () {

@@ -61,24 +61,24 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number">150</span>
-                        <span>Killing By BSF 05</span>
+                        <span class="killing-number">{{ $bgbInfo->totalKilling }}</span>
+                        <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">20</span>
-                        <span>Killing By IND ntl 03</span>
+                        <span class="killing-number">{{ $bgbInfo->totalfiring }}</span>
+                        <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">50</span>
-                        <span>Injuring By BSF 02</span>
+                        <span class="killing-number">{{ $bgbInfo->totalinjuring }}</span>
+                        <span>Injuring</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">30</span>
-                        <span>Injuring By IND ntl 10</span>
+                        <span class="killing-number">{{ $bgbInfo->totalcrossing }}</span>
+                        <span>Crossing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">120</span>
-                        <span>Beating By BSF 12</span>
+                        <span class="killing-number">{{ $bgbInfo->totalbeating }}</span>
+                        <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
                         <span class="killing-number">180</span>
@@ -102,28 +102,28 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number">150</span>
-                        <span>Killing By BSF 05</span>
+                        <span class="killing-number">{{ $bsfInfo->totalKilling }}</span>
+                        <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">20</span>
-                        <span>Killing By IND ntl 03</span>
+                        <span class="killing-number">{{ $bsfInfo->totalfiring }}</span>
+                        <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">50</span>
-                        <span>Injuring By BSF 02</span>
+                        <span class="killing-number">{{ $bsfInfo->totalinjuring }}</span>
+                        <span>Injuring</span>
                     </p>
                     <p class="killing-bsf-box">
                         <span class="killing-number">30</span>
                         <span>Injuring By IND ntl 10</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">120</span>
-                        <span>Beating By BSF 12</span>
+                        <span class="killing-number">{{ $bsfInfo->totalbeating }}</span>
+                        <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">180</span>
-                        <span>Beating By IND ntl 2</span>
+                        <span class="killing-number">{{ $bsfInfo->totalcrossing }}</span>
+                        <span>Crossing</span>
                     </p>
                     <p class="killing-bsf-box">
                         <span class="killing-number">120</span>
