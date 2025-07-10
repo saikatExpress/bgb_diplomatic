@@ -361,7 +361,7 @@
                         success: function (res) {
                             if (res && res.subpillars) {
                                 $("#sub_pillar_no").empty();
-                                $("#sub_pillar_no").append('<option>Select Sub Pillar</option>');
+                                $("#sub_pillar_no").append('<option disabled>Select Sub Pillar</option>');
                                 $.each(res.subpillars, function (key, value) {
                                     $("#sub_pillar_no").append('<option value="' + value.id + '">' + value.name + " (" + value.type.toUpperCase() + ")" + '</option>');
                                 });
@@ -435,21 +435,21 @@
                                 // Build row HTML
                                 function makeRow(sl, file, killing, firing) {
                                     return `
-        <tr>
-            <td>${sl}</td>
-            <td>${base.letter_date}</td>
-            <td>${region}</td>
-            <td>${sector}</td>
-            <td>${battalion}</td>
-            <td>${coy}</td>
-            <td>${bop}</td>
-            <td>${pillar}</td>
-            <td><a href="${file.file_path}" target="_blank">View File</a></td>
-            <td>
-                Killing: ${killing ?? 0}, Firing: ${firing ?? 0}
-            </td>
-        </tr>
-                                    `;
+            <tr>
+                <td>${sl}</td>
+                <td>${base.letter_date}</td>
+                <td>${region}</td>
+                <td>${sector}</td>
+                <td>${battalion}</td>
+                <td>${coy}</td>
+                <td>${bop}</td>
+                <td>${pillar}</td>
+                <td><a href="${file.file_path}" target="_blank">View File</a></td>
+                <td>
+                    Killing: ${killing ?? 0}, Firing: ${firing ?? 0}
+                </td>
+            </tr>
+                                        `;
                                 }
 
                                 // Add main file row

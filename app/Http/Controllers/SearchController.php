@@ -25,7 +25,6 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-
         $query = Letter::query();
 
         if($request->filled('letter_by')) {
@@ -69,11 +68,11 @@ class SearchController extends Controller
         }
 
         if ($request->filled('pillar_no') && $request->pillar_no !== 'Select Piller') {
-            $query->where('pillar_no', $request->pillar_no);
+            $query->where('pillar_id', $request->pillar_no);
         }
 
         if ($request->filled('sub_pillar_no') && $request->sub_pillar_no !== 'Select Sub Piller') {
-            $query->where('sub_pillar_no', $request->sub_pillar_no);
+            $query->where('subpillar_id', $request->sub_pillar_no);
         }
 
         if ($request->filled('distance_from_zero')) {
@@ -109,7 +108,9 @@ class SearchController extends Controller
 
         $results = $query->orderBy('created_at', 'desc')->get();
 
-        return $results;
+        $results = collect($results);
+
+        return $results->sum('killing');
     }
 
 }
