@@ -43,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/admin/dashboard', 'index')->name('admin.dashboard');
+        Route::post('/dashboard/search', 'search')->name('dashboard.search');
+        Route::post('/chart/search', 'chartSearch')->name('chart.form');
     });
 });
 

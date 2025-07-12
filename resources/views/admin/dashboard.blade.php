@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 </head>
 
@@ -47,12 +53,58 @@
                     <div class="white-space"></div>
                 </div>
             </div>
-
-
         </div>
     </div>
     <div class="container">
         <div class="my-container">
+
+            <form action="{{ route('dashboard.search') }}" method="POST" id="dashboardForm">
+                @csrf
+                <div class="container py-4">
+                    <div class="row justify-content-end align-items-center g-3">
+
+                        <!-- Force -->
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <label for="force" class="form-label mb-0 text-white flex-shrink-0"
+                                    style="width: 50px;">Force</label>
+                                <select id="force" name="letter_by" class="form-select form-select-sm ms-2">
+                                    <option value="" selected disabled>Select</option>
+                                    <option value="BGB">BGB</option>
+                                    <option value="BSF">BSF</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- From Date -->
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <label for="from" class="form-label mb-0 text-white flex-shrink-0"
+                                    style="width: 50px;">From</label>
+                                <input type="date" id="from" name="form_date" class="form-control form-control-sm ms-2">
+                            </div>
+                        </div>
+
+                        <!-- To Date -->
+                        <div class="col-12 col-md-3">
+                            <div class="d-flex align-items-center">
+                                <label for="to" class="form-label mb-0 text-white flex-shrink-0"
+                                    style="width: 50px;">To</label>
+                                <input type="date" id="to" name="to_date" class="form-control form-control-sm ms-2">
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="col-12 col-md-2 d-flex justify-content-start">
+                            <button class="btn btn-primary btn-sm w-100" type="button" id="dashboardformBtn">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
             <div class="bgb-protest">
                 <div class="bgb-heading-title-img">
                     <h5 class="bgb-heading-title">BGB Protest</h5>
@@ -61,23 +113,23 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bgbInfo->totalKilling }}</span>
+                        <span class="killing-number" id="killing_number_bgb">{{ $bgbInfo->totalKilling }}</span>
                         <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bgbInfo->totalfiring }}</span>
+                        <span class="killing-number" id="firing_number_bgb">{{ $bgbInfo->totalfiring }}</span>
                         <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bgbInfo->totalinjuring }}</span>
+                        <span class="killing-number" id="injuiring_number_bgb">{{ $bgbInfo->totalinjuring }}</span>
                         <span>Injuring</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bgbInfo->totalcrossing }}</span>
+                        <span class="killing-number" id="crossing_number_bgb">{{ $bgbInfo->totalcrossing }}</span>
                         <span>Crossing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bgbInfo->totalbeating }}</span>
+                        <span class="killing-number" id="beating_number_bgb">{{ $bgbInfo->totalbeating }}</span>
                         <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
@@ -102,15 +154,15 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bsfInfo->totalKilling }}</span>
+                        <span class="killing-number" id="killing_number_bsf">{{ $bsfInfo->totalKilling }}</span>
                         <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bsfInfo->totalfiring }}</span>
+                        <span class="killing-number" id="firing_number_bsf">{{ $bsfInfo->totalfiring }}</span>
                         <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bsfInfo->totalinjuring }}</span>
+                        <span class="killing-number" id="injuiring_number_bsf">{{ $bsfInfo->totalinjuring }}</span>
                         <span>Injuring</span>
                     </p>
                     <p class="killing-bsf-box">
@@ -118,11 +170,11 @@
                         <span>Injuring By IND ntl 10</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bsfInfo->totalbeating }}</span>
+                        <span class="killing-number" id="beating_number_bsf">{{ $bsfInfo->totalbeating }}</span>
                         <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">{{ $bsfInfo->totalcrossing }}</span>
+                        <span class="killing-number" id="crossing_number_bsf">{{ $bsfInfo->totalcrossing }}</span>
                         <span>Crossing</span>
                     </p>
                     <p class="killing-bsf-box">
@@ -136,27 +188,217 @@
                 </div>
             </div>
 
-            <div class="bgb-protest-bar-icon">
-                <div>
-                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
-                    <p>Killing</p>
+            {{-- Add input Fields Start--}}
+            <form action="{{ route('chart.form') }}" method="post" id="chartForm">
+                @csrf
+                <div class="container py-4">
+                    <div class="row g-3 align-items-center justify-content-start flex-wrap">
+
+                        <!-- Letter by -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="d-flex align-items-center">
+                                <label for="letterBy" class="form-label mb-0 text-white flex-shrink-0 me-2">Letter
+                                    by</label>
+                                <select id="letterBy" name="letter_by" class="form-select form-select-sm">
+                                    <option value="" selected disabled>Select</option>
+                                    <option value="BGB">BGB</option>
+                                    <option value="BSF">BSF</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Year -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="d-flex align-items-center">
+                                <label for="selectYear"
+                                    class="form-label mb-0 text-white flex-shrink-0 me-2">Year</label>
+                                <select id="selectYear" name="year" class="form-select form-select-sm">
+                                    <option value="" selected disabled>Select</option>
+                                    @for ($year = date('Y'); $year >= 2000; $year--)
+                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Month -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="d-flex align-items-center">
+                                <label for="selectMonth"
+                                    class="form-label mb-0 text-white flex-shrink-0 me-2">Month</label>
+                                <select id="selectMonth" name="month" class="form-select form-select-sm">
+                                    <option value="" selected disabled>Select</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- From Date -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="d-flex align-items-center">
+                                <label for="fromDate" class="form-label mb-0 text-white flex-shrink-0 me-2">From</label>
+                                <input type="date" id="fromDate" name="from_date" class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- To Date -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <div class="d-flex align-items-center">
+                                <label for="toDate" class="form-label mb-0 text-white flex-shrink-0 me-2">To</label>
+                                <input type="date" id="toDate" name="to_date" class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <button class="btn btn-primary btn-sm w-100" type="button" id="chartformBtn">
+                                Search
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
-                <div>
-                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
-                    <p>Injuring</p>
+            </form>
+
+            {{-- Add input Fields End --}}
+            <div class="row" style="background-color: #fff;">
+
+                <div class="col-md-3 text-center">
+                    <canvas id="killingChart" style="width:600px; height:600px;"></canvas>
                 </div>
-                <div>
-                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
-                    <p>Beating</p>
+                <div class="col-md-3 text-center">
+                    <canvas id="injuringChart" style="width:600px; height:600px;"></canvas>
                 </div>
-                <div>
-                    <img src="{{ asset('assets/img/bar.jpg') }}" class="img-fluid" alt="">
-                    <p>Firing</p>
+                <div class="col-md-3 text-center">
+                    <canvas id="beatingChart" style="width:600px; height:600px;"></canvas>
+                </div>
+                <div class="col-md-3 text-center">
+                    <canvas id="firingChart" style="width:600px; height:600px;"></canvas>
+                </div>
+                <div class="col-md-3 text-center">
+                    <canvas id="crossingChart" style="width:600px; height:600px;"></canvas>
                 </div>
             </div>
+
         </div>
     </div>
 </body>
+
+<script>
+    $(document).ready(function () {
+        $('#chartformBtn').on('click', function () {
+            let chartform = $('#chartForm');
+            let url = chartform.attr('action');
+            let type = chartform.attr('method');
+            let chartformData = chartform.serialize();
+
+            $.ajax({
+                type: type,
+                url: url,
+                data: chartformData,
+                success: function (response) {
+                    const monthlyData = response.totals;
+
+                    createMonthlyIncidentChart('killingChart', 'Killing', 'killing', monthlyData);
+                    createMonthlyIncidentChart('injuringChart', 'Injuring', 'injuring', monthlyData);
+                    createMonthlyIncidentChart('beatingChart', 'Beating', 'beating', monthlyData);
+                    createMonthlyIncidentChart('firingChart', 'Firing', 'firing', monthlyData);
+                    createMonthlyIncidentChart('crossingChart', 'Crossing', 'crossing', monthlyData);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    const monthlyData = @json($totals);
+
+    function prepareChartData(incidentType) {
+        const labels = [];
+        const bgbData = [];
+        const bsfData = [];
+
+        Object.keys(monthlyData).forEach(month => {
+            labels.push(month);
+            const monthEntries = monthlyData[month];
+
+            const bgbRow = monthEntries.find(e => e.letter_by === "BGB");
+            const bsfRow = monthEntries.find(e => e.letter_by === "BSF");
+
+            bgbData.push(bgbRow ? bgbRow[incidentType] : 0);
+            bsfData.push(bsfRow ? bsfRow[incidentType] : 0);
+        });
+
+        return { labels, bgbData, bsfData };
+    }
+
+    function createMonthlyIncidentChart(canvasId, label, incidentType) {
+        const ctx = document.getElementById(canvasId)?.getContext('2d');
+        if (!ctx) {
+            console.error('Canvas element not found: ' + canvasId);
+            return;
+        }
+        const { labels, bgbData, bsfData } = prepareChartData(incidentType);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'BGB',
+                        data: bgbData,
+                        backgroundColor: '#36A2EB'
+                    },
+                    {
+                        label: 'BSF',
+                        data: bsfData,
+                        backgroundColor: '#FF6384'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: label + ' (Month Wise)',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        createMonthlyIncidentChart('killingChart', 'Killing', 'killing');
+        createMonthlyIncidentChart('injuringChart', 'Injuring', 'injuring');
+        createMonthlyIncidentChart('beatingChart', 'Beating', 'beating');
+        createMonthlyIncidentChart('firingChart', 'Firing', 'firing');
+        createMonthlyIncidentChart('crossingChart', 'Crossing', 'crossing');
+    });
+</script>
+
 <script>
     document
         .querySelectorAll('.custom-file-input input[type="file"]')
@@ -170,6 +412,71 @@
                 label.textContent = fileName;
             });
         });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#dashboardformBtn').on('click', function () {
+            let form = $('#dashboardForm');
+            let url = form.attr('action');
+            let method = form.attr('method');
+            let formData = form.serialize();
+
+            $.ajax({
+                type: method,
+                url: url,
+                data: formData,
+                success: function (response) {
+                    const data = response;
+
+                    let totalBgbKilling = 0;
+                    let totalBgbBeating = 0;
+                    let totalBgbFiring = 0;
+                    let totalBgbCrossing = 0;
+                    let totalBgbInjuring = 0;
+
+                    let totalBsfKilling = 0;
+                    let totalBsfBeating = 0;
+                    let totalBsfFiring = 0;
+                    let totalBsfCrossing = 0;
+                    let totalBsfInjuring = 0;
+
+                    $.each(data, function (index, item) {
+                        if (item.letter_by === "BGB") {
+                            totalBgbKilling += item.casualties.killing;
+                            totalBgbBeating += item.casualties.beating;
+                            totalBgbFiring += item.casualties.firing;
+                            totalBgbCrossing += item.casualties.crossing;
+                            totalBgbInjuring += item.casualties.crossing;
+                        }
+
+                        if (item.letter_by === "BSF") {
+                            totalBsfKilling += item.casualties.killing;
+                            totalBsfBeating += item.casualties.beating;
+                            totalBsfFiring += item.casualties.firing;
+                            totalBsfCrossing += item.casualties.crossing;
+                            totalBsfInjuring += item.casualties.crossing;
+                        }
+
+                        $('#killing_number_bgb').text(totalBgbKilling);
+                        $('#beating_number_bgb').text(totalBgbBeating);
+                        $('#firing_number_bgb').text(totalBgbFiring);
+                        $('#crossing_number_bgb').text(totalBgbCrossing);
+                        $('#injuiring_number_bgb').text(totalBgbInjuring);
+
+                        $('#killing_number_bsf').text(totalBsfKilling);
+                        $('#beating_number_bsf').text(totalBsfBeating);
+                        $('#firing_number_bsf').text(totalBsfFiring);
+                        $('#crossing_number_bsf').text(totalBsfCrossing);
+                        $('#injuiring_number_bsf').text(totalBsfInjuring);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
 </script>
 
 </html>

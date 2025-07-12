@@ -177,7 +177,7 @@
                                 </label>
 
                                 <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="no_reply" value="other" />
+                                    <input type="checkbox" class="custom-checkbox" name="no_reply" value="no_reply" />
                                     No Reply
                                 </label>
 
@@ -435,21 +435,21 @@
                                 // Build row HTML
                                 function makeRow(sl, file, killing, firing) {
                                     return `
-            <tr>
-                <td>${sl}</td>
-                <td>${base.letter_date}</td>
-                <td>${region}</td>
-                <td>${sector}</td>
-                <td>${battalion}</td>
-                <td>${coy}</td>
-                <td>${bop}</td>
-                <td>${pillar}</td>
-                <td><a href="${file.file_path}" target="_blank">View File</a></td>
-                <td>
-                    Killing: ${killing ?? 0}, Firing: ${firing ?? 0}
-                </td>
-            </tr>
-                                        `;
+                <tr>
+                    <td>${sl}</td>
+                    <td>${base.letter_date}</td>
+                    <td>${region}</td>
+                    <td>${sector}</td>
+                    <td>${battalion}</td>
+                    <td>${coy}</td>
+                    <td>${bop}</td>
+                    <td>${pillar}</td>
+                    <td><a href="${file.file_path}" target="_blank">View File</a></td>
+                    <td>
+                        Killing: ${killing ?? 0}, Firing: ${firing ?? 0}
+                    </td>
+                </tr>
+                                            `;
                                 }
 
                                 // Add main file row
