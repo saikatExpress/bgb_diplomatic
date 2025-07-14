@@ -108,9 +108,6 @@ class SearchController extends Controller
 
         $results = $query->orderBy('created_at', 'desc')->get();
 
-        $results = collect($results);
-
-        return $results->sum('killing');
+        return response()->json($results);
     }
-
 }

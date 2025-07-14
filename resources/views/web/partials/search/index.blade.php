@@ -240,6 +240,11 @@
                                 <button type="button" id="searchBtn">Search</button>
                             </div>
                         </div>
+
+                        <div id="summary_box">
+
+                        </div>
+
                     </div>
 
                     <!-- Form table data show  -->
@@ -392,88 +397,34 @@
                     url: url,
                     data: formData,
                     success: function (response) {
-                        if (response.success) {
-                            console.log(response);
+                        let totalKilling = 0;
+                        let totalBeating = 0;
+                        let totalFiring = 0;
+                        let totalInjuring = 0;
+                        let totalCrossing = 0;
 
-                            const data = response.data;
+                        let statusCount = {};
 
-                            // Clear previous rows
-                            $(".table-container tbody").empty();
+                        response.forEach(item => {
+                            totalKilling += parseInt(item.killing) || 0;
+                            totalBeating += parseInt(item.beating) || 0;
+                            totalFiring += parseInt(item.firing) || 0;
+                            totalInjuring += parseInt(item.injuring) || 0;
+                            totalCrossing += parseInt(item.crossing) || 0;
 
-                            // Group by letter_no
-                            const grouped = {};
-                            data.forEach(item => {
-                                if (!grouped[item.letter_no]) {
-                                    grouped[item.letter_no] = [];
-                                }
-                                grouped[item.letter_no].push(item);
-                            });
+                            let status = item.status || 'unknown';
+                            statusCount[status] = (statusCount[status] || 0) + 1;
+                        });
 
-                            // Track serial number
-                            let slMain = 1, slRef = 1, slReply = 1;
+                        // Build paragraph summary text
+                        let statusText = Object.entries(statusCount)
+                            .map(([status, count]) => `${count} with status "${status}"`)
+                            .join(", ");
 
-                            // Loop each letter
-                            for (const letterNo in grouped) {
-                                const files = grouped[letterNo];
+                        let summaryText = `In total, there were ${totalKilling} killings, ${totalBeating} beatings, ${totalFiring} firings, ${totalInjuring} injuries, and ${totalCrossing} crossings reported. The records include ${statusText}.`;
 
-                                // Since all files share the same letter data, pick first as "base"
-                                const base = files[0];
-
-                                // Find files by prefix
-                                const mainFile = files.find(f => f.file_prefix === "main");
-                                const refFiles = files.filter(f => f.file_prefix === "ref");
-                                const replyFiles = files.filter(f => f.file_prefix === "reply-file");
-
-                                // Region etc names
-                                const region = base.bgb_region_name ?? '';
-                                const sector = base.bgb_sector_name ?? '';
-                                const battalion = base.bgb_battalion_name ?? '';
-                                const coy = base.bgb_coy_name ?? '';
-                                const bop = base.bgb_bop_name ?? '';
-                                const pillar = base.pillar_id ?? '';
-
-                                // Build row HTML
-                                function makeRow(sl, file, killing, firing) {
-                                    return `
-                <tr>
-                    <td>${sl}</td>
-                    <td>${base.letter_date}</td>
-                    <td>${region}</td>
-                    <td>${sector}</td>
-                    <td>${battalion}</td>
-                    <td>${coy}</td>
-                    <td>${bop}</td>
-                    <td>${pillar}</td>
-                    <td><a href="${file.file_path}" target="_blank">View File</a></td>
-                    <td>
-                        Killing: ${killing ?? 0}, Firing: ${firing ?? 0}
-                    </td>
-                </tr>
-                                            `;
-                                }
-
-                                // Add main file row
-                                if (mainFile) {
-                                    $("div.table-container:eq(0) tbody").append(
-                                        makeRow(slMain++, mainFile, base.killing, base.firing)
-                                    );
-                                }
-
-                                // Add ref files rows
-                                refFiles.forEach(file => {
-                                    $("div.table-container:eq(1) tbody").append(
-                                        makeRow(slRef++, file, base.killing, base.firing)
-                                    );
-                                });
-
-                                // Add reply files rows
-                                replyFiles.forEach(file => {
-                                    $("div.table-container:eq(2) tbody").append(
-                                        makeRow(slReply++, file, base.killing, base.firing)
-                                    );
-                                });
-                            }
-                        }
+                        // Show in summary_box div
+                        $('#summary_box').html(`<p style="font-size:20px;color:teal;">${summaryText}</p>`);
                     },
                     error: function (xhr) {
                         console.error(xhr);
