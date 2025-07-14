@@ -129,36 +129,46 @@
                         </div>
 
                         <!-- Type of Incident Section -->
-                        <div class="ltr-type-incident">
-                            <div class="form-group3">
-                                <label for="#">Pillar No.</label>
-                                <select id="pillarSelect" name="pillar_id" class="select3">
-                                    <option>Select Subject</option>
-                                    @foreach ($pillars as $pillar)
-                                        <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#addPillarModal">
-                                    <span style="margin-right: 10px;">+</span> Add New
-                                </button>
-                            </div>
-                        </div>
+                        <div class="form-group3">
+                            <label for="#">Piller No.</label>
+                            <div class="form-group3-select-items">
 
-                        <div class="ltr-type-incident">
-                            <div class="form-group3">
-                                <label for="#">Sub Pillar No.</label>
-                                <select id="subpillarSelect" name="subpillar_id" class="select3">
-                                    <option>Select Subject</option>
-                                    @foreach ($subpillars as $subpillar)
-                                        <option value="{{ $subpillar->id }}">{{ $subpillar->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#addSubPillarModal">
-                                    <span style="margin-right: 10px;">+</span> Add New
-                                </button>
+                                <!-- Subject Select -->
+                                <div class="input-wrapper">
+                                    <select name="pillar_id" id="pillarSelect" class="select3">
+                                        <option>Select Pillar</option>
+                                        @foreach ($pillars as $pillar)
+                                            <option value="{{ $pillar->id }}">
+                                                {{ $pillar->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Slash -->
+                                <span class="slash">/</span>
+
+                                <!-- Text Input -->
+                                <div class="input-wrapper">
+                                    <input type="text" name="subpillar_id" placeholder="Put Sub Pillar">
+                                </div>
+
+                                <!-- Dropdown Select (S, R, T) -->
+                                <div class="dropdown-wrapper">
+                                    <select name="subpillar_type">
+                                        <option value="">Select Type</option>
+                                        <option value="s">S</option>
+                                        <option value="t">T</option>
+                                        <option value="r">R</option>
+                                        <option value="pool">Pool</option>
+                                    </select>
+                                </div>
+
                             </div>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPillarModal">
+                                <span style="margin-right: 10px;">+</span> Add New
+                            </button>
                         </div>
 
                         <div class="ltr-type-incident">
@@ -172,6 +182,8 @@
                                         <option value="meters">Meters</option>
                                         <option value="kilometers">Kilometers</option>
                                         <option value="miles">Miles</option>
+                                        <option value="yard">Yard</option>
+                                        <option value="feet">Feet</option>
                                     </select>
                                 </div>
                             </div>
@@ -473,62 +485,6 @@
                                 placeholder="Enter Pillar Name" required />
                         </div>
                         <button type="button" id="submitPillar" class="btn btn-primary">Save Pillar</button>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- Pillar Modal End --}}
-
-    {{-- Sub Pillar Modal Start --}}
-    <div class="modal fade" id="addSubPillarModal" tabindex="-1" role="dialog" aria-labelledby="addSubPillarModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addSubPillarModal">Add Sub Pillar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form id="subPillarForm" action="{{ route('subpillars.store') }}" method="post">
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="subPillarName">Pillar Name</label>
-                            <select name="pillar_id" class="form-control" required>
-                                <option value="">Select Pillar</option>
-                                @foreach ($pillars as $pillar)
-                                    <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subPillarName">Sub Pillar Name</label>
-                            <input type="text" id="subPillarName" class="form-control" name="sub_pillar_name"
-                                placeholder="Enter Sub Pillar Name" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subPillarName">Type</label>
-                            <select name="type" class="form-control" required>
-                                <option value="">Select Type</option>
-                                <option value="s">S</option>
-                                <option value="t">T</option>
-                                <option value="r">R</option>
-                                <option value="pool">Pool</option>
-                            </select>
-                        </div>
-                        <button type="button" id="submitSubPillar" class="btn btn-primary">Save Sub Pillar</button>
                     </form>
                 </div>
 

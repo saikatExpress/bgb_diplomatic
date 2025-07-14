@@ -46,17 +46,6 @@
                                 All Pillars
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('super_admin.subpillars.create') }}">
-                                Add Sub Pillar
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('super_admin.subpillars') }}">
-                                All Sub Pillars
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </li>

@@ -37,15 +37,6 @@ Route::middleware(['auth'])->group(function(){
         Route::delete('/super/admin/pillars/{pillar}/destroy', 'destroy')->name('super_admin.pillars.destroy');
     });
 
-    Route::controller(SubpillarController::class)->group(function(){
-        Route::get('/super/admin/subpillars', 'index')->name('super_admin.subpillars');
-        Route::get('/super/admin/subpillars/create', 'create')->name('super_admin.subpillars.create');
-        Route::post('/super/admin/subpillars/store', 'store')->name('super_admin.subpillars.store');
-        Route::get('/super/admin/subpillars/{subpillar}/edit', 'edit')->name('super_admin.subpillars.edit');
-        Route::put('/super/admin/subpillars/{subpillar}/update', 'update')->name('super_admin.subpillars.update');
-        Route::delete('/super/admin/subpillars/{subpillar}/destroy', 'destroy')->name('super_admin.subpillars.destroy');
-    });
-
     Route::controller(LTRController::class)->group(function(){
         Route::get('/super/admin/ltr', 'index')->name('super_admin.ltr');
         Route::get('/super/admin/ltr/create', 'create')->name('super_admin.ltr.create');

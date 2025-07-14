@@ -8,7 +8,6 @@ use App\Models\Letter;
 use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
-use App\Models\SubPillar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +18,6 @@ class HomeController extends Controller
         $data['ltrs'] = LTR::all();
         $data['incidents'] = Incident::all();
         $data['pillars'] = Pillar::all();
-        $data['subpillars'] = SubPillar::all();
 
         $data['tags'] = Tag::all();
 
@@ -105,6 +103,7 @@ class HomeController extends Controller
             'ltr_incident'     => $request->incident_id,
             'pillar_id'        => $request->pillar_id,
             'subpillar_id'     => $request->subpillar_id,
+            'subpillar_type'   => $request->subpillar_type,
             'distance_from'    => $request->distance_from_zero,
             'tags'             => implode(',', $selectedTags),
             'distance_unit'    => $request->distance_unit,

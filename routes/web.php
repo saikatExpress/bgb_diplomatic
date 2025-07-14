@@ -59,8 +59,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
 Route::controller(PillarController::class)->group(function () {
     Route::post('/pillars', 'store')->name('pillars.store');
-    Route::post('/subpillars', 'subpillarStore')->name('subpillars.store');
-    Route::get('/get/subpillars', 'getSubpillars')->name('getSubPillars');
 });
 
 Route::controller(AjaxController::class)->group(function(){
@@ -70,6 +68,8 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
     Route::get('/fetched/letters', 'fetchedLetter')->name('fetched.letter');
     Route::get('/delete/file/{id}', 'deleteFile')->name('delete.file');
+    Route::post('/merge-pdfs', 'merge')->name('merge');
+
 });
 
 Route::controller(LetterFileController::class)->group(function(){

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Ajax;
 
+use Imagick;
 use App\Models\BOP;
 use App\Models\Sector;
 use App\Models\Company;
+use setasign\Fpdi\Fpdi;
 use App\Models\Battalion;
 use App\Models\LetterFile;
 use Illuminate\Http\Request;
@@ -80,5 +82,43 @@ class AjaxController extends Controller
         }else{
             return response()->json(['status' => 'error']);
         }
+    }
+
+    public function merge(Request $request)
+    {
+        $filePaths = $request->input('files');
+
+        if (empty($filePaths)) {
+            return response()->json(['error' => 'No files provided.'], 400);
+        }
+
+        $pdf = new Fpdi();
+
+        foreach ($filePaths as $path) {
+            $fullPath = storage_path('app/public/' . $path);
+
+            if (!file_exists($fullPath)) {
+                continue;
+            }
+
+            $pageCount = $pdf->setSourceFile($fullPath);
+
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $templateId = $pdf->importPage($pageNo);
+                $size = $pdf->getTemplateSize($templateId);
+
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($templateId);
+            }
+        }
+
+        $outputPath = storage_path('app/public/merged_' . time() . '.pdf');
+        $pdf->Output('F', $outputPath);
+
+        $publicPath = str_replace(storage_path('app/public') . '/', 'storage/', $outputPath);
+
+        return response()->json([
+            'merged_path' => $publicPath
+        ]);
     }
 }

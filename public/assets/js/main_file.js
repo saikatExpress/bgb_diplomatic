@@ -68,12 +68,18 @@ $(document).ready(function () {
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        console.log("File uploaded successfully:", response);
+                        const uploadedFileName = files[i].name;
 
-                        selectedFiles[selectedFiles.length - 1].serverPath =
-                            response.file_path;
-                        selectedFiles[selectedFiles.length - 1].id =
-                            response.last_id;
+                        const matchedFile = selectedFiles.find(
+                            (f) =>
+                                f.file.name === uploadedFileName &&
+                                !f.serverPath
+                        );
+
+                        if (matchedFile) {
+                            matchedFile.serverPath = response.data.file_path;
+                            matchedFile.id = response.data.last_id;
+                        }
                     },
                     error: function (xhr, status, error) {
                         console.error("Upload failed:", error);
@@ -193,51 +199,44 @@ $(document).on("change", "#selectAllFiles", function () {
 
 // Print Media Code Start From here
 $(document).on("click", "#printMainLtrBtn", function () {
-    const checkedIndexes = [];
-
-    $(".file_main_box:checked").each(function () {
-        checkedIndexes.push(parseInt($(this).data("index")));
-    });
-
-    if (checkedIndexes.length === 0) {
-        alert("Please select at least one file to print.");
+    if (selectedFiles.length === 0) {
+        alert("No files selected.");
         return;
     }
 
-    let i = 0;
+    const filePaths = selectedFiles
+        .filter((f) => f.serverPath)
+        .map((f) => f.serverPath.replace(/^\/?storage\//, "public/"));
 
-    function openAndPrintNext() {
-        if (i >= checkedIndexes.length) {
-            return;
-        }
-
-        const item = selectedFiles[checkedIndexes[i]];
-        const fileURL = URL.createObjectURL(item.file);
-        const printWindow = window.open("", "_blank");
-
-        if (!printWindow) {
-            alert("Popup blocked. Please allow popups for this site.");
-            return;
-        }
-
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>${item.file.name}</title>
-                    <style>
-                        body, html { margin:0; padding:0; height:100%; }
-                        iframe { width:100%; height:100%; border:none; }
-                    </style>
-                </head>
-                <body>
-                    <iframe src="${fileURL}" onload="this.contentWindow.focus(); this.contentWindow.print();"></iframe>
-                </body>
-            </html>
-        `);
-
-        i++;
-        setTimeout(openAndPrintNext, 1000);
+    if (filePaths.length === 0) {
+        alert("No uploaded files found to merge.");
+        return;
     }
 
-    openAndPrintNext();
+    // Disable button while processing
+    const $btn = $(this);
+    $btn.prop("disabled", true).text("Merging...");
+
+    $.ajax({
+        url: "/merge-pdfs",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            files: filePaths,
+        },
+        success: function (response) {
+            $btn.prop("disabled", false).text("Print All PDFs");
+
+            if (response.merged_path) {
+                window.open("/" + response.merged_path, "_blank");
+            } else {
+                alert("Failed to merge PDFs.");
+            }
+        },
+        error: function (xhr, status, error) {
+            $btn.prop("disabled", false).text("Print All PDFs");
+            console.error(error);
+            alert("Error merging PDFs.");
+        },
+    });
 });

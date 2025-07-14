@@ -25,32 +25,6 @@ $(document).ready(function () {
         });
     });
 
-    $("#submitSubPillar").on("click", function () {
-        let form = $("#subPillarForm");
-        let url = form.attr("action");
-        let formData = form.serialize();
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            success: function (response) {
-                if (response.status === "success") {
-                    let newOption = `<option value="${response.subpillar.id}" selected>${response.subpillar.name}</option>`;
-                    $("#subpillarSelect").append(newOption);
-
-                    form[0].reset();
-
-                    $("#addSubPillarModal").modal("hide");
-                }
-            },
-            error: function (xhr) {
-                console.error(xhr);
-                alert("Something went wrong while saving the pillar.");
-            },
-        });
-    });
-
     $("#submitLtr").on("click", function () {
         let form = $("#ltrForm");
         let url = form.attr("action");
