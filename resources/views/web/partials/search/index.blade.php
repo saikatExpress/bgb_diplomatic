@@ -51,26 +51,26 @@
                         <span class="span-from-text">From Unit</span>
                         <div class="select-form-one" id="fromBox">
                             <select id="selectBgbRegion" name="bgb_region_id" class="select3">
-                                <option>Select Region</option>
+                                <option value="" selected disabled>Select Region</option>
                                 @foreach ($bgbregions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
                             <select id="selectBgbSec" name="bgb_sec_id" class="select3">
-                                <option>Select Sector</option>
+                                <option value="" selected disabled>Select Sector</option>
                             </select>
 
                             <select id="selectBgbBattalion" name="bgb_battalion_id" class="select3">
-                                <option>Select Battalion</option>
+                                <option value="" selected disabled>Select Battalion</option>
                             </select>
 
                             <select id="selectBgbCoy" name="bgb_coy_id" class="select3">
-                                <option>Select Company</option>
+                                <option value="" selected disabled>Select Company</option>
                             </select>
 
                             <select id="selectBgbBop" name="bgb_bop_id" class="select3">
-                                <option>Select BOP</option>
+                                <option value="" selected disabled>Select BOP</option>
                             </select>
                         </div>
 
@@ -80,26 +80,26 @@
 
                         <div class="select-form-two" id="toBox">
                             <select id="selectBsfRegion" name="bsf_region_id" class="select3">
-                                <option>Select Frontier</option>
+                                <option value="" selected disabled>Select Frontier</option>
                                 @foreach ($bsfregions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
                             <select id="selectBsfSec" name="bsf_sec_id" class="select3">
-                                <option>Select Sector</option>
+                                <option value="" selected disabled>Select Sector</option>
                             </select>
 
                             <select id="selectBsfBattalion" name="bsf_battalion_id" class="select3">
-                                <option>Select Battalion</option>
+                                <option value="" selected disabled>Select Battalion</option>
                             </select>
 
                             <select id="selectBsfCoy" name="bsf_coy_id" class="select3">
-                                <option>Select Company</option>
+                                <option value="" selected disabled>Select Company</option>
                             </select>
 
                             <select id="selectBsfBop" name="bsf_bop_id" class="select3">
-                                <option>Select BOP</option>
+                                <option value="" selected disabled>Select BOP</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->
@@ -107,7 +107,7 @@
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Type Of Incident</label>
                                 <select class="select3">
-                                    <option>Select Incident</option>
+                                    <option value="" selected disabled>Select Incident</option>
                                     @foreach ($incidents as $incident)
                                         <option value="{{ $incident->id }}">{{ $incident->title }}</option>
                                     @endforeach
@@ -119,7 +119,7 @@
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Piller No.</label>
                                 <select name="pillar_no" id="pillar_no" class="select3">
-                                    <option>Select Piller</option>
+                                    <option value="" selected disabled>Select Piller</option>
                                     @foreach ($pillars as $pillar)
                                         <option value="{{ $pillar->id }}">{{ $pillar->name }}</option>
                                     @endforeach
@@ -131,7 +131,7 @@
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Sub Piller No.</label>
                                 <select name="sub_pillar_no" id="sub_pillar_no" class="select3">
-                                    <option>Select Sub Piller</option>
+                                    <option value="" selected disabled>Select Sub Piller</option>
                                 </select>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                     placeholder="Enter Distance" />
                                 <div>
                                     <select name="distance_unit" id="distanceUnit" class="select3">
-                                        <option value="" selected>Select Unit</option>
+                                        <option value="" selected disabled>Select Unit</option>
                                         <option value="meters">Meters</option>
                                         <option value="kilometers">Kilometers</option>
                                         <option value="miles">Miles</option>
@@ -236,15 +236,31 @@
                                     </div>
                                 </div>
                             </div>
+                            {{-- Summary --}}
+                            <div class="search-summary-table-result" id="summary_response_div" style="display: none;">
+                                <h3 class="search-summary-result table-letter-heading_summary ">Summary</h3>
+                                <div class="table-container">
+                                    <table id="summary_res_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Main Letter</th>
+                                                <th>Reference Letter</th>
+                                                <th>Reply Letter</th>
+                                                <th>No Reply Letter</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="summary_box"></div>
+                            </div>
                             <div class="search-button">
                                 <button type="button" id="searchBtn">Search</button>
                             </div>
                         </div>
-
-                        <div id="summary_box">
-
-                        </div>
-
                     </div>
 
                     <!-- Form table data show  -->
@@ -328,18 +344,20 @@
             <div class="top-title-pdf">Pdf View</div>
         </div>
 
-        <div class="left-btn">
-            <div class="upload-btn">
-                <button type="button">Upload</button>
+        <div class="upload-print-button-bottom">
+            <div class="left-btn">
+                <div class="upload-btn">
+                    <button type="button">Upload</button>
+                </div>
             </div>
-        </div>
-        <div class="right-btns">
-            <div class="all-print-btn">
-                <button class="main-ltr-btn">Print Main Ltr</button>
-                <button class="all-ltr-btn">Print All Ltr</button>
-                <button class="all-ref-ltr-btn">Print All Ref Ltr</button>
-                <button class="bsf-btn">Print BSF Reply</button>
-                <button class="selected-btn">Print Selected</button>
+            <div class="right-btns">
+                <div class="all-print-btn">
+                    <button class="main-ltr-btn">Print Main Ltr</button>
+                    <button class="all-ltr-btn">Print All Ltr</button>
+                    <button class="all-ref-ltr-btn">Print All Ref Ltr</button>
+                    <button class="bsf-btn">Print BSF Reply</button>
+                    <button class="selected-btn">Print Selected</button>
+                </div>
             </div>
         </div>
     </div>
@@ -397,6 +415,34 @@
                     url: url,
                     data: formData,
                     success: function (response) {
+                        const data = response.results;
+
+                        var mainFile = 0;
+                        var referenceFile = 0;
+                        var replyFile = 0;
+                        var noreplyFile = 0;
+
+                        if (response && response.status == 'success') {
+                            $('#summary_response_div').toggle();
+
+                            mainFile = response.main;
+                            referenceFile = response.reference;
+                            replyFile = response.replyFile;
+                            noreplyFile = response.noreplyFile;
+
+                            const $tbody = $('#summary_res_table tbody');
+                            $tbody.empty();
+
+                            const tr = $("<tr></tr>");
+
+                            tr.append($("<td></td>").text(mainFile));
+                            tr.append($("<td></td>").text(referenceFile));
+                            tr.append($("<td></td>").text(replyFile));
+                            tr.append($("<td></td>").text(noreplyFile));
+
+                            $tbody.append(tr);
+                        }
+
                         let totalKilling = 0;
                         let totalBeating = 0;
                         let totalFiring = 0;
@@ -405,7 +451,7 @@
 
                         let statusCount = {};
 
-                        response.forEach(item => {
+                        data.forEach(item => {
                             totalKilling += parseInt(item.killing) || 0;
                             totalBeating += parseInt(item.beating) || 0;
                             totalFiring += parseInt(item.firing) || 0;

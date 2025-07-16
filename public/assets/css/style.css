@@ -76,6 +76,7 @@ body {
     gap: 20px;
     /* background-color: #c8e2eb; */
     padding: 20px;
+    margin-bottom: 40px;
 }
 .left-form-content {
     flex: 1 1 50%;
@@ -908,6 +909,26 @@ body {
 .table-letter-heading_three {
     background-color: #dd5900;
 }
+/* search summary table css */
+.search-summary-table-result th,
+.search-summary-table-result td {
+    text-align: center;
+}
+.search-summary-result {
+    text-align: center;
+    width: 300px;
+    font-size: 16px;
+    margin: 0 auto;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+.table-letter-heading_summary {
+    text-align: center;
+    background-color: #800000;
+    color: #fff;
+    border: 1px solid #800000;
+    margin-bottom: 20px;
+}
 table {
     width: 100%;
     border-collapse: collapse;
@@ -978,6 +999,35 @@ td:nth-child(10) {
     }
 }
 
+/* ===== Fixed Bottom Buttons========== */
+.upload-print-button-bottom {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0b3b2f;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+}
+.left-btn,
+.right-btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.left-btn {
+    justify-content: end !important;
+    margin-right: 20px;
+}
+.right-btns {
+    justify-content: start;
+    /* margin-left: 20px; */
+}
+
 /* ===== Right content========== */
 .upload-btn {
     text-align: right;
@@ -1001,8 +1051,8 @@ td:nth-child(10) {
 }
 
 .all-print-btn button {
-    flex: 0 0 calc(20% - 8px); /* subtract small value for gap adjustment */
-    padding: 10px;
+    flex: 0 0 calc(20% - -57px);
+    padding: 10px 12px;
     color: white;
     border: none;
     cursor: pointer;

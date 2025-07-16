@@ -100,7 +100,7 @@
                         <div class="ltr-subject">
                             <div class="form-group2">
                                 <label for="#">LTR Sub</label>
-                                <select name="ltr_subject" id="ltrSubjectSelect" class="select3">
+                                <select name="ltr_subject" id="ltrSubjectSelect" class="select3" style="padding:10px 0">
                                     <option>Select Subject</option>
                                     @foreach ($ltrs as $ltr)
                                         <option value="{{ $ltr->id }}">{{ $ltr->name }}</option>
@@ -305,7 +305,8 @@
 
                         <div class="upload-card" id="uploadCard" style="height: 150px !important;">
                             <label class="upload-label">
-                                <div class="upload-title upload-title-three" id="uploadTitle">Reply from BSF
+                                <div class="upload-title upload-title-three" id="uploadTitle">
+                                    Reply from BSF
                                 </div>
                                 <div class="upload-box">
                                     <i class="fa-solid fa-file-circle-plus"></i>
@@ -405,20 +406,20 @@
         <div class="right-form-pdf" id="file-preview">
             <div class="top-title-pdf">Pdf View</div>
         </div>
-
-        <div class="left-btn">
-            <div class="upload-btn">
-                <button type="button" id="actionFormBtn">Upload</button>
+        <div class="upload-print-button-bottom">
+            <div class="left-btn">
+                <div class="upload-btn">
+                    <button type="button" id="actionFormBtn">Upload</button>
+                </div>
             </div>
-        </div>
-
-        <div class="right-btns">
-            <div class="all-print-btn">
-                <button class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
-                <button class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
-                <button class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
-                <button class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
-                <button class="selected-btn" id="printSelectedBtn">Print Selected</button>
+            <div class="right-btns">
+                <div class="all-print-btn">
+                    <button class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
+                    <button class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
+                    <button class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
+                    <button class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
+                    <button class="selected-btn" id="printSelectedBtn">Print Selected</button>
+                </div>
             </div>
         </div>
     </div>

@@ -40,6 +40,8 @@ $(document).ready(function () {
     function renderTableData(data) {
         const $tbody = $("#searchingTable tbody").empty();
 
+        let hasReplyFile = false; // Track whether any row has reply-file
+
         $.each(data, function (index, item) {
             const tr = $("<tr></tr>");
 
@@ -51,11 +53,9 @@ $(document).ready(function () {
             tr.append($("<td></td>").append($checkbox));
 
             const date = new Date(item.created_at);
-
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
             const day = date.getDate();
-
             const formatDate = day + "-" + month + "-" + year;
 
             const fileName = item.file_path.replace(
@@ -69,6 +69,10 @@ $(document).ready(function () {
             tr.append($("<td></td>").text(item.letter_number));
             tr.append($("<td></td>").text(item.file_prefix));
             tr.append($("<td></td>").text(fileName));
+
+            if (item.file_prefix === "reply-file") {
+                hasReplyFile = true;
+            }
 
             const $showBtn = $(
                 '<button type="button" class="show-btn">Show</button>'
@@ -89,6 +93,35 @@ $(document).ready(function () {
 
             $tbody.append(tr);
         });
+
+        // If no reply-file rows found, add a message row
+        if (!hasReplyFile) {
+            const colspan = $("#searchingTable thead tr th").length;
+
+            // Default message
+            let message = "No reply has been given yet.";
+
+            // If data has at least one item, pick letter_by of first item
+            if (data.length > 0) {
+                message =
+                    data[0].letter_by === "BGB"
+                        ? "Haven't received a reply yet"
+                        : "No reply has been given yet.";
+            }
+
+            const messageRow = $("<tr></tr>").append(
+                $("<td></td>")
+                    .attr("colspan", colspan)
+                    .css({
+                        "text-align": "center",
+                        color: "red",
+                        "font-size": "20px",
+                    })
+                    .text(message)
+            );
+
+            $tbody.append(messageRow);
+        }
     }
 
     function showFile(filePath) {

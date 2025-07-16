@@ -120,4 +120,14 @@ class HomeController extends Controller
             'status' => 'success',
         ]);
     }
+
+    public function mapView()
+    {
+        return view('web.partials.map.map');
+    }
+
+    public function about()
+    {
+        return view('web.partials.about.about');
+    }
 }

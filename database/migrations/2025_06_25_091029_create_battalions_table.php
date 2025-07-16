@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('sector_id');
             $table->string('name');
             $table->string('code')->unique();
+            $table->string('lat', 250)->nullable();
+            $table->string('lon', 250)->nullable();
             $table->timestamps();
         });
     }

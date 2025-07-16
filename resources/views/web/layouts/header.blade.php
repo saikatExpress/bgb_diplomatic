@@ -4,9 +4,11 @@
     <nav class="navbar">
         <ul>
             <li><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
             <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
+            <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
             <li><a href="{{ url('/search') }}">Search</a></li>
+            <li><a href="{{ url('/map/view') }}">Map View</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
             @if (auth()->check())
                 <li>
                     <a href="{{ route('logout') }}"

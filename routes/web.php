@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::post('/ltrs', 'store')->name('ltrs.store');
         Route::post('/incidents', 'incidentStore')->name('incidents.store');
         Route::post('/action', 'actionStore')->name('action.store');
+        Route::get('/map/view', 'mapView');
+        Route::get('/about', 'about');
     });
 });
 

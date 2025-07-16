@@ -6,6 +6,7 @@ use App\Models\Letter;
 use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
+use App\Models\LetterFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -108,6 +109,23 @@ class SearchController extends Controller
 
         $results = $query->orderBy('created_at', 'desc')->get();
 
-        return response()->json($results);
+        $letterNos = $results->pluck('letter_no');
+
+        $files = LetterFile::whereIn('letter_number', $letterNos)->get();
+
+        $mainFile = $files->where('file_prefix', 'main')->count();
+        $referenceFile = $files->where('file_prefix', 'ref')->count();
+        $replyFile = $files->where('file_prefix', 'reply-file')->count();
+        $noReplyFile = $results->where('status', 'no_reply')->count();
+
+
+        return response()->json([
+            'status'      => 'success',
+            'results'     => $results,
+            'main'        => $mainFile,
+            'reference'   => $referenceFile,
+            'replyFile'   => $replyFile,
+            'noreplyFile' => $noReplyFile,
+        ]);
     }
 }

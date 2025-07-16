@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Letter;
 use Carbon\Carbon;
 use App\Models\LetterFile;
 use Illuminate\Support\Str;
@@ -40,6 +41,10 @@ class LetterFileController extends Controller
         ];
 
         $file = LetterFile::create($data);
+
+        if($validated['file_prefix'] == 'reply_file'){
+            Letter::where('letter_no', $validated['letter_number'])->update(['status' => 'replied']);
+        }
 
         return response()->json([
             'success' => true,
