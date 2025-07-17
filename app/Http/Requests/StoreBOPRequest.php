@@ -14,6 +14,15 @@ class StoreBOPRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +33,8 @@ class StoreBOPRequest extends FormRequest
         return [
             'company_id' => 'required|exists:companies,id',
             'name'       => 'required|string|max:250|unique:b_o_p_s,name',
+            'lat'        => 'nullable|string|max:250',
+            'lon'        => 'nullable|string|max:250',
         ];
     }
 

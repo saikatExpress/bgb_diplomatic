@@ -30,6 +30,24 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="name">Latitude</label>
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Enter latitude"
+                                value="{{ old('lat') }}">
+                            @error('lat')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Longitude</label>
+                            <input type="text" class="form-control" id="lon" name="lon" placeholder="Enter longitude"
+                                value="{{ old('lon') }}">
+                            @error('lat')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary mr-2">Create</button>
                         <button class="btn btn-light">Cancel</button>
                     </form>

@@ -14,6 +14,15 @@ class StoreCompanyRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +33,8 @@ class StoreCompanyRequest extends FormRequest
         return [
             'battalion_id' => 'required|exists:battalions,id',
             'name'         => 'required|string|max:250|unique:companies,name',
+            'lat'          => 'nullable|string|max:250',
+            'lon'          => 'nullable|string|max:250',
         ];
     }
 

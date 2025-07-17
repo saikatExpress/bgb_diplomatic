@@ -20,6 +20,8 @@
                                         <th>SL</th>
                                         <th>Name</th>
                                         <th>Description</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -28,8 +30,10 @@
                                     @foreach ($pillars as $key => $pillar)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $pillar->name }}</td>
+                                            <td>{{ filter($pillar->name) }}</td>
                                             <td>{{ $pillar->description }}</td>
+                                            <td>{{ filter($pillar->lat) }}</td>
+                                            <td>{{ filter($pillar->lon) }}</td>
                                             <td>{{ $pillar->created_at->format('d-m-y') }}</td>
                                             <td>
                                                 <a href="{{ route('super_admin.pillars.edit', $pillar->id) }}"

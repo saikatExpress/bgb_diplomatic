@@ -32,6 +32,24 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="lat">Latitide</label>
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Enter latitude"
+                                value="{{ old('lat', $company->lat) }}" required>
+                            @error('lat')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lat">Longitude</label>
+                            <input type="text" class="form-control" id="lon" name="lon" placeholder="Enter longitude"
+                                value="{{ old('lon', $company->lon) }}" required>
+                            @error('lon')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary mr-2">Update</button>
                         <button class="btn btn-light">Cancel</button>
                     </form>

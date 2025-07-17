@@ -12,6 +12,8 @@ class Pillar extends Model
     protected $fillable = [
         'name',
         'description',
+        'lat',
+        'lon',
     ];
 
     protected function store($request)

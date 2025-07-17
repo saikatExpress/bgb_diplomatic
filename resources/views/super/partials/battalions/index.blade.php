@@ -19,6 +19,8 @@
                                     <th>Sector</th>
                                     <th>Name</th>
                                     <th>Code</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -29,6 +31,8 @@
                                         <td>{{ filter($battalion->sector->name) }}</td>
                                         <td>{{ filter($battalion->name) }}</td>
                                         <td>{{ filter($battalion->code) }}</td>
+                                        <td>{{ filter($battalion->lat) }}</td>
+                                        <td>{{ filter($battalion->lon) }}</td>
                                         <td>
                                             <a href="{{ route('super_admin.battalions.edit', $battalion->id) }}"
                                                 class="btn btn-primary btn-sm">

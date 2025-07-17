@@ -19,6 +19,9 @@
                                     <th>Region</th>
                                     <th>Code</th>
                                     <th>Name</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                    <th>Name</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -28,8 +31,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ filter($sector->region->name) }}</td>
-                                        <td>{{ $sector->code }}</td>
+                                        <td>{{ filter($sector->code) }}</td>
                                         <td>{{ filter($sector->name) }}</td>
+                                        <td>{{ filter($sector->lat) }}</td>
+                                        <td>{{ filter($sector->lon) }}</td>
                                         <td>
                                             @if ($sector->status == 'active')
                                                 <span class="btn btn-sm btn-success">Active</span>

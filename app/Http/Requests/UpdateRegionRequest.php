@@ -14,6 +14,15 @@ class UpdateRegionRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name'      => trim($this->name),
+            'latitude'  => trim($this->lat),
+            'longitude' => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,9 +31,10 @@ class UpdateRegionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code'    => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'name'    => 'required|string|max:255',
+            'country'   => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'latitude'  => 'nullable|string|max:255',
+            'longitude' => 'nullable|string|max:255'
         ];
     }
     /**
@@ -35,10 +45,8 @@ class UpdateRegionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code.required'    => 'The code field is required.',
             'country.required' => 'The country field is required.',
             'name.required'    => 'The name field is required.',
-            'code.max'         => 'The code may not be greater than 255 characters.',
             'country.max'      => 'The country may not be greater than 255 characters.',
             'name.max'         => 'The name may not be greater than 255 characters.',
         ];

@@ -13,6 +13,8 @@ class BOP extends Model
         'company_id',
         'name',
         'code',
+        'lat',
+        'lon',
     ];
 
     protected function store($data)

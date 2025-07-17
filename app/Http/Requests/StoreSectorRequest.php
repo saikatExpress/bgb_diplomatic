@@ -14,6 +14,15 @@ class StoreSectorRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,8 +32,9 @@ class StoreSectorRequest extends FormRequest
     {
         return [
             'region_id' => 'required|exists:regions,id',
-            'code'      => 'required|string|max:10|unique:sectors,code',
             'name'      => 'required|string|max:255',
+            'lat'       => 'nullable|string|max:250',
+            'lon'       => 'nullable|string|max:250',
             'status'    => 'required|in:active,inactive',
         ];
     }
@@ -37,8 +47,6 @@ class StoreSectorRequest extends FormRequest
     {
         return [
             'region_id.required' => 'The region field is required.',
-            'code.required'      => 'The code field is required.',
-            'code.unique'        => 'The code has already been taken.',
             'name.required'      => 'The name field is required.',
             'status.required'    => 'The status field is required.',
             'status.in'          => 'The selected status is invalid.',

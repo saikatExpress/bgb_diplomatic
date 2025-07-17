@@ -22,7 +22,8 @@
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                                        required>
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -32,6 +33,24 @@
                                     <label for="description" class="form-label">Description</label>
                                     <textarea class="form-control" name="description" rows="4"></textarea>
                                     @error('description')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="lat" class="form-label">Latitude</label>
+                                    <input type="text" class="form-control" id="lat" value="{{ old('lat') }}" name="lat"
+                                        placeholder="Enter latitude">
+                                    @error('lat')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="lon" class="form-label">Longitude</label>
+                                    <input type="text" class="form-control" id="lon" name="lon" value="{{ old('lon') }}"
+                                        placeholder="Enter longitude">
+                                    @error('lon')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -50,15 +69,17 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
                                         <th>Created At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($pillars as $pillar)
                                         <tr>
-                                            <td>{{ $pillar->name }}</td>
-                                            <td>{{ $pillar->description }}</td>
+                                            <td>{{ filter($pillar->name) }}</td>
+                                            <td>{{ filter($pillar->lat) }}</td>
+                                            <td>{{ filter($pillar->lon) }}</td>
                                             <td>{{ $pillar->created_at->format('d-m-y') }}</td>
                                         </tr>
                                     @endforeach

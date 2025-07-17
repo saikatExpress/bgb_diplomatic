@@ -19,6 +19,8 @@ class RegionSeeder extends Seeder
                 'country' => 'bangladesh',
                 'name'    => 'Region HQ Sarail',
                 'slug'    => 'region-hq-sarail',
+                'lat'     => '24.0912686',
+                'lon'     => '91.116958',
                 'status'  => 'active'
             ],
 
@@ -27,6 +29,8 @@ class RegionSeeder extends Seeder
                 'country' => 'india',
                 'name'    => 'Kolkata Frontier',
                 'slug'    => 'kolkata-frontier',
+                'lat'     => '22.5783511',
+                'lon'     => '88.3578016',
                 'status'  => 'active'
             ],
         ];

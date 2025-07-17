@@ -17,6 +17,8 @@ return new class extends Migration
             $table->enum('country',['bangladesh','india'])->default('bangladesh');
             $table->string('name', 250)->unique();
             $table->string('slug', 250)->unique();
+            $table->string('lat', 250)->nullable();
+            $table->string('lon', 250)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

@@ -10,6 +10,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
+                            <label for="sector_id">Select Sector</label>
                             <select class="form-control" name="sector_id" required>
                                 <option value="">Select Sector</option>
                                 @foreach($sectors as $sector)
@@ -26,6 +27,24 @@
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Battalion Name"
                                 required value="{{ old('name', $battalion->name) }}">
                             @error('name')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lat">Latitude</label>
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Enter Latitude"
+                                value="{{ old('lat', $battalion->lat) }}">
+                            @error('lat')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lon">Longitude</label>
+                            <input type="text" class="form-control" id="lon" name="lon" placeholder="Enter Longitude"
+                                value="{{ old('lon', $battalion->lon) }}">
+                            @error('lon')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>

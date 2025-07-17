@@ -13,6 +13,8 @@ class Company extends Model
         'battalion_id',
         'name',
         'code',
+        'lat',
+        'lon',
     ];
 
     protected function store($data)

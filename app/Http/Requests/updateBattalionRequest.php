@@ -14,6 +14,15 @@ class updateBattalionRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +33,8 @@ class updateBattalionRequest extends FormRequest
         return [
             'sector_id' => 'required|exists:sectors,id',
             'name'      => 'required|string|max:255',
+            'lat'       => 'nullable|string|max:255',
+            'lon'       => 'nullable|string|max:255',
         ];
     }
 

@@ -19,6 +19,8 @@
                                     <th>Battlion</th>
                                     <th>Code</th>
                                     <th>Name</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -29,6 +31,8 @@
                                         <td>{{ filter($company->battalion->name) }}</td>
                                         <td>{{ $company->code }}</td>
                                         <td>{{ filter($company->name) }}</td>
+                                        <td>{{ filter($company->lat) }}</td>
+                                        <td>{{ filter($company->lon) }}</td>
 
                                         <td>
                                             <a href="{{ route('super_admin.companies.edit', $company->id) }}"

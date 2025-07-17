@@ -19,6 +19,8 @@
                                     <th>Country</th>
                                     <th>Code</th>
                                     <th>Name</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -30,6 +32,8 @@
                                         <td>{{ filter($region->country) }}</td>
                                         <td>{{ $region->code }}</td>
                                         <td>{{ filter($region->name) }}</td>
+                                        <td>{{ filter($region->lat) }}</td>
+                                        <td>{{ filter($region->lon) }}</td>
                                         <td>
                                             @if ($region->status == 'active')
                                                 <span class="btn btn-sm btn-success">Active</span>

@@ -14,6 +14,15 @@ class StoreRegionRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name'      => trim($this->name),
+            'latitude'  => trim($this->lat),
+            'longitude' => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,9 +31,10 @@ class StoreRegionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code'    => 'required|string|max:20|unique:regions,code',
-            'country' => 'required|in:bangladesh,india',
-            'name'    => 'required|string|max:250|unique:regions,name',
+            'country'   => 'required|in:bangladesh,india',
+            'name'      => 'required|string|max:250|unique:regions,name',
+            'latitude'  => 'nullable|string|min:5|max:250',
+            'longitude' => 'nullable|string|min:5|max:250',
         ];
     }
     /**
@@ -35,8 +45,6 @@ class StoreRegionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code.required'    => 'The region code is required.',
-            'code.unique'      => 'The region code must be unique.',
             'country.required' => 'The country is required.',
             'name.required'    => 'The region name is required.',
             'name.unique'      => 'The region name must be unique.',

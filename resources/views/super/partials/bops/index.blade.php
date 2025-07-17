@@ -19,6 +19,8 @@
                                     <th>Company</th>
                                     <th>Code</th>
                                     <th>Name</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -29,6 +31,8 @@
                                         <td>{{ filter($bop->company->name) }}</td>
                                         <td>{{ filter($bop->code) }}</td>
                                         <td>{{ filter($bop->name) }}</td>
+                                        <td>{{ filter($bop->lat) }}</td>
+                                        <td>{{ filter($bop->lon) }}</td>
 
                                         <td>
                                             <a href="{{ route('super_admin.bops.edit', $bop->id) }}"

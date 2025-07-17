@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->index();
             $table->string('name', 250)->unique();
             $table->string('code', 50)->unique();
+            $table->string('lat', 250)->nullable();
+            $table->string('lon', 250)->nullable();
             $table->timestamps();
         });
     }

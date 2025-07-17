@@ -13,6 +13,8 @@ class LetterFile extends Model
         'letter_by',
         'letter_number',
         'file_prefix',
+        'file_name',
         'file_path',
+        'status',
     ];
 }

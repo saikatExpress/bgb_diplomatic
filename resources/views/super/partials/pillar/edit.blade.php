@@ -39,6 +39,24 @@
                                     @enderror
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="lat" class="form-label">Latitude</label>
+                                    <input type="text" class="form-control" id="lat" value="{{ $pillar->lat }}" name="lat"
+                                        placeholder="Enter latitude">
+                                    @error('lat')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="lon" class="form-label">Longitude</label>
+                                    <input type="text" class="form-control" id="lon" name="lon" value="{{ $pillar->lon }}"
+                                        placeholder="Enter longitude">
+                                    @error('lon')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Update Pillar</button>
                             </form>
                         </div>

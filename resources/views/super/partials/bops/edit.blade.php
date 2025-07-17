@@ -15,18 +15,38 @@
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}" {{ $company->id == $bop->company_id ? 'selected' : '' }}>
-                                        {{ filter($company->name) }}</option>
+                                        {{ filter($company->name) }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('company_id')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="form-group">
                             <label for="code">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter sub pillar name" value="{{ old('name', $bop->name) }}" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                                value="{{ old('name', $bop->name) }}" required>
                             @error('name')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lat">Latitude</label>
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Enter latitude"
+                                value="{{ old('lat', $bop->lat) }}">
+                            @error('lat')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lat">Longitude</label>
+                            <input type="text" class="form-control" id="lon" name="lon" placeholder="Enter Longitude"
+                                value="{{ old('lon', $bop->lon) }}">
+                            @error('lon')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>

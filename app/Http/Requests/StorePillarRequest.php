@@ -14,6 +14,15 @@ class StorePillarRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,8 +31,10 @@ class StorePillarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
+            'lat'         => 'nullable|string|max:255',
+            'lon'         => 'nullable|string|max:255',
         ];
     }
     /**

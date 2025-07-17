@@ -26,8 +26,8 @@ return new class extends Migration
             $table->integer('bsf_bop_id')->nullable();
             $table->integer('letter_no')->unique();
             $table->date('letter_date');
-            $table->integer('ltr_subject');
-            $table->integer('ltr_incident');
+            $table->string('ltr_subject', 250);
+            $table->string('ltr_incident', 250);
             $table->integer('pillar_id');
             $table->string('subpillar_id', 250)->nullable();
             $table->string('subpillar_type', 250)->nullable();

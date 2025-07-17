@@ -13,6 +13,8 @@ class Battalion extends Model
         'sector_id',
         'name',
         'code',
+        'lat',
+        'lon',
     ];
 
     protected function store($data)

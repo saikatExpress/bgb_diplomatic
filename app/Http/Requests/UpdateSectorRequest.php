@@ -14,6 +14,15 @@ class UpdateSectorRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +33,8 @@ class UpdateSectorRequest extends FormRequest
         return [
             'region_id' => 'required|exists:regions,id',
             'name'      => 'required|string|max:255',
+            'lat'       => 'nullable|string|max:250',
+            'lon'       => 'nullable|string|max:250',
             'status'    => 'required|in:active,inactive',
         ];
     }

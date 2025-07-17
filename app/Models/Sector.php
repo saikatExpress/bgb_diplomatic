@@ -15,11 +15,15 @@ class Sector extends Model
         'code',
         'name',
         'slug',
+        'lat',
+        'lon',
         'status',
     ];
 
     protected function store($data)
     {
+        $data['code'] = $this->generateCode();
+
         $this->create($data);
         return redirect()->route('super_admin.sectors')->with('success', 'Sector created successfully.');
     }
@@ -30,6 +34,21 @@ class Sector extends Model
         $sector->update($data);
         return redirect()->route('super_admin.sectors')->with('success', 'Sector updated successfully.');
     }
+
+    private function generateCode()
+    {
+        $last = $this->orderBy('id', 'desc')->first();
+
+        if ($last) {
+            $nextId = $last->id + 1;
+        } else {
+            $nextId = 1;
+        }
+
+        return 'SEC' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+    }
+
+
     protected static function boot()
     {
         parent::boot();

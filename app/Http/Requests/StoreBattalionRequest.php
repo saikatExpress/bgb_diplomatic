@@ -14,6 +14,15 @@ class StoreBattalionRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+            'lat'  => trim($this->lat),
+            'lon'  => trim($this->lon),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,7 +32,9 @@ class StoreBattalionRequest extends FormRequest
     {
         return [
             'sector_id' => 'required|exists:sectors,id',
-            'name' => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'lat'       => 'nullable|string|max:255',
+            'lon'       => 'nullable|string|max:255',
         ];
     }
     /**
@@ -35,10 +46,10 @@ class StoreBattalionRequest extends FormRequest
     {
         return [
             'sector_id.required' => 'The sector field is required.',
-            'sector_id.exists' => 'The selected sector does not exist.',
-            'name.required' => 'The name field is required.',
-            'name.string' => 'The name must be a string.',
-            'name.max' => 'The name may not be greater than 255 characters.',
+            'sector_id.exists'   => 'The selected sector does not exist.',
+            'name.required'      => 'The name field is required.',
+            'name.string'        => 'The name must be a string.',
+            'name.max'           => 'The name may not be greater than 255 characters.',
         ];
     }
 }

@@ -27,8 +27,8 @@ class RegionController extends Controller
     }
     public function edit($id)
     {
-        // Logic to show the form for editing a region
         $region = Region::findOrFail($id);
+
         return view('super.partials.regions.edit', compact('region'));
     }
     public function update(UpdateRegionRequest $request, $id)

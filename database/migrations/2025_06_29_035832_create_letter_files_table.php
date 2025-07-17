@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('letter_by', 50);
             $table->string('letter_number', 100);
+            $table->string('file_name', 250)->nullable()->index();
             $table->string('file_path', 250);
+            $table->enum('status', ['no_reply', 'replied'])->default('no_reply');
             $table->timestamps();
         });
     }

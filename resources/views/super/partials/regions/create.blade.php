@@ -24,19 +24,30 @@
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="code">Region Code</label>
-                            <input type="text" class="form-control" id="code" name="code" placeholder="Enter region code"
-                                value="{{ old('code') }}" required>
-                            @error('code')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
+
                         <div class="form-group">
                             <label for="name">Region Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter region name"
                                 value="{{ old('name') }}" required>
                             @error('name')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" class="form-control" id="latitude" name="latitude"
+                                placeholder="Enter latitude" value="{{ old('latitude') }}" required>
+                            @error('latitude')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" class="form-control" id="longitude" name="longitude"
+                                placeholder="Enter longitude" value="{{ old('longitude') }}" required>
+                            @error('longitude')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
                         </div>
@@ -56,7 +67,9 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Code</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -64,9 +77,11 @@
                             <tbody>
                                 @foreach ($regions as $region)
                                     <tr>
-                                        <td>{{ $region->name }}</td>
-                                        <td>{{ $region->description }}</td>
-                                        <td>{{ $region->status }}</td>
+                                        <td>{{ filter($region->name) }}</td>
+                                        <td>{{ $region->code }}</td>
+                                        <td>{{ $region->lat }}</td>
+                                        <td>{{ $region->lon }}</td>
+                                        <td>{{ filter($region->status) }}</td>
                                         <td>
                                             <a href="{{ route('super_admin.regions.edit', $region->id) }}"
                                                 class="btn btn-warning btn-sm">Edit</a>
