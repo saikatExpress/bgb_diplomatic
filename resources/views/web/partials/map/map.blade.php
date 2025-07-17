@@ -19,7 +19,6 @@
     <style>
         #bgb_form {
             height: 90vh;
-            /* 90% of the visible screen height */
             width: 100%;
             border: 1px solid #ccc;
             margin-top: 10px;
