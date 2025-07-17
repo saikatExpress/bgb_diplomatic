@@ -7,6 +7,7 @@ use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
 use App\Models\LetterFile;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,6 +22,8 @@ class SearchController extends Controller
 
         $data['incidents'] = Incident::all();
 
+        $data['tags'] = Tag::all();
+
         return view('web.partials.search.index', $data);
     }
 
@@ -30,6 +33,13 @@ class SearchController extends Controller
 
         if($request->filled('letter_by')) {
             $query->where('letter_by', $request->letter_by);
+        }
+
+        if($request->filled('letter_no')) {
+            $query->where('letter_no', $request->letter_no);
+        }
+        if($request->filled('letter_date')) {
+            $query->where('letter_date', $request->letter_date);
         }
 
         if ($request->filled('bgb_region_id')) {
@@ -113,11 +123,36 @@ class SearchController extends Controller
 
         $files = LetterFile::whereIn('letter_number', $letterNos)->get();
 
+        $files = $files->map(function ($file) use ($results) {
+            $relatedLetter = $results->firstWhere('letter_no', $file->letter_number);
+
+            if ($relatedLetter) {
+                if($file->letter_by == 'BGB'){
+                    $file->bgb_region_name = $relatedLetter->bgb_region->name ?? '';
+                    $file->bgb_sector_name = $relatedLetter->bgb_sector->name ?? '';
+                    $file->bgb_battalion_name = $relatedLetter->bgb_battalion->name ?? '';
+                    $file->bgb_coy_name = $relatedLetter->bgb_company->name ?? '';
+                    $file->bgb_bop_name = $relatedLetter->bgb_bop->name ?? '';
+                }else{
+                    $file->bsf_region_name = $relatedLetter->bsf_region->name ?? '';
+                    $file->bsf_sector_name = $relatedLetter->bsf_sector->name ?? '';
+                    $file->bsf_battalion_name = $relatedLetter->bsf_battalion->name ?? '';
+                    $file->bsf_coy_name = $relatedLetter->bsf_company->name ?? '';
+                    $file->bsf_bop_name = $relatedLetter->bsf_bop->name ?? '';
+                }
+
+                $file->pillar_name = $relatedLetter->pillar->name ?? '';
+                $file->incident_name = $relatedLetter->incident_name;
+                $file->ltr_date = $relatedLetter->letter_date;
+            }
+
+            return $file;
+        });
+
         $mainFile = $files->where('file_prefix', 'main')->count();
         $referenceFile = $files->where('file_prefix', 'ref')->count();
         $replyFile = $files->where('file_prefix', 'reply-file')->count();
         $noReplyFile = $results->where('status', 'no_reply')->count();
-
 
         return response()->json([
             'status'      => 'success',
@@ -126,6 +161,7 @@ class SearchController extends Controller
             'reference'   => $referenceFile,
             'replyFile'   => $replyFile,
             'noreplyFile' => $noReplyFile,
+            'files'       => $files
         ]);
     }
 }

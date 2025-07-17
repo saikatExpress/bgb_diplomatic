@@ -102,6 +102,18 @@
                                 <option value="" selected disabled>Select BOP</option>
                             </select>
                         </div>
+
+                        <div class="ltr-no-date">
+                            <div class="form-group">
+                                <label for="#">LTR No.</label>
+                                <input type="text" name="letter_no" placeholder="NO." />
+                            </div>
+                            <div class="form-group">
+                                <label for="#">LTR Date.</label>
+                                <input type="date" name="letter_date" class="date-input" />
+                            </div>
+                        </div>
+
                         <!-- another part ltr date number -->
                         <div class="ltr-type-incident">
                             <div class="form-group3 search-page-form-group3">
@@ -156,34 +168,17 @@
                         <!-- box check mark -->
                         <div class="box-checks">
                             <div class="form-group4">
-                                <label class="check-label d-flex align-items-center gap-2">
-                                    <input type="checkbox" name="distance" value="150" class="custom-checkbox" />
-                                    Within 150km
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="distance" value="outside-150km" />
-                                    OutSide 150km
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="location" value="inside-bd" />
-                                    Inside BD
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="location" value="inside-india" />
-                                    Inside India
-                                </label>
+                                @foreach ($tags as $tag)
+                                    <label class="check-label d-flex align-items-center gap-2">
+                                        <input type="checkbox" name="{{ $tag->input_name }}" value="150"
+                                            class="custom-checkbox" />
+                                        {{ filter($tag->title) }}
+                                    </label>
+                                @endforeach
 
                                 <label class="check-label">
                                     <input type="checkbox" class="custom-checkbox" name="no_reply" value="no_reply" />
                                     No Reply
-                                </label>
-
-                                <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="other" value="other" />
-                                    Other
                                 </label>
                             </div>
                             <div class="form-group4">
@@ -441,6 +436,13 @@
                             tr.append($("<td></td>").text(noreplyFile));
 
                             $tbody.append(tr);
+
+                            const files = response.files;
+
+                            populateFileTable(files, 'main', '.table-letter-heading_one + .table-container table tbody');
+                            populateFileTable(files, 'ref', '.table-letter-heading_two + .table-container table tbody');
+                            populateFileTable(files, 'reply-file', '.table-letter-heading_three + .table-container table tbody');
+
                         }
 
                         let totalKilling = 0;
@@ -478,6 +480,99 @@
                     },
                 });
             });
+
+            function populateFileTable(files, prefix, tbodySelector) {
+                const filteredFiles = files.filter(f => f.file_prefix === prefix);
+                const $tbody = $(tbodySelector);
+                $tbody.empty();
+
+                filteredFiles.forEach((file, index) => {
+                    const tr = $('<tr></tr>');
+
+                    const id = file.id;
+
+                    tr.append(`<td>${index + 1}</td>`);
+                    tr.append(`<td>${file.created_at?.split('T')[0] || ''}</td>`);
+
+                    const fileName = file.file_path.replace(
+                        "/storage/letter_files/",
+                        ""
+                    );
+
+                    if (file.letter_by === 'BGB') {
+                        tr.append(`<td>${file.bgb_region_name ? file.bgb_region_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bgb_sector_name ? file.bgb_sector_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bgb_battalion_name ? bgb_battalion_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bgb_coy_name ? file.bgb_coy_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bgb_bop_name ? file.bgb_bop_name : 'N/A'}</td>`);
+                    } else {
+                        tr.append(`<td>${file.bsf_region_name ? file.bsf_region_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bsf_sector_name ? file.bsf_sector_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bsf_battalion_name ? file.bsf_battalion_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bsf_coy_name ? file.bsf_coy_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bsf_bop_name ? file.bsf_bop_name : 'N/A'}</td>`);
+                    }
+
+                    tr.append(`<td>${file.pillar_name ? file.pillar_name : ''}</td>`);
+                    tr.append($("<td></td>").text(fileName));
+
+                    const $showBtn = $(
+                        '<button type="button" class="btn btn-sm btn-primary">Show</button>'
+                    ).on("click", function () {
+                        showFile(file.file_path);
+                    });
+
+                    const $deleteBtn = $(
+                        '<button type="button" class="btn btn-sm btn-danger">Delete</button>'
+                    ).on("click", function () {
+                        deleteFileMedia(id);
+                        tr.remove();
+                    });
+
+                    const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
+
+                    tr.append($tdActions);
+
+                    $tbody.append(tr);
+                });
+            }
+
+
+            function deleteFileMedia(id) {
+                if (id > 0) {
+                    $.ajax({
+                        url: "/delete/file/" + id,
+                        type: "GET",
+                        success: function (response) {
+                            if (response && response.status == "success") {
+                                toastr.success("Removed successfully!");
+                            }
+                        },
+                        error: function (error) {
+                            if (error && error.status == "error") {
+                                toastr.alert("File not found!");
+                            }
+                        },
+                    });
+                }
+            }
+
+            function showFile(filePath) {
+                const $preview = $("#file-preview");
+                $preview.empty();
+
+                $preview.append('<div class="top-title-pdf">Pdf View</div>');
+
+                const $iframe = $("<iframe>", {
+                    src: filePath
+                }).css({
+                    width: "100%",
+                    height: "119rem",
+                    border: "none"
+                });
+
+                $preview.append($iframe);
+            }
         });
     </script>
 @endpush

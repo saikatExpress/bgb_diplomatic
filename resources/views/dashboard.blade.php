@@ -42,19 +42,19 @@
                             </select>
 
                             <select id="selectBgbSec" name="bgb_sec_id" class="select3">
-                                <option>Select SEC</option>
+                                <option value="" selected disabled>Select SEC</option>
                             </select>
 
                             <select id="selectBgbBattalion" name="bgb_battalion_id" class="select3">
-                                <option>Select Battalion</option>
+                                <option value="" selected disabled>Select Battalion</option>
                             </select>
 
                             <select id="selectBgbCoy" name="bgb_coy_id" class="select3">
-                                <option>Select Company</option>
+                                <option value="" selected disabled>Select Company</option>
                             </select>
 
                             <select id="selectBgbBop" name="bgb_bop_id" class="select3">
-                                <option>Select BOP</option>
+                                <option value="" selected disabled>Select BOP</option>
                             </select>
                         </div>
                         <div class="to-inputs">
@@ -69,19 +69,19 @@
                             </select>
 
                             <select id="selectBsfSec" name="bsf_sec_id" class="select3">
-                                <option>Select SEC</option>
+                                <option value="" selected disabled>Select SEC</option>
                             </select>
 
                             <select id="selectBsfBattalion" name="bsf_battalion_id" class="select3">
-                                <option>Select Battalion</option>
+                                <option value="" selected disabled>Select Battalion</option>
                             </select>
 
                             <select id="selectBsfCoy" name="bsf_coy_id" class="select3">
-                                <option>Select Company</option>
+                                <option value="" selected disabled>Select Company</option>
                             </select>
 
                             <select id="selectBsfBop" name="bsf_bop_id" class="select3">
-                                <option>Select BOP</option>
+                                <option value="" selected disabled>Select BOP</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->

@@ -27,28 +27,9 @@
                         <img src="{{ asset('assets/img/logo.png') }}" class="" width="160px" alt="BGB logo">
                     </a>
                 </div>
-                <div class="header-content">
-                    <h2 class="top-title-header">Diplomatic LTR Bank</h2>
-                    <p>North East Region, Sarail</p>
-                    <nav class="navbar">
-                        <ul>
-                            <li><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
-                            <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-                            <li><a href="{{ url('/search') }}">Search</a></li>
-                            @if (auth()->check())
-                                <li>
-                                    <a href="#"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                            @endif
-                        </ul>
-                    </nav>
-                </div>
+
+                @include('web.layouts.header')
+
                 <div>
                     <div class="white-space"></div>
                 </div>
@@ -113,23 +94,28 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="killing_number_bgb">{{ $bgbInfo->totalKilling }}</span>
+                        <span class="killing-number"
+                            id="killing_number_bgb">{{ ($bgbInfo->totalKilling > 0) ? $bgbInfo->totalKilling : 0 }}</span>
                         <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="firing_number_bgb">{{ $bgbInfo->totalfiring }}</span>
+                        <span class="killing-number"
+                            id="firing_number_bgb">{{ ($bgbInfo->totalfiring > 0) ? $bgbInfo->totalfiring : 0 }}</span>
                         <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="injuiring_number_bgb">{{ $bgbInfo->totalinjuring }}</span>
+                        <span class="killing-number"
+                            id="injuiring_number_bgb">{{ ($bgbInfo->totalinjuring > 0) ? $bgbInfo->totalinjuring : 0 }}</span>
                         <span>Injuring</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="crossing_number_bgb">{{ $bgbInfo->totalcrossing }}</span>
+                        <span class="killing-number"
+                            id="crossing_number_bgb">{{ ($bgbInfo->totalcrossing > 0) ? $bgbInfo->totalcrossing : 0 }}</span>
                         <span>Crossing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="beating_number_bgb">{{ $bgbInfo->totalbeating }}</span>
+                        <span class="killing-number"
+                            id="beating_number_bgb">{{ ($bgbInfo->totalbeating > 0) ? $bgbInfo->totalbeating : 0 }}</span>
                         <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
@@ -154,29 +140,38 @@
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="killing_number_bsf">{{ $bsfInfo->totalKilling }}</span>
+                        <span class="killing-number"
+                            id="killing_number_bsf">{{ ($bsfInfo->totalKilling > 0) ?: 0 }}</span>
                         <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="firing_number_bsf">{{ $bsfInfo->totalfiring }}</span>
+                        <span class="killing-number"
+                            id="firing_number_bsf">{{ ($bsfInfo->totalfiring > 0) ? $bsfInfo->totalfiring : 0 }}</span>
                         <span>Firing</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number" id="injuiring_number_bsf">{{ $bsfInfo->totalinjuring }}</span>
+                        <span class="killing-number"
+                            id="injuiring_number_bsf">{{ ($bsfInfo->totalinjuring > 0) ? $bsfInfo->totalinjuring : 0 }}</span>
                         <span>Injuring</span>
                     </p>
+
+                    <p class="killing-bsf-box">
+                        <span class="killing-number"
+                            id="beating_number_bsf">{{ ($bsfInfo->totalbeating > 0) ? $bsfInfo->totalbeating : 0 }}</span>
+                        <span>Beating</span>
+                    </p>
+
+                    <p class="killing-bsf-box">
+                        <span class="killing-number"
+                            id="crossing_number_bsf">{{ ($bsfInfo->totalcrossing > 0) ? $bsfInfo->totalcrossing : 0 }}</span>
+                        <span>Crossing</span>
+                    </p>
+
                     <p class="killing-bsf-box">
                         <span class="killing-number">30</span>
                         <span>Injuring By IND ntl 10</span>
                     </p>
-                    <p class="killing-bsf-box">
-                        <span class="killing-number" id="beating_number_bsf">{{ $bsfInfo->totalbeating }}</span>
-                        <span>Beating</span>
-                    </p>
-                    <p class="killing-bsf-box">
-                        <span class="killing-number" id="crossing_number_bsf">{{ $bsfInfo->totalcrossing }}</span>
-                        <span>Crossing</span>
-                    </p>
+
                     <p class="killing-bsf-box">
                         <span class="killing-number">120</span>
                         <span>Beating By BSF 12</span>

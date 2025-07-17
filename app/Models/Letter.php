@@ -38,4 +38,59 @@ class Letter extends Model
         'crossing',
         'status',
     ];
+
+    public function bgb_region()
+    {
+        return $this->belongsTo(Region::class, 'bgb_region_id', 'id');
+    }
+
+    public function bsf_region()
+    {
+        return $this->belongsTo(Region::class, 'bsf_region_id', 'id');
+    }
+
+    public function pillar()
+    {
+        return $this->belongsTo(Pillar::class, 'pillar_id', 'id');
+    }
+
+    public function bgb_sector()
+    {
+        return $this->belongsTo(Sector::class, 'bgb_sec_id', 'id');
+    }
+
+    public function bsf_sector()
+    {
+        return $this->belongsTo(Sector::class, 'bsf_sec_id', 'id');
+    }
+
+    public function bgb_battalion()
+    {
+        return $this->belongsTo(Battalion::class, 'bgb_battalion_id', 'id');
+    }
+
+    public function bsf_battalion()
+    {
+        return $this->belongsTo(Battalion::class, 'bsf_battalion_id', 'id');
+    }
+
+    public function bgb_company()
+    {
+        return $this->belongsTo(Company::class, 'bgb_coy_id', 'id');
+    }
+
+    public function bsf_company()
+    {
+        return $this->belongsTo(Company::class, 'bsf_coy_id', 'id');
+    }
+
+    public function bgb_bop()
+    {
+        return $this->belongsTo(BOP::class, 'bgb_bop_id', 'id');
+    }
+
+    public function bsf_bop()
+    {
+        return $this->belongsTo(BOP::class, 'bsf_bop_id', 'id');
+    }
 }
