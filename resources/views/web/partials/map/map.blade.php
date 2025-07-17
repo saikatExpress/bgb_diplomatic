@@ -11,9 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Leaflet CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}" />
 
