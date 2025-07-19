@@ -502,7 +502,7 @@
                     if (file.letter_by === 'BGB') {
                         tr.append(`<td>${file.bgb_region_name ? file.bgb_region_name : 'N/A'}</td>`);
                         tr.append(`<td>${file.bgb_sector_name ? file.bgb_sector_name : 'N/A'}</td>`);
-                        tr.append(`<td>${file.bgb_battalion_name ? bgb_battalion_name : 'N/A'}</td>`);
+                        tr.append(`<td>${file.bgb_battalion_name ? file.bgb_battalion_name : 'N/A'}</td>`);
                         tr.append(`<td>${file.bgb_coy_name ? file.bgb_coy_name : 'N/A'}</td>`);
                         tr.append(`<td>${file.bgb_bop_name ? file.bgb_bop_name : 'N/A'}</td>`);
                     } else {

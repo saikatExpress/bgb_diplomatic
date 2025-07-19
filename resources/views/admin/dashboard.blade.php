@@ -43,20 +43,6 @@
                 @csrf
                 <div class="container py-4">
                     <div class="row justify-content-end align-items-center g-3">
-
-                        <!-- Force -->
-                        <div class="col-12 col-md-3">
-                            <div class="d-flex align-items-center">
-                                <label for="force" class="form-label mb-0 text-white flex-shrink-0"
-                                    style="width: 50px;">Force</label>
-                                <select id="force" name="letter_by" class="form-select form-select-sm ms-2">
-                                    <option value="" selected disabled>Select</option>
-                                    <option value="BGB">BGB</option>
-                                    <option value="BSF">BSF</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <!-- From Date -->
                         <div class="col-12 col-md-3">
                             <div class="d-flex align-items-center">
@@ -86,7 +72,7 @@
 
             </form>
 
-            <div class="bgb-protest">
+            <div class="bgb-protest" id="bgb-protest-data">
                 <div class="bgb-heading-title-img">
                     <h5 class="bgb-heading-title">BGB Protest</h5>
                     <img src="{{ asset('assets/img/logo.png') }}" width="60" height="auto" alt="logo">
@@ -119,16 +105,20 @@
                         <span>Beating</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">180</span>
-                        <span>Beating By IND ntl 2</span>
+                        <span class="killing-number" id="bgb_main">{{ $filesInfo->BGB->main }}</span>
+                        <span>Main Letter</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">120</span>
-                        <span>Beating By BSF 12</span>
+                        <span class="killing-number" id="bgb_ref">{{ $filesInfo->BGB->ref }}</span>
+                        <span>Reference Letter</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">180</span>
-                        <span>Beating By IND ntl 2</span>
+                        <span class="killing-number">
+                            <span style="color: red !important;"
+                                id="bgb_no_reply">{{ $replyInfo->BGB->no_reply }}</span> / <span
+                                style="color: green !important"
+                                id="bgb_reply">{{ $filesInfo->BGB->reply }}</span></span>
+                        <span>Reply Letter</span>
                     </p>
                 </div>
             </div>
@@ -168,17 +158,21 @@
                     </p>
 
                     <p class="killing-bsf-box">
-                        <span class="killing-number">30</span>
-                        <span>Injuring By IND ntl 10</span>
+                        <span class="killing-number" id="bsf_main">{{ $filesInfo->BSF->main }}</span>
+                        <span>Main Letter</span>
                     </p>
 
                     <p class="killing-bsf-box">
-                        <span class="killing-number">120</span>
-                        <span>Beating By BSF 12</span>
+                        <span class="killing-number" id="bsf_ref">{{ $filesInfo->BSF->ref }}</span>
+                        <span>Reference Letter</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">180</span>
-                        <span>Beating By IND ntl 2</span>
+                        <span class="killing-number">
+                            <span style="color: red !important;"
+                                id="bsf_no_reply">{{ $replyInfo->BSF->no_reply }}</span> /
+                            <span style="color: green !important;" id="bsf_reply">{{ $filesInfo->BSF->reply  }}</span>
+                        </span>
+                        <span>Reply Letter</span>
                     </p>
                 </div>
             </div>
@@ -422,7 +416,9 @@
                 url: url,
                 data: formData,
                 success: function (response) {
-                    const data = response;
+                    const data = response.mapData;
+                    const replyInfo = response.replyInfo;
+                    const filesInfo = response.filesInfo;
 
                     let totalBgbKilling = 0;
                     let totalBgbBeating = 0;
@@ -442,7 +438,7 @@
                             totalBgbBeating += item.casualties.beating;
                             totalBgbFiring += item.casualties.firing;
                             totalBgbCrossing += item.casualties.crossing;
-                            totalBgbInjuring += item.casualties.crossing;
+                            totalBgbInjuring += item.casualties.injuring;
                         }
 
                         if (item.letter_by === "BSF") {
@@ -450,7 +446,7 @@
                             totalBsfBeating += item.casualties.beating;
                             totalBsfFiring += item.casualties.firing;
                             totalBsfCrossing += item.casualties.crossing;
-                            totalBsfInjuring += item.casualties.crossing;
+                            totalBsfInjuring += item.casualties.injuring;
                         }
 
                         $('#killing_number_bgb').text(totalBgbKilling);
@@ -458,12 +454,20 @@
                         $('#firing_number_bgb').text(totalBgbFiring);
                         $('#crossing_number_bgb').text(totalBgbCrossing);
                         $('#injuiring_number_bgb').text(totalBgbInjuring);
+                        $('#bgb_no_reply').text(replyInfo.BGB.no_reply);
+                        $('#bgb_main').text(filesInfo.BGB.main);
+                        $('#bgb_ref').text(filesInfo.BGB.ref);
+                        $('#bgb_reply').text(filesInfo.BGB.reply);
 
                         $('#killing_number_bsf').text(totalBsfKilling);
                         $('#beating_number_bsf').text(totalBsfBeating);
                         $('#firing_number_bsf').text(totalBsfFiring);
                         $('#crossing_number_bsf').text(totalBsfCrossing);
                         $('#injuiring_number_bsf').text(totalBsfInjuring);
+                        $('#bsf_no_reply').text(replyInfo.BSF.no_reply);
+                        $('#bsf_main').text(filesInfo.BSF.main);
+                        $('#bsf_ref').text(filesInfo.BSF.ref);
+                        $('#bsf_reply').text(filesInfo.BSF.reply);
                     });
                 },
                 error: function (error) {

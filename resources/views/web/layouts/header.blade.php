@@ -3,7 +3,6 @@
     <p>North East Region, Sarail</p>
     <nav class="navbar">
         <ul>
-            <li><a href="{{ route('dashboard') }}">Home</a></li>
             <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
             <li class="active"><a href="{{ route('dashboard') }}">Entry</a></li>
             <li><a href="{{ url('/search') }}">Search</a></li>

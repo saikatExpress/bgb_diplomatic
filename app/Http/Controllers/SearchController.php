@@ -123,6 +123,7 @@ class SearchController extends Controller
 
         $files = LetterFile::whereIn('letter_number', $letterNos)->get();
 
+
         $files = $files->map(function ($file) use ($results) {
             $relatedLetter = $results->firstWhere('letter_no', $file->letter_number);
 

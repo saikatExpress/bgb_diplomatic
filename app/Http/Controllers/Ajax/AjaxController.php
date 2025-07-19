@@ -29,7 +29,6 @@ class AjaxController extends Controller
     {
         $sectorId = $request->input('sector_id');
 
-        // Assuming you have a model Battalion and a method to fetch battalions by sector
         $battalions = Battalion::where('sector_id', $sectorId)->get();
 
         return response()->json($battalions);
@@ -61,7 +60,7 @@ class AjaxController extends Controller
         $letterBy = $request->get('letterBy');
 
 
-        $letters = LetterFile::where('letter_number', $letterNo)->get();
+        $letters = LetterFile::where('letter_by', $letterBy)->where('letter_number', $letterNo)->get();
 
         return  response()->json($letters);
     }

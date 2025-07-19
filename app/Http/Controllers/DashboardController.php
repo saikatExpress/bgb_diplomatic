@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Letter;
+use App\Models\LetterFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,35 @@ class DashboardController extends Controller
 
         $data['totals'] = Letter::selectRaw('DATE_FORMAT(letter_date, "%Y-%m") as month,letter_by,SUM(killing) as killing,SUM(injuring) as injuring,SUM(beating) as beating,SUM(firing) as firing,SUM(crossing) as crossing')->groupBy('month', 'letter_by')->orderBy('month')->get()
         ->groupBy('month');
+
+        $replyFiles = Letter::all();
+
+        $data['replyInfo'] = json_decode(json_encode([
+            'BGB' => [
+                'no_reply' => $replyFiles->where('letter_by', 'BGB')->where('status', 'no_reply')->count()
+            ],
+
+            'BSF' => [
+                'no_reply' => $replyFiles->where('letter_by', 'BSF')->where('status', 'no_reply')->count()
+            ],
+        ]));
+
+        $letterFiles = LetterFile::all();
+
+
+        $data['filesInfo'] = json_decode(json_encode(
+        [
+            'BGB' => [
+                'main'  => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'main')->count(),
+                'ref'   => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'ref')->count(),
+                'reply' => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'reply_file')->count(),
+            ],
+            'BSF' => [
+                'main'  => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'main')->count(),
+                'ref'   => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'ref')->count(),
+                'reply' => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'reply_file')->count(),
+            ],
+        ]));
 
         return view('admin.dashboard', $data);
     }
@@ -44,7 +74,7 @@ class DashboardController extends Controller
 
         $results = $query->get();
 
-        $mapData = $results->map(function($item){
+        $mapData = $results->map(function ($item) {
             return [
                 'id'          => $item->id,
                 'letter_by'   => $item->letter_by,
@@ -62,7 +92,62 @@ class DashboardController extends Controller
             ];
         });
 
-        return response()->json($mapData);
+        $letterBy = $request->input('letter_by');
+        $formDate = $request->input('form_date');
+        $toDate   = $request->input('to_date');
+
+        $replyInfo = [];
+        foreach (['BGB', 'BSF'] as $side) {
+            if (!$letterBy || $letterBy === $side) {
+                $query = DB::table('letters')
+                    ->where('letter_by', $side)
+                    ->where('status', 'no_reply');
+
+                if ($formDate) {
+                    $query->whereDate('letter_date', '>=', $formDate);
+                }
+
+                if ($toDate) {
+                    $query->whereDate('letter_date', '<=', $toDate);
+                }
+
+                $replyInfo[$side] = [
+                    'no_reply' => $query->count()
+                ];
+            }
+        }
+
+        $filesInfo = [];
+
+        foreach (['BGB', 'BSF'] as $side) {
+            if (!$letterBy || $letterBy === $side) {
+                $filesInfo[$side] = [];
+
+                foreach (['main', 'ref', 'reply_file'] as $prefix) {
+                    $query = DB::table('letter_files')
+                        ->where('letter_by', $side)
+                        ->where('file_prefix', $prefix);
+
+                    if ($formDate) {
+                        $query->whereDate('created_at', '>=', $formDate);
+                    }
+
+                    if ($toDate) {
+                        $query->whereDate('created_at', '<=', $toDate);
+                    }
+
+                    $key = $prefix === 'reply_file' ? 'reply' : $prefix;
+                    $filesInfo[$side][$key] = $query->count();
+                }
+            }
+        }
+
+        // Step 6: Return as JSON
+        return response()->json([
+            'mapData'   => $mapData,
+            'replyInfo' => $replyInfo,
+            'filesInfo' => $filesInfo,
+        ]);
     }
 
     public function chartSearch(Request $request)
