@@ -46,6 +46,10 @@ class SearchController extends Controller
             $query->where('bgb_region_id', $request->bgb_region_id);
         }
 
+        if ($request->filled('bgb_sec_id') && $request->bgb_sec_id !== 'Select Sector') {
+            $query->where('bgb_sec_id', $request->bgb_sec_id);
+        }
+
         if ($request->filled('bgb_battalion_id') && $request->bgb_battalion_id !== 'Select Battalion') {
             $query->where('bgb_battalion_id', $request->bgb_battalion_id);
         }
@@ -89,6 +93,11 @@ class SearchController extends Controller
         if ($request->filled('distance_from_zero')) {
             $query->where('distance_from_zero', $request->distance_from_zero);
         }
+
+        if ($request->filled('ltr_incident')) {
+            $query->where('ltr_incident', $request->ltr_incident);
+        }
+
         if ($request->filled('distance_unit')) {
             $query->where('distance_unit', $request->distance_unit);
         }
@@ -110,14 +119,19 @@ class SearchController extends Controller
             $query->where('crossing', $request->crossing);
         }
 
-        if ($request->filled('from_date')) {
-            $query->whereDate('created_at', '>=', $request->from_date);
-        }
-        if ($request->filled('to_date')) {
-            $query->whereDate('created_at', '<=', $request->to_date);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
-        $results = $query->orderBy('created_at', 'desc')->get();
+        if ($request->filled('from_date')) {
+            $query->whereDate('letter_date', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('letter_date', '<=', $request->to_date);
+        }
+
+        $results = $query->orderBy('letter_date', 'desc')->get();
 
         $letterNos = $results->pluck('letter_no');
 
@@ -150,10 +164,10 @@ class SearchController extends Controller
             return $file;
         });
 
-        $mainFile = $files->where('file_prefix', 'main')->count();
+        $mainFile      = $files->where('file_prefix', 'main')->count();
         $referenceFile = $files->where('file_prefix', 'ref')->count();
-        $replyFile = $files->where('file_prefix', 'reply-file')->count();
-        $noReplyFile = $results->where('status', 'no_reply')->count();
+        $replyFile     = $files->where('file_prefix', 'reply-file')->count();
+        $noReplyFile   = $results->where('status', 'no_reply')->count();
 
         return response()->json([
             'status'      => 'success',
@@ -163,6 +177,53 @@ class SearchController extends Controller
             'replyFile'   => $replyFile,
             'noreplyFile' => $noReplyFile,
             'files'       => $files
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $query = Letter::query();
+
+        if($request->filled('region_id')){
+            $query->where('bgb_region_id', $request->region_id);
+        }
+
+        if($request->filled('sector_id')){
+            $query->where('bgb_sec_id', $request->sector_id);
+        }
+
+        if($request->filled('battalion_id')){
+            $query->where('bgb_battalion_id', $request->battalion_id);
+        }
+
+        if($request->filled('company_id')){
+            $query->where('bgb_coy_id', $request->company_id);
+        }
+
+        if($request->filled('bop_id')){
+            $query->where('bgb_bop_id', $request->bop_id);
+        }
+
+        $letters = $query->with('pillar:id,lat,lon')->where('letter_by',
+        'BGB')->select('letter_no','letter_date','pillar_id', 'killing',
+        'injuring', 'beating', 'firing', 'crossing')->get();
+
+        $grouped = $letters->groupBy('pillar_id')->map(function ($group) {
+            return [
+                'pillar_id' => $group->first()->pillar_id,
+                'pillar'    => $group->first()->pillar,
+                'killing'   => $group->sum('killing'),
+                'injuring'  => $group->sum('injuring'),
+                'beating'   => $group->sum('beating'),
+                'firing'    => $group->sum('firing'),
+                'crossing'  => $group->sum('crossing'),
+            ];
+        })->values();
+
+        $infos = $grouped;
+
+        return response()->json([
+            'infos' => $infos
         ]);
     }
 }

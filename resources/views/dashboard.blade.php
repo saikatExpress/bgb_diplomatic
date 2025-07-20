@@ -531,6 +531,7 @@
 @endsection
 
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/home.js') }}"></script>
     <script src="{{ asset('assets/js/form.js') }}"></script>

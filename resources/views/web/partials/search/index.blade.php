@@ -39,11 +39,11 @@
                         <div class="search-by-date-input">
                             <div>
                                 <label for="#">From date: </label>
-                                <input type="date" placeholder="From Date">
+                                <input type="date" name="from_date" placeholder="From Date">
                             </div>
                             <div>
                                 <label for="#">To date: </label>
-                                <input type="date" placeholder="To Date">
+                                <input type="date" name="to_date" placeholder="To Date">
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <div class="ltr-type-incident">
                             <div class="form-group3 search-page-form-group3">
                                 <label for="#">Type Of Incident</label>
-                                <select class="select3">
+                                <select name="ltr_incident" class="select3">
                                     <option value="" selected disabled>Select Incident</option>
                                     @foreach ($incidents as $incident)
                                         <option value="{{ $incident->id }}">{{ $incident->title }}</option>
@@ -177,7 +177,7 @@
                                 @endforeach
 
                                 <label class="check-label">
-                                    <input type="checkbox" class="custom-checkbox" name="no_reply" value="no_reply" />
+                                    <input type="checkbox" class="custom-checkbox" name="status" value="no_reply" />
                                     No Reply
                                 </label>
                             </div>
@@ -359,6 +359,8 @@
 @endsection
 
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{ asset('assets/js/home.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script>
@@ -525,8 +527,7 @@
                     const $deleteBtn = $(
                         '<button type="button" class="btn btn-sm btn-danger">Delete</button>'
                     ).on("click", function () {
-                        deleteFileMedia(id);
-                        tr.remove();
+                        deleteFileMedia(id, tr);
                     });
 
                     const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
@@ -538,24 +539,40 @@
             }
 
 
-            function deleteFileMedia(id) {
+            function deleteFileMedia(id, rowElement) {
                 if (id > 0) {
-                    $.ajax({
-                        url: "/delete/file/" + id,
-                        type: "GET",
-                        success: function (response) {
-                            if (response && response.status == "success") {
-                                toastr.success("Removed successfully!");
-                            }
-                        },
-                        error: function (error) {
-                            if (error && error.status == "error") {
-                                toastr.alert("File not found!");
-                            }
-                        },
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "/delete/file/" + id,
+                                type: "GET",
+                                success: function (response) {
+                                    if (response && response.status == "success") {
+                                        toastr.success("Removed successfully!");
+                                        if (rowElement) {
+                                            rowElement.remove();
+                                        }
+                                    } else {
+                                        toastr.error("Failed to delete the file.");
+                                    }
+                                },
+                                error: function () {
+                                    toastr.error("Something went wrong!");
+                                },
+                            });
+                        }
                     });
                 }
             }
+
 
             function showFile(filePath) {
                 const $preview = $("#file-preview");

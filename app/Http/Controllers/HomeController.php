@@ -123,7 +123,31 @@ class HomeController extends Controller
 
     public function mapView()
     {
-        return view('web.partials.map.map');
+        $data['regions'] = Region::all();
+
+        $data['pillars'] = Pillar::all();
+
+        $data['incidents'] = Incident::all();
+
+        $letters = Letter::with('pillar:id,lat,lon')->select('letter_no','letter_date', 'pillar_id', 'killing',
+        'injuring', 'beating', 'firing', 'crossing')->where('letter_by',
+        'BGB')->get();
+
+        $grouped = $letters->groupBy('pillar_id')->map(function ($group) {
+            return [
+                'pillar_id' => $group->first()->pillar_id,
+                'pillar'    => $group->first()->pillar,
+                'killing'   => $group->sum('killing'),
+                'injuring'  => $group->sum('injuring'),
+                'beating'   => $group->sum('beating'),
+                'firing'    => $group->sum('firing'),
+                'crossing'  => $group->sum('crossing'),
+            ];
+        })->values();
+
+        $data['infos'] = $grouped;
+
+        return view('web.partials.map.map', $data);
     }
 
     public function about()

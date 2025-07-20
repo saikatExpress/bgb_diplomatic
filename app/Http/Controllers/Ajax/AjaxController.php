@@ -11,6 +11,7 @@ use App\Models\Battalion;
 use App\Models\LetterFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Letter;
 use Illuminate\Support\Facades\Storage;
 
 class AjaxController extends Controller
@@ -60,7 +61,7 @@ class AjaxController extends Controller
         $letterBy = $request->get('letterBy');
 
 
-        $letters = LetterFile::where('letter_by', $letterBy)->where('letter_number', $letterNo)->get();
+        $letters = LetterFile::where('letter_number', $letterNo)->get();
 
         return  response()->json($letters);
     }
@@ -69,6 +70,19 @@ class AjaxController extends Controller
     {
         $file = LetterFile::find($id);
         if($file){
+
+            $letterNo = $file->letter_number;
+
+            $letter = Letter::where('letter_no', $letterNo)->first();
+
+            if($file->file_prefix == 'reply-file'){
+                $letter->update(['status' => 'no_reply']);
+            }
+
+            if($file->file_prefix == 'main'){
+                $letter->delete();
+            }
+
             $storagePath = str_replace('/storage/', 'public/', $file->file_path);
 
             if (Storage::exists($storagePath)) {

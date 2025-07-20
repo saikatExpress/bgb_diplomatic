@@ -83,8 +83,7 @@ $(document).ready(function () {
             const $deleteBtn = $(
                 '<button type="button" class="delete-btn">Delete</button>'
             ).on("click", function () {
-                deleteFileMedia(id);
-                tr.remove();
+                deleteFileMedia(id, tr);
             });
 
             const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
@@ -140,21 +139,36 @@ $(document).ready(function () {
         $preview.append($iframe);
     }
 
-    function deleteFileMedia(id) {
+    function deleteFileMedia(id, rowElement) {
         if (id > 0) {
-            $.ajax({
-                url: "/delete/file/" + id,
-                type: "GET",
-                success: function (response) {
-                    if (response && response.status == "success") {
-                        toastr.success("Removed successfully!");
-                    }
-                },
-                error: function (error) {
-                    if (error && error.status == "error") {
-                        toastr.alert("File not found!");
-                    }
-                },
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/delete/file/" + id,
+                        type: "GET",
+                        success: function (response) {
+                            if (response && response.status == "success") {
+                                toastr.success("Removed successfully!");
+                                if (rowElement) {
+                                    rowElement.remove();
+                                }
+                            } else {
+                                toastr.error("Failed to delete the file.");
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Something went wrong!");
+                        },
+                    });
+                }
             });
         }
     }

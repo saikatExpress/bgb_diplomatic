@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(SearchController::class)->group(function () {
         Route::get('/search', 'index')->name('search.index');
         Route::post('/search', 'search')->name('search.action');
+        Route::post('/map/form/store', 'store')->name('map_form');
     });
 });
 
