@@ -89,11 +89,20 @@
                             <div class="form-group">
                                 <label for="#">LTR No.</label>
                                 <input type="text" name="letter_no" id="letter_no" placeholder="NO." />
+                                <span class="text-danger" id="error_letter_no"></span>
                                 <div class="invalid-feedback" id="error_letter_no"></div>
+                                <span class="text-danger" id="reply_error_message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="#">LTR Date.</label>
-                                <input type="date" name="letter_date" class="date-input" />
+                                <input type="date" name="letter_date" id="letter_date" class="date-input" />
+                            </div>
+                        </div>
+                        <div id="reply_letter_input" style="display: none;">
+                            <div class="form-group">
+                                <label for="ref_letter_no">Reply Letter No.</label>
+                                <input type="text" name="reply_letter_no" id="ref_letter_no" placeholder="Reply NO."
+                                    class="form-control" />
                             </div>
                         </div>
                         <!-- Subject Section -->
@@ -106,10 +115,12 @@
                                         <option value="{{ $ltr->id }}">{{ $ltr->name }}</option>
                                     @endforeach
                                 </select>
+
                                 <button type="button" data-toggle="modal" data-target="#ltrModal">
                                     <span style="margin-right: 10px;">+</span> Add New
                                 </button>
                             </div>
+                            <span id="error_ltr_subject" class="text-danger"></span>
                         </div>
 
                         <!-- Type of Incident Section -->
@@ -122,15 +133,17 @@
                                         <option value="{{ $incident->id }}">{{ $incident->title }}</option>
                                     @endforeach
                                 </select>
+
                                 <button type="button" data-toggle="modal" data-target="#incidentModal">
                                     <span style="margin-right: 10px;">+</span> Add New
                                 </button>
                             </div>
+                            <span id="error_incident_id" class="text-danger"></span>
                         </div>
 
                         <!-- Type of Incident Section -->
                         <div class="form-group3">
-                            <label for="#">Piller No.</label>
+                            <label for="#">Pillar No.</label>
                             <div class="form-group3-select-items">
 
                                 <!-- Subject Select -->
@@ -143,6 +156,7 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    <span id="error_pillar_id" class="text-danger"></span>
                                 </div>
 
                                 <!-- Slash -->
@@ -150,12 +164,12 @@
 
                                 <!-- Text Input -->
                                 <div class="input-wrapper">
-                                    <input type="text" name="subpillar_id" placeholder="Put Sub Pillar">
+                                    <input type="text" id="subpillar_id" name="subpillar_id" placeholder="Put Sub Pillar">
                                 </div>
 
                                 <!-- Dropdown Select (S, R, T) -->
                                 <div class="dropdown-wrapper">
-                                    <select name="subpillar_type">
+                                    <select name="subpillar_type" id="subpillar_type">
                                         <option value="">Select Type</option>
                                         <option value="s">S</option>
                                         <option value="t">T</option>
@@ -444,11 +458,6 @@
                             <label for="incidentDescription">Incident Title</label>
                             <input type="text" id="incidentTitle" class="form-control" name="title"
                                 placeholder="Enter Incident Title" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="incidentDescription">Incident Description</label>
-                            <textarea id="incidentDescription" class="form-control" name="description" rows="3"
-                                required></textarea>
                         </div>
 
                         <button type="button" id="submitIncident" class="btn btn-primary">Save Incident</button>

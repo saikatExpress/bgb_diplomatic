@@ -1311,3 +1311,12 @@ td:nth-child(10) {
     background-color: #7030a0;
     color: #fff;
 }
+
+#reference_letter_input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 10px auto;
+    padding: 5px;
+    overflow: hidden;
+}

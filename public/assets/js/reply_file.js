@@ -7,9 +7,12 @@ $(document).ready(function () {
         const fileType = $("#letterBy").val();
 
         const letterNumber = $("#letter_no").val();
+        const replyLetterNo = $("#ref_letter_no").val().trim();
 
-        if (letterNumber == "") {
-            alert("Please enter a letter number.");
+        if (letterNumber == "" || replyLetterNo == "") {
+            $("#letter_no_info").text(
+                "Please enter a letter number or reply letter number."
+            );
             return;
         }
 
@@ -60,6 +63,7 @@ $(document).ready(function () {
                 formData.append("file", files[i]);
                 formData.append("file_type", prefix);
                 formData.append("letter_number", letterNumber);
+                formData.append("reply_no", replyLetterNo);
                 formData.append("file_prefix", "reply_file");
 
                 $.ajax({

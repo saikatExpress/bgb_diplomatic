@@ -9,14 +9,16 @@ $(document).ready(function () {
                 data: { region_id: selectedRegion },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select SEC</option>';
+                    let options =
+                        '<option value="" selected disabled>Select SEC</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (sector) {
                             options += `<option value="${sector.id}">${sector.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No sector found</option>';
+                        options +=
+                            '<option value="" selected disabled>No sector found</option>';
                     }
 
                     $("#selectBgbSec").html(options);
@@ -26,7 +28,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBgbSec").html('<option value="">Select SEC</option>');
+            $("#selectBgbSec").html(
+                '<option value="" selected disabled>Select SEC</option>'
+            );
         }
     });
 
@@ -40,14 +44,16 @@ $(document).ready(function () {
                 data: { region_id: selectedRegion },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select SEC</option>';
+                    let options =
+                        '<option value="" selected disabled>Select SEC</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (sector) {
                             options += `<option value="${sector.id}">${sector.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No sector found</option>';
+                        options +=
+                            '<option value="" selected disabled>No sector found</option>';
                     }
 
                     $("#selectBsfSec").html(options);
@@ -57,7 +63,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBsfSec").html('<option value="">Select SEC</option>');
+            $("#selectBsfSec").html(
+                '<option value="" selected disabled>Select SEC</option>'
+            );
         }
     });
 
@@ -71,7 +79,8 @@ $(document).ready(function () {
                 data: { sector_id: selectedSec },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select Battalion</option>';
+                    let options =
+                        '<option value="" selected disabled>Select Battalion</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (battalion) {
@@ -79,7 +88,7 @@ $(document).ready(function () {
                         });
                     } else {
                         options +=
-                            '<option value="">No battalion found</option>';
+                            '<option value="" selected disabled>No battalion found</option>';
                     }
 
                     $("#selectBgbBattalion").html(options);
@@ -90,7 +99,7 @@ $(document).ready(function () {
             });
         } else {
             $("#selectBgbBattalion").html(
-                '<option value="">Select Battalion</option>'
+                '<option value="" selected disabled>Select Battalion</option>'
             );
         }
     });
@@ -105,14 +114,16 @@ $(document).ready(function () {
                 data: { battalion_id: selectedBattalion },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select Company</option>';
+                    let options =
+                        '<option value="" selected disabled>Select Company</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (company) {
                             options += `<option value="${company.id}">${company.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No company found</option>';
+                        options +=
+                            '<option value="" selected disabled>No company found</option>';
                     }
 
                     $("#selectBgbCoy").html(options);
@@ -122,7 +133,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBgbCoy").html('<option value="">Select Company</option>');
+            $("#selectBgbCoy").html(
+                '<option value="" selected disabled>Select Company</option>'
+            );
         }
     });
 
@@ -136,14 +149,16 @@ $(document).ready(function () {
                 data: { company_id: selectedCompany },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select BOP</option>';
+                    let options =
+                        '<option value="" selected disabled>Select BOP</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (bop) {
                             options += `<option value="${bop.id}">${bop.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No BOP found</option>';
+                        options +=
+                            '<option value="" selected disabled>No BOP found</option>';
                     }
 
                     $("#selectBgbBop").html(options);
@@ -153,7 +168,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBgbBop").html('<option value="">Select BOP</option>');
+            $("#selectBgbBop").html(
+                '<option value="" selected disabled>Select BOP</option>'
+            );
         }
     });
 
@@ -167,7 +184,8 @@ $(document).ready(function () {
                 data: { sector_id: selectedSec },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select Battalion</option>';
+                    let options =
+                        '<option value="" selected disabled>Select Battalion</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (battalion) {
@@ -175,7 +193,7 @@ $(document).ready(function () {
                         });
                     } else {
                         options +=
-                            '<option value="">No battalion found</option>';
+                            '<option value="" selected disabled>No battalion found</option>';
                     }
 
                     $("#selectBsfBattalion").html(options);
@@ -186,7 +204,7 @@ $(document).ready(function () {
             });
         } else {
             $("#selectBsfBattalion").html(
-                '<option value="">Select Battalion</option>'
+                '<option value="" selected disabled>Select Battalion</option>'
             );
         }
     });
@@ -201,14 +219,16 @@ $(document).ready(function () {
                 data: { battalion_id: selectedBattalion },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select Company</option>';
+                    let options =
+                        '<option value="" selected disabled>Select Company</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (company) {
                             options += `<option value="${company.id}">${company.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No company found</option>';
+                        options +=
+                            '<option value="" selected disabled>No company found</option>';
                     }
 
                     $("#selectBsfCoy").html(options);
@@ -218,7 +238,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBsfCoy").html('<option value="">Select Company</option>');
+            $("#selectBsfCoy").html(
+                '<option value="" selected disabled>Select Company</option>'
+            );
         }
     });
 
@@ -232,14 +254,16 @@ $(document).ready(function () {
                 data: { company_id: selectedCompany },
                 dataType: "json",
                 success: function (response) {
-                    let options = '<option value="">Select BOP</option>';
+                    let options =
+                        '<option value="" selected disabled>Select BOP</option>';
 
                     if (response.length > 0) {
                         response.forEach(function (bop) {
                             options += `<option value="${bop.id}">${bop.name}</option>`;
                         });
                     } else {
-                        options += '<option value="">No BOP found</option>';
+                        options +=
+                            '<option value="" selected disabled>No BOP found</option>';
                     }
 
                     $("#selectBsfBop").html(options);
@@ -249,7 +273,9 @@ $(document).ready(function () {
                 },
             });
         } else {
-            $("#selectBsfBop").html('<option value="">Select BOP</option>');
+            $("#selectBsfBop").html(
+                '<option value="" selected disabled>Select BOP</option>'
+            );
         }
     });
 });

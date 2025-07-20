@@ -67,6 +67,9 @@ class HomeController extends Controller
         $validator = Validator::make($request->all(), [
             'letter_no'    => 'required',
             'letter_date'  => 'required|date',
+            'ltr_subject' => 'required|string',
+            'incident_id'  => 'required|exists:incidents,id',
+            'pillar_id'    => 'required|exists:pillars,id',
         ]);
 
         if ($validator->fails()) {
@@ -81,43 +84,130 @@ class HomeController extends Controller
         $selectedTags = [];
         foreach ($tags as $inputName) {
             if ($request->has($inputName->input_name)) {
-                $selectedTags[] = $inputName->input_name;
+                $selectedTags[] = $request->input($inputName->input_name);
             }
         }
 
+        $letter = Letter::where('letter_no', $request->input('letter_no'))->first();
+
+        if($letter) {
+            if($request->has('bgb_region_id')){
+                $data['bgb_region_id'] = $request->input('bgb_region_id');
+            }
+            if($request->has('bgb_sec_id')){
+                $data['bgb_sec_id'] = $request->input('bgb_sec_id');
+            }
+            if($request->has('bgb_battalion_id')){
+                $data['bgb_battalion_id'] = $request->input('bgb_battalion_id');
+            }
+            if($request->has('bgb_coy_id')){
+                $data['bgb_coy_id'] = $request->input('bgb_coy_id');
+            }
+            if($request->has('bgb_bop_id')){
+                $data['bgb_bop_id'] = $request->input('bgb_bop_id');
+            }
+            if($request->has('bsf_region_id')){
+                $data['bsf_region_id'] = $request->input('bsf_region_id');
+            }
+            if($request->has('bsf_sec_id')){
+                $data['bsf_sec_id'] = $request->input('bsf_sec_id');
+            }
+            if($request->has('bsf_battalion_id')){
+                $data['bsf_battalion_id'] = $request->input('bsf_battalion_id');
+            }
+            if($request->has('bsf_coy_id')){
+                $data['bsf_coy_id'] = $request->input('bsf_coy_id');
+            }
+            if($request->has('bsf_bop_id')){
+                $data['bsf_bop_id'] = $request->input('bsf_bop_id');
+            }
+
+            if($request->has('letter_no')){
+                $data['letter_no'] = $request->input('letter_no');
+            }
+            if($request->has('letter_date')){
+                $data['letter_date'] = $request->input('letter_date');
+            }
+            if($request->has('ltr_subject')){
+                $data['ltr_subject'] = $request->input('ltr_subject');
+            }
+            if($request->has('incident_id')){
+                $data['ltr_incident'] = $request->input('incident_id');
+            }
+            if($request->has('pillar_id')){
+                $data['pillar_id'] = $request->input('pillar_id');
+            }
+            if($request->has('subpillar_id')){
+                $data['subpillar_id'] = $request->input('subpillar_id');
+            }
+            if($request->has('subpillar_type')){
+                $data['subpillar_type'] = $request->input('subpillar_type');
+            }
+            if($request->has('distance_from_zero')){
+                $data['distance_from'] = $request->input('distance_from_zero');
+            }
+            if($request->has('distance_unit')){
+                $data['distance_unit'] = $request->input('distance_unit');
+            }
+            if($request->has('killing')){
+                $data['killing'] = $request->input('killing');
+            }
+            if($request->has('injuring')){
+                $data['injuring'] = $request->input('injuring');
+            }
+            if($request->has('beating')){
+                $data['beating'] = $request->input('beating');
+            }
+            if($request->has('firing')){
+                $data['firing'] = $request->input('firing');
+            }
+            if($request->has('crossing')){
+                $data['crossing'] = $request->input('crossing');
+            }
+            $data['tags'] = implode(',', $selectedTags);
+
+            $letter->update($data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Letter updated successfully!'
+            ]);
+        }
+
         $data = [
-            'letter_by'        => $request->letter_by,
-            'bgb_region_id'    => $request->bgb_region_id,
-            'bgb_sec_id'       => $request->bgb_sec_id,
-            'bgb_battalion_id' => $request->bgb_battalion_id,
-            'bgb_coy_id'       => $request->bgb_coy_id,
-            'bgb_bop_id'       => $request->bgb_bop_id,
-            'bsf_region_id'    => $request->bsf_region_id,
-            'bsf_sec_id'       => $request->bsf_sec_id,
-            'bsf_battalion_id' => $request->bsf_battalion_id,
-            'bsf_coy_id'       => $request->bsf_coy_id,
-            'bsf_bop_id'       => $request->bsf_bop_id,
-            'letter_no'        => $request->letter_no,
-            'letter_date'      => $request->letter_date,
-            'ltr_subject'      => $request->ltr_subject,
-            'ltr_incident'     => $request->incident_id,
-            'pillar_id'        => $request->pillar_id,
-            'subpillar_id'     => $request->subpillar_id,
-            'subpillar_type'   => $request->subpillar_type,
-            'distance_from'    => $request->distance_from_zero,
+            'letter_by'        => $request->input('letter_by'),
+            'bgb_region_id'    => $request->input('bgb_region_id'),
+            'bgb_sec_id'       => $request->input('bgb_sec_id'),
+            'bgb_battalion_id' => $request->input('bgb_battalion_id'),
+            'bgb_coy_id'       => $request->input('bgb_coy_id'),
+            'bgb_bop_id'       => $request->input('bgb_bop_id'),
+            'bsf_region_id'    => $request->input('bsf_region_id'),
+            'bsf_sec_id'       => $request->input('bsf_sec_id'),
+            'bsf_battalion_id' => $request->input('bsf_battalion_id'),
+            'bsf_coy_id'       => $request->input('bsf_coy_id'),
+            'bsf_bop_id'       => $request->input('bsf_bop_id'),
+            'letter_no'        => $request->input('letter_no'),
+            'letter_date'      => $request->input('letter_date'),
+            'ltr_subject'      => $request->input('ltr_subject'),
+            'ltr_incident'     => $request->input('incident_id'),
+            'pillar_id'        => $request->input('pillar_id'),
+            'subpillar_id'     => $request->input('subpillar_id'),
+            'subpillar_type'   => $request->input('subpillar_type'),
+            'distance_from'    => $request->input('distance_from_zero'),
             'tags'             => implode(',', $selectedTags),
-            'distance_unit'    => $request->distance_unit,
-            'killing'          => $request->killing,
-            'injuring'         => $request->injuring,
-            'beating'          => $request->beating,
-            'firing'           => $request->firing,
-            'crossing'         => $request->crossing,
+            'distance_unit'    => $request->input('distance_unit'),
+            'killing'          => $request->input('killing'),
+            'injuring'         => $request->input('injuring'),
+            'beating'          => $request->input('beating'),
+            'firing'           => $request->input('firing'),
+            'crossing'         => $request->input('crossing'),
         ];
 
         Letter::create($data);
 
         return response()->json([
             'status' => 'success',
+            'message' => 'Letter created successfully!'
         ]);
     }
 

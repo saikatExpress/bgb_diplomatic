@@ -60,10 +60,16 @@ class AjaxController extends Controller
         $letterNo = $request->get('letterNo');
         $letterBy = $request->get('letterBy');
 
-
         $letters = LetterFile::where('letter_number', $letterNo)->get();
 
-        return  response()->json($letters);
+        $letter = Letter::where('letter_no', $letterNo)->first();
+
+        return response()->json([
+            'status'   => $letter ? 'success' : 'not_found',
+            'letters'  => $letters,
+            'letter'   => $letter,
+            'letterBy' => $letterBy
+        ]);
     }
 
     public function deleteFile($id)
