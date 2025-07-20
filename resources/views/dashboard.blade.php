@@ -149,7 +149,7 @@
                                 <!-- Subject Select -->
                                 <div class="input-wrapper">
                                     <select name="pillar_id" id="pillarSelect" class="select3">
-                                        <option>Select Pillar</option>
+                                        <option value="" selected disabled>Select Pillar</option>
                                         @foreach ($pillars as $pillar)
                                             <option value="{{ $pillar->id }}">
                                                 {{ $pillar->name }}
@@ -192,12 +192,10 @@
                                     placeholder="Enter Distance" />
                                 <div>
                                     <select name="distance_unit" id="distanceUnit">
-                                        <option value="" selected>Select Unit</option>
-                                        <option value="meters">Meters</option>
-                                        <option value="kilometers">Kilometers</option>
-                                        <option value="miles">Miles</option>
-                                        <option value="yard">Yard</option>
-                                        <option value="feet">Feet</option>
+                                        <option value="" selected disabled>Select Unit</option>
+                                        @foreach ($units as $unit)
+                                            <option value="{{ $unit->slug }}">{{ $unit->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -208,7 +206,7 @@
                             <div class="form-group4">
                                 @foreach ($tags as $tag)
                                     <label class="check-label d-flex align-items-center gap-2">
-                                        <input type="checkbox" name="{{ $tag->input_name }}" value="{{ $tag->input_name }}"
+                                        <input type="checkbox" name="tags[]" value="{{ $tag->input_name }}"
                                             class="custom-checkbox" />
                                         {{ $tag->title }}
                                     </label>

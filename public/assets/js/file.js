@@ -61,7 +61,7 @@ function showLetterData(letter) {
 
     // === Populate tags ===
     if (letter.tags) {
-        const tagList = letter.tags.split(",");
+        const tagList = JSON.parse(letter.tags);
 
         // First clear all checkboxes
         $(".custom-checkbox").prop("checked", false);
@@ -71,18 +71,6 @@ function showLetterData(letter) {
             $(`.custom-checkbox[value="${tag}"]`).prop("checked", true);
         });
     }
-
-    $("#selectBgbRegion").val(letter.bgb_region_id).trigger("change");
-    $("#selectBgbSec").val(letter.bgb_sec_id).trigger("change");
-    $("#selectBgbBattalion").val(letter.bgb_battalion_id).trigger("change");
-    $("#selectBgbCoy").val(letter.bgb_coy_id).trigger("change");
-    $("#selectBgbBop").val(letter.bgb_bop_id).trigger("change");
-
-    $("#selectBsfRegion").val(letter.bsf_region_id).trigger("change");
-    $("#selectBsfSec").val(letter.bsf_sec_id).trigger("change");
-    $("#selectBsfBattalion").val(letter.bsf_battalion_id).trigger("change");
-    $("#selectBsfCoy").val(letter.bsf_coy_id).trigger("change");
-    $("#selectBsfBop").val(letter.bsf_bop_id).trigger("change");
 
     $("#ltrSubjectSelect").val(letter.ltr_subject).trigger("change");
     $("#incidentSelect").val(letter.ltr_incident).trigger("change");
@@ -97,18 +85,6 @@ function clearIncidentInputs() {
     $(
         "#killing, #injuring, #beating, #firing, #crossing, #subpillar_id, #distanceFromZero, #letter_date"
     ).val("");
-
-    $("#selectBgbRegion").val("").trigger("change");
-    $("#selectBgbSec").val("").trigger("change");
-    $("#selectBgbBattalion").val("").trigger("change");
-    $("#selectBgbCoy").val("").trigger("change");
-    $("#selectBgbBop").val("").trigger("change");
-
-    $("#selectBsfRegion").val("").trigger("change");
-    $("#selectBsfSec").val("").trigger("change");
-    $("#selectBsfBattalion").val("").trigger("change");
-    $("#selectBsfCoy").val("").trigger("change");
-    $("#selectBsfBop").val("").trigger("change");
 
     $("#ltrSubjectSelect").val("").trigger("change");
     $("#incidentSelect").val("").trigger("change");

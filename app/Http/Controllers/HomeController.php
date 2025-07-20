@@ -8,6 +8,7 @@ use App\Models\Letter;
 use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,6 +21,8 @@ class HomeController extends Controller
         $data['pillars'] = Pillar::all();
 
         $data['tags'] = Tag::all();
+
+        $data['units'] = Unit::all();
 
         $data['bgbRegions'] = Region::where('country', 'bangladesh')->where('status', 'active')->get();
         $data['bsfRegions'] = Region::where('country', 'india')->where('status', 'active')->get();
@@ -164,7 +167,7 @@ class HomeController extends Controller
             if($request->has('crossing')){
                 $data['crossing'] = $request->input('crossing');
             }
-            $data['tags'] = implode(',', $selectedTags);
+            $data['tags'] = json_encode($request->input('tags', []));
 
             $letter->update($data);
 
@@ -194,7 +197,7 @@ class HomeController extends Controller
             'subpillar_id'     => $request->input('subpillar_id'),
             'subpillar_type'   => $request->input('subpillar_type'),
             'distance_from'    => $request->input('distance_from_zero'),
-            'tags'             => implode(',', $selectedTags),
+            'tags'             => json_encode($request->input('tags', [])),
             'distance_unit'    => $request->input('distance_unit'),
             'killing'          => $request->input('killing'),
             'injuring'         => $request->input('injuring'),

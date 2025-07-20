@@ -32,14 +32,14 @@ class LetterFileController extends Controller
         // Store file
         $path = $file->storeAs('public/letter_files', $filename);
 
-        $data['letter_by'] = $validated['file_type'];
-
         // Build data for DB
         $data = [
             'letter_number' => $validated['letter_number'],
             'file_prefix'   => $prefixPart,
             'file_path'     => Storage::url($path),
         ];
+
+        $data['letter_by'] = $validated['file_type'];
 
         if($validated['file_prefix'] == 'reply_file') {
             $data['letter_by'] = ($validated['file_type'] == 'BGB') ? 'BGB' : 'BSF';

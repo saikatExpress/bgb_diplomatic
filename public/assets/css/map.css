@@ -96,11 +96,11 @@ body {
 }
 .right-form-pdf {
     flex: 1 1 50%;
-    /* border: 1px solid #ccc; */
     background-color: #015845;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding: 0;
+    height: 60rem;
 }
 
 .top-title-pdf {
