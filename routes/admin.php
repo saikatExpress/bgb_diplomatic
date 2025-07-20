@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\SubpillarController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\LTRController;
+use App\Http\Controllers\Super\UnitController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function(){
@@ -35,6 +36,17 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/pillars/{pillar}/edit', 'edit')->name('super_admin.pillars.edit');
         Route::put('/super/admin/pillars/{pillar}/update', 'update')->name('super_admin.pillars.update');
         Route::delete('/super/admin/pillars/{pillar}/destroy', 'destroy')->name('super_admin.pillars.destroy');
+    });
+
+    Route::prefix('/super/admin/unit')->name('unit.')->group(function(){
+        Route::controller(UnitController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{unit}', 'edit')->name('edit');
+            Route::put('/update/{unit}', 'update')->name('update');
+            Route::delete('/destroy/{unit}', 'destroy')->name('destroy');
+        });
     });
 
     Route::controller(LTRController::class)->group(function(){

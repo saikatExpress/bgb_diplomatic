@@ -90,41 +90,34 @@
                                 All TAG
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="{{ route('super_admin.tags.create') }}">
-                                Add Input TAG
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('super_admin.tags') }}">
-                                All Input TAG
-                            </a>
-                        </li> --}}
                     </ul>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                    <i class="mdi mdi-finance menu-icon"></i>
-                    <span class="menu-title">Charts</span>
+                <a href="#" class="nav-link">
+                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                    <span class="menu-title">Unit</span>
                     <i class="menu-arrow"></i>
                 </a>
+                <div class="submenu">
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('unit.create') }}">
+                                Add Unit
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('unit.index') }}">
+                                All Unit
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
-            <li class="nav-item">
-                <a href="pages/tables/basic-table.html" class="nav-link">
-                    <i class="mdi mdi-grid menu-icon"></i>
-                    <span class="menu-title">Tables</span>
-                    <i class="menu-arrow"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/icons/mdi.html" class="nav-link">
-                    <i class="mdi mdi-emoticon menu-icon"></i>
-                    <span class="menu-title">Icons</span>
-                    <i class="menu-arrow"></i>
-                </a>
-            </li>
+
+
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="mdi mdi-codepen menu-icon"></i>
