@@ -42,14 +42,16 @@ class DashboardController extends Controller
         $data['filesInfo'] = json_decode(json_encode(
         [
             'BGB' => [
-                'main'  => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'main')->count(),
-                'ref'   => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'ref')->count(),
-                'reply' => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'reply_file')->count(),
+                'main'  => $replyFiles->where('letter_by', 'BGB')->count(),
+                'ref'   => $letterFiles->where('letter_by', 'BGB')->where('file_prefix', 'ref')->groupBy('letter_number')->count(),
+                'reply' => $letterFiles->where('letter_by', 'BGB')->where('file_prefix',
+                'reply-file')->groupBy('letter_number')->count(),
             ],
             'BSF' => [
-                'main'  => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'main')->count(),
-                'ref'   => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'ref')->count(),
-                'reply' => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'reply_file')->count(),
+                'main'  => $replyFiles->where('letter_by', 'BSF')->count(),
+                'ref'   => $letterFiles->where('letter_by', 'BSF')->where('file_prefix', 'ref')->groupBy('letter_number')->count(),
+                'reply' => $letterFiles->where('letter_by', 'BSF')->where('file_prefix',
+                'reply-file')->groupBy('letter_number')->count(),
             ],
         ]));
 

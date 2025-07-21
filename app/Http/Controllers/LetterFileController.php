@@ -21,28 +21,26 @@ class LetterFileController extends Controller
             'file_prefix'   => ['required','string','max:255'],
         ]);
 
-        $file = $request->file('file');
+        // Generate file name and prefix
+        $fileInfo = fileName($validated['letter_number'], $validated['file_prefix']);
 
-        $datePart   = Carbon::now()->format('Y-m-d');
-        $letterPart = Str::slug($validated['letter_number']);
-        $prefixPart = Str::slug($validated['file_prefix']);
+        $filename = $fileInfo['filename'];
+        $prefix = $fileInfo['prefix'];
 
-        $filename = "{$datePart}_{$letterPart}_{$prefixPart}.pdf";
-
-        // Store file
-        $path = $file->storeAs('public/letter_files', $filename);
+        $path = uploadFile($request->file('file'),$filename);
 
         // Build data for DB
         $data = [
             'letter_number' => $validated['letter_number'],
-            'file_prefix'   => $prefixPart,
+            'file_prefix'   => $prefix,
             'file_path'     => Storage::url($path),
         ];
 
         $data['letter_by'] = $validated['file_type'];
 
         if($validated['file_prefix'] == 'reply_file') {
-            $data['letter_by'] = ($validated['file_type'] == 'BGB') ? 'BGB' : 'BSF';
+            $data['letter_by'] = $validated['file_type'];
+            $data['letter_for'] = ($validated['file_type'] == 'BGB') ? 'BSF' : 'BGB';
             $data['reply_no'] = $request->input('reply_no', null);
         }
 

@@ -18,7 +18,7 @@ $(document).ready(function () {
 
         // Capture form selections at the moment of file selection
         const ltrDate = $('input[name="letter_date"]').val();
-        const prefix = fileType == "BGB" ? "BSF" : "BGB";
+
         const region =
             fileType == "BGB"
                 ? $("#selectBsfRegion option:selected").text()
@@ -61,7 +61,7 @@ $(document).ready(function () {
                 const csrfToken = $('meta[name="csrf-token"]').attr("content");
                 formData.append("_token", csrfToken);
                 formData.append("file", files[i]);
-                formData.append("file_type", prefix);
+                formData.append("file_type", fileType);
                 formData.append("letter_number", letterNumber);
                 formData.append("reply_no", replyLetterNo);
                 formData.append("file_prefix", "reply_file");

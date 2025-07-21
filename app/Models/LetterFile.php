@@ -11,6 +11,7 @@ class LetterFile extends Model
 
     protected $fillable = [
         'letter_by',
+        'letter_for',
         'letter_number',
         'reply_no',
         'file_prefix',
