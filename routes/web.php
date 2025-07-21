@@ -70,8 +70,6 @@ Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
     Route::get('/fetched/letters', 'fetchedLetter')->name('fetched.letter');
     Route::get('/delete/file/{id}', 'deleteFile')->name('delete.file');
-    Route::post('/merge-pdfs', 'merge')->name('merge');
-
 });
 
 Route::controller(LetterFileController::class)->group(function(){

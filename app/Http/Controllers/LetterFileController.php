@@ -21,8 +21,10 @@ class LetterFileController extends Controller
             'file_prefix'   => ['required','string','max:255'],
         ]);
 
+        $letterNumber = ($validated['file_prefix'] == 'reply_file') ? $request->input('reply_no') : $validated['letter_number'];
+
         // Generate file name and prefix
-        $fileInfo = fileName($validated['letter_number'], $validated['file_prefix']);
+        $fileInfo = fileName($letterNumber, $validated['file_prefix']);
 
         $filename = $fileInfo['filename'];
         $prefix = $fileInfo['prefix'];
@@ -33,6 +35,12 @@ class LetterFileController extends Controller
         $data = [
             'letter_number' => $validated['letter_number'],
             'file_prefix'   => $prefix,
+            'file_name'     => $filename,
+            'region'        => $request->input('region', null),
+            'sector'        => $request->input('sector', null),
+            'battalion'     => $request->input('battalion', null),
+            'company'       => $request->input('company', null),
+            'bop'           => $request->input('bop', null),
             'file_path'     => Storage::url($path),
         ];
 

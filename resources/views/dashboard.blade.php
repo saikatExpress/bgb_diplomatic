@@ -35,26 +35,26 @@
                         <span class="span-from-text">From</span>
                         <div class="select-form-one" id="fromBox">
                             <select id="selectBgbRegion" name="bgb_region_id" class="select3">
-                                <option value="" selected disabled>Select Region</option>
+                                <option value="" selected>Select Region</option>
                                 @foreach ($bgbRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
                             <select id="selectBgbSec" name="bgb_sec_id" class="select3">
-                                <option value="" selected disabled>Select SEC</option>
+                                <option value="" selected>Select SEC</option>
                             </select>
 
                             <select id="selectBgbBattalion" name="bgb_battalion_id" class="select3">
-                                <option value="" selected disabled>Select Battalion</option>
+                                <option value="" selected>Select Battalion</option>
                             </select>
 
                             <select id="selectBgbCoy" name="bgb_coy_id" class="select3">
-                                <option value="" selected disabled>Select Company</option>
+                                <option value="" selected>Select Company</option>
                             </select>
 
                             <select id="selectBgbBop" name="bgb_bop_id" class="select3">
-                                <option value="" selected disabled>Select BOP</option>
+                                <option value="" selected>Select BOP</option>
                             </select>
                         </div>
                         <div class="to-inputs">
@@ -62,26 +62,26 @@
                         </div>
                         <div class="select-form-two" id="toBox">
                             <select id="selectBsfRegion" name="bsf_region_id" class="select3">
-                                <option value="" selected disabled>Select Frontier</option>
+                                <option value="" selected>Select Frontier</option>
                                 @foreach ($bsfRegions as $region)
                                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                                 @endforeach
                             </select>
 
                             <select id="selectBsfSec" name="bsf_sec_id" class="select3">
-                                <option value="" selected disabled>Select SEC</option>
+                                <option value="" selected>Select SEC</option>
                             </select>
 
                             <select id="selectBsfBattalion" name="bsf_battalion_id" class="select3">
-                                <option value="" selected disabled>Select Battalion</option>
+                                <option value="" selected>Select Battalion</option>
                             </select>
 
                             <select id="selectBsfCoy" name="bsf_coy_id" class="select3">
-                                <option value="" selected disabled>Select Company</option>
+                                <option value="" selected>Select Company</option>
                             </select>
 
                             <select id="selectBsfBop" name="bsf_bop_id" class="select3">
-                                <option value="" selected disabled>Select BOP</option>
+                                <option value="" selected>Select BOP</option>
                             </select>
                         </div>
                         <!-- another part ltr date number -->
@@ -426,11 +426,11 @@
             </div>
             <div class="right-btns">
                 <div class="all-print-btn">
-                    <button class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
-                    <button class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
-                    <button class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
-                    <button class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
-                    <button class="selected-btn" id="printSelectedBtn">Print Selected</button>
+                    <button type="button" class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
+                    <button type="button" class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
+                    <button type="button" class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
+                    <button type="button" class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
+                    <button type="button" class="selected-btn" id="printSelectedBtn">Print Selected</button>
                 </div>
             </div>
         </div>
@@ -538,6 +538,8 @@
 @endsection
 
 @push('script')
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/home.js') }}"></script>

@@ -155,7 +155,13 @@ function renderTableData(data) {
 
         tr.append($("<td></td>").text(index + 1));
         tr.append($("<td></td>").text(formatDate));
-        tr.append($("<td></td>").text(item.letter_by));
+
+        if (item.letter_for != null && item.reply_no != null) {
+            tr.append($("<td></td>").text(item.letter_for));
+        } else {
+            tr.append($("<td></td>").text(item.letter_by));
+        }
+
         if (item.file_prefix === "reply-file") {
             tr.append($("<td></td>").text(item.reply_no || "N/A"));
         } else {

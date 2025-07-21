@@ -9,7 +9,7 @@ $(document).ready(function () {
         const letterNumber = $("#letter_no").val();
 
         if (letterNumber == "") {
-            alert("Please enter a letter number.");
+            toastr.error("Please enter a letter number.");
             return;
         }
 
@@ -36,6 +36,8 @@ $(document).ready(function () {
                 ? $("#selectBgbBop option:selected").text()
                 : $("#selectBsfBop option:selected").text();
         const pillar = $("#pillarSelect option:selected").text();
+        const subpillar = $("#subpillar_id").val();
+        const subpillarType = $("#subpillar_type option:selected").text();
 
         // For each selected file, create an entry
         for (let i = 0; i < files.length; i++) {
@@ -51,6 +53,8 @@ $(document).ready(function () {
                     coy: coy,
                     bop: bop,
                     pillar: pillar,
+                    subpillar: subpillar,
+                    subpillarType: subpillarType,
                 });
 
                 const formData = new FormData();
@@ -115,7 +119,11 @@ function renderRefTable() {
         tr.append($("<td></td>").text(item.battalion));
         tr.append($("<td></td>").text(item.coy));
         tr.append($("<td></td>").text(item.bop));
-        tr.append($("<td></td>").text(item.pillar));
+        tr.append(
+            $("<td></td>").text(
+                item.pillar + "/" + item.subpillar + "-" + item.subpillarType
+            )
+        );
         tr.append($("<td></td>").text(item.file.name));
 
         // Actions
@@ -172,11 +180,9 @@ function deleteReffile(index) {
             letter_number: file.letterNumber,
         },
         success: function (response) {
-            // Remove from array
             selectedReffiles.splice(index, 1);
             renderRefTable();
 
-            // Clear preview if no files left
             if (selectedReffiles.length === 0) {
                 $("#file-preview").find("iframe").remove();
             }
@@ -193,30 +199,61 @@ $(document).on("change", "#selectRefAllFiles", function () {
 });
 
 // Print Media Code Start From here
-$(document).on("click", "#printAllRefLtrBtn", function () {
-    if (selectedReffiles.length === 0) {
-        alert("No Reference Letter files to print.");
-        return;
+$(document).on("click", "#printAllRefLtrBtn", async function () {
+    const pdfFiles = [];
+
+    const $selectedRefCheckboxes = $(".file-select-checkbox:checked");
+
+    if ($selectedRefCheckboxes.length > 0) {
+        $selectedRefCheckboxes.each(function () {
+            const index = $(this).data("index");
+            const file = selectedReffiles[index]?.file;
+            if (file && file.type === "application/pdf") {
+                pdfFiles.push(file);
+            }
+        });
+    } else {
+        $.each(selectedReffiles, function (index, item) {
+            if (item.file && item.file.type === "application/pdf") {
+                pdfFiles.push(item.file);
+            }
+        });
     }
 
-    selectedReffiles.forEach(function (item) {
-        const fileURL = URL.createObjectURL(item.file);
-        const printWindow = window.open("", "_blank");
-
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>${item.file.name}</title>
-                    <style>
-                        body, html { margin:0; padding:0; height:100%; }
-                        iframe { width:100%; height:100%; border:none; }
-                    </style>
-                </head>
-                <body>
-                    <iframe src="${fileURL}" onload="this.contentWindow.focus(); this.contentWindow.print();"></iframe>
-                </body>
-            </html>
-        `);
-    });
+    if (pdfFiles.length > 0) {
+        await mergeAndPrintPDFsRefFromFiles(pdfFiles);
+    } else {
+        alert("No PDF files found.");
+    }
 });
-// Print Media Code Start From here
+
+async function mergeAndPrintPDFsRefFromFiles(files) {
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (const file of files) {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+        const copiedPages = await mergedPdf.copyPages(
+            pdf,
+            pdf.getPageIndices()
+        );
+        copiedPages.forEach((page) => {
+            mergedPdf.addPage(page);
+        });
+    }
+
+    const mergedPdfBytes = await mergedPdf.save();
+    const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Create invisible iframe to print
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = blobUrl;
+    document.body.appendChild(iframe);
+
+    iframe.onload = function () {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+    };
+}

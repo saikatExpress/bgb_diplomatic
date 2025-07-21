@@ -9,9 +9,45 @@ $(document).ready(function () {
         const letterNumber = $("#letter_no").val();
         const replyLetterNo = $("#ref_letter_no").val().trim();
 
-        if (letterNumber == "" || replyLetterNo == "") {
-            $("#letter_no_info").text(
-                "Please enter a letter number or reply letter number."
+        let regionId;
+        let sectorId;
+        let battalionId;
+        let companyId;
+        let bopId;
+
+        if (fileType === "BGB") {
+            regionId = $("#selectBsfRegion").val();
+        } else {
+            regionId = $("#selectBgbRegion").val();
+        }
+
+        if (fileType === "BGB") {
+            sectorId = $("#selectBsfSec").val();
+        } else {
+            sectorId = $("#selectBgbSec").val();
+        }
+
+        if (fileType === "BGB") {
+            battalionId = $("#selectBsfBattalion").val();
+        } else {
+            battalionId = $("#selectBgbBattalion").val();
+        }
+
+        if (fileType === "BGB") {
+            companyId = $("#selectBsfCoy").val();
+        } else {
+            companyId = $("#selectBgbCoy").val();
+        }
+
+        if (fileType === "BGB") {
+            bopId = $("#selectBsfBop").val();
+        } else {
+            bopId = $("#selectBgbBop").val();
+        }
+
+        if (letterNumber === "" || replyLetterNo === "") {
+            toastr.error(
+                "Please enter a letter number, reply letter number, and region."
             );
             return;
         }
@@ -40,6 +76,8 @@ $(document).ready(function () {
                 ? $("#selectBsfBop option:selected").text()
                 : $("#selectBgbBop option:selected").text();
         const pillar = $("#pillarSelect option:selected").text();
+        const subpillar = $("#subpillar_id").val();
+        const subpillarType = $("#subpillar_type option:selected").text();
 
         // For each selected file, create an entry
         for (let i = 0; i < files.length; i++) {
@@ -55,6 +93,8 @@ $(document).ready(function () {
                     coy: coy,
                     bop: bop,
                     pillar: pillar,
+                    subpillar: subpillar,
+                    subpillarType: subpillarType,
                 });
 
                 const formData = new FormData();
@@ -64,6 +104,11 @@ $(document).ready(function () {
                 formData.append("file_type", fileType);
                 formData.append("letter_number", letterNumber);
                 formData.append("reply_no", replyLetterNo);
+                formData.append("region", regionId);
+                formData.append("sector", sectorId);
+                formData.append("battalion", battalionId);
+                formData.append("company", companyId);
+                formData.append("bop", bopId);
                 formData.append("file_prefix", "reply_file");
 
                 $.ajax({
@@ -117,7 +162,11 @@ function renderReplyTable() {
         tr.append($("<td></td>").text(item.battalion));
         tr.append($("<td></td>").text(item.coy));
         tr.append($("<td></td>").text(item.bop));
-        tr.append($("<td></td>").text(item.pillar));
+        tr.append(
+            $("<td></td>").text(
+                item.pillar + "/" + item.subpillar + "-" + item.subpillarType
+            )
+        );
         tr.append($("<td></td>").text(item.file.name));
 
         // Actions

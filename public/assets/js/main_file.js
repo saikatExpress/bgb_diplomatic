@@ -9,7 +9,7 @@ $(document).ready(function () {
         const letterNumber = $("#letter_no").val();
 
         if (letterNumber == "") {
-            alert("Please enter a letter number.");
+            toastr.error("Please enter a letter number.");
             return;
         }
 
@@ -36,11 +36,13 @@ $(document).ready(function () {
                 ? $("#selectBgbBop option:selected").text()
                 : $("#selectBsfBop option:selected").text();
         const pillar = $("#pillarSelect option:selected").text();
+        const subpillar = $("#subpillar_id").val();
+        const subpillarType = $("#subpillar_type option:selected").text();
 
         // For each selected file, create an entry
         for (let i = 0; i < files.length; i++) {
             if (files[i].type === "application/pdf") {
-                selectedFiles.push({
+                const fileObject = {
                     file: files[i],
                     ltrDate: ltrDate,
                     fileType: fileType,
@@ -51,7 +53,12 @@ $(document).ready(function () {
                     coy: coy,
                     bop: bop,
                     pillar: pillar,
-                });
+                    subpillar: subpillar,
+                    subpillarType: subpillarType,
+                };
+
+                // Push into array so index is fixed
+                selectedFiles.push(fileObject);
 
                 const formData = new FormData();
                 const csrfToken = $('meta[name="csrf-token"]').attr("content");
@@ -61,6 +68,9 @@ $(document).ready(function () {
                 formData.append("letter_number", letterNumber);
                 formData.append("file_prefix", "main");
 
+                // Lock reference to this object
+                const currentIndex = selectedFiles.length - 1;
+
                 $.ajax({
                     url: "/upload-letter-file",
                     type: "POST",
@@ -68,18 +78,14 @@ $(document).ready(function () {
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        const uploadedFileName = files[i].name;
-
-                        const matchedFile = selectedFiles.find(
-                            (f) =>
-                                f.file.name === uploadedFileName &&
-                                !f.serverPath
+                        console.log(
+                            "File uploaded successfully:",
+                            response.last_id
                         );
 
-                        if (matchedFile) {
-                            matchedFile.serverPath = response.data.file_path;
-                            matchedFile.id = response.data.last_id;
-                        }
+                        selectedFiles[currentIndex].serverPath =
+                            response.file_path;
+                        selectedFiles[currentIndex].id = response.last_id;
                     },
                     error: function (xhr, status, error) {
                         console.error("Upload failed:", error);
@@ -119,7 +125,11 @@ function renderTable() {
         tr.append($("<td></td>").text(item.battalion));
         tr.append($("<td></td>").text(item.coy));
         tr.append($("<td></td>").text(item.bop));
-        tr.append($("<td></td>").text(item.pillar));
+        tr.append(
+            $("<td></td>").text(
+                item.pillar + "/" + item.subpillar + "-" + item.subpillarType
+            )
+        );
         tr.append($("<td></td>").text(item.file.name));
 
         // Actions
@@ -197,46 +207,61 @@ $(document).on("change", "#selectAllFiles", function () {
     $(".file_main_box").prop("checked", checked);
 });
 
-// Print Media Code Start From here
-$(document).on("click", "#printMainLtrBtn", function () {
-    if (selectedFiles.length === 0) {
-        alert("No files selected.");
-        return;
-    }
+$(document).on("click", "#printMainLtrBtn", async function () {
+    const pdfFiles = [];
 
-    const filePaths = selectedFiles
-        .filter((f) => f.serverPath)
-        .map((f) => f.serverPath.replace(/^\/?storage\//, "public/"));
+    const $selectedCheckboxes = $(".file-select-checkbox:checked");
 
-    if (filePaths.length === 0) {
-        alert("No uploaded files found to merge.");
-        return;
-    }
-
-    // Disable button while processing
-    const $btn = $(this);
-    $btn.prop("disabled", true).text("Merging...");
-
-    $.ajax({
-        url: "/merge-pdfs",
-        type: "POST",
-        data: {
-            _token: $('meta[name="csrf-token"]').attr("content"),
-            files: filePaths,
-        },
-        success: function (response) {
-            $btn.prop("disabled", false).text("Print All PDFs");
-
-            if (response.merged_path) {
-                window.open("/" + response.merged_path, "_blank");
-            } else {
-                alert("Failed to merge PDFs.");
+    if ($selectedCheckboxes.length > 0) {
+        $selectedCheckboxes.each(function () {
+            const index = $(this).data("index");
+            const file = selectedFiles[index]?.file;
+            if (file && file.type === "application/pdf") {
+                pdfFiles.push(file);
             }
-        },
-        error: function (xhr, status, error) {
-            $btn.prop("disabled", false).text("Print All PDFs");
-            console.error(error);
-            alert("Error merging PDFs.");
-        },
-    });
+        });
+    } else {
+        $.each(selectedFiles, function (index, item) {
+            if (item.file && item.file.type === "application/pdf") {
+                pdfFiles.push(item.file);
+            }
+        });
+    }
+
+    if (pdfFiles.length > 0) {
+        await mergeAndPrintPDFsFromFiles(pdfFiles);
+    } else {
+        alert("No PDF files found.");
+    }
 });
+
+async function mergeAndPrintPDFsFromFiles(files) {
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (const file of files) {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+        const copiedPages = await mergedPdf.copyPages(
+            pdf,
+            pdf.getPageIndices()
+        );
+        copiedPages.forEach((page) => {
+            mergedPdf.addPage(page);
+        });
+    }
+
+    const mergedPdfBytes = await mergedPdf.save();
+    const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Create invisible iframe to print
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = blobUrl;
+    document.body.appendChild(iframe);
+
+    iframe.onload = function () {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+    };
+}
