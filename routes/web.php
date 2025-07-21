@@ -8,7 +8,32 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LetterFileController;
 use App\Http\Controllers\Web\PillarController;
-use App\Models\LTR;
+
+Route::get('/web/cache-optimize', function () {
+    Artisan::call('optimize:clear');
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    return 'Cache optimized!';
+});
+
+Route::get('/web/link', function () {
+    Artisan::call('storage:link');
+    return 'Storage Link Successfully';
+});
+
+Route::get('/web/clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Optimize Clear!.';
+})->name('web.clear');
+
+Route::get('/web/clear-cache', function () {
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    return "Cache is cleared";
+})->name('web_clear.cache');
 
 /*
 |--------------------------------------------------------------------------
