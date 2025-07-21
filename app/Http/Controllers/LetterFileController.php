@@ -52,6 +52,7 @@ class LetterFileController extends Controller
             $data['reply_no'] = $request->input('reply_no', null);
         }
 
+
         $file = LetterFile::create($data);
 
         if($validated['file_prefix'] == 'reply_file'){

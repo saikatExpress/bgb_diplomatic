@@ -28,7 +28,9 @@ function submitSearchForm(url, formData) {
 
                 populateSummaryBox(response);
 
-                populateFileTableData(files);
+                const filterSummary = buildFilterSummary(formData);
+
+                populateFileTableData(files, filterSummary);
             }
         },
         error: function (xhr) {
@@ -36,6 +38,30 @@ function submitSearchForm(url, formData) {
             alert("Something went wrong while searching.");
         },
     });
+}
+
+function buildFilterSummary(formData) {
+    const params = new URLSearchParams(formData);
+    let summary = [];
+
+    for (const [key, value] of params.entries()) {
+        if (
+            key === "_token" ||
+            !value ||
+            value === "Select Sector" ||
+            value === "Select Company" ||
+            value === "Select Battalion" ||
+            value === "Select BOP" ||
+            value === "Select Frontier" ||
+            value === "Select Piller" ||
+            value === "Select Sub Piller"
+        ) {
+            continue;
+        }
+        summary.push(`${key.replace(/_/g, " ")}: ${value}`);
+    }
+
+    return summary.join(" | ");
 }
 
 // For summary Description
@@ -91,20 +117,36 @@ function populateSummaryBox(response) {
     $tbody.append(tr);
 }
 
-function populateFileTableData(files) {
-    populateFileTable(files, "main", "#main_letter_table_print");
-    populateFileTable(files, "ref", "#ref_letter_table_print");
-    populateFileTable(files, "reply-file", "#reply_file_table_print");
+function populateFileTableData(files, filterSummary) {
+    populateFileTable(files, "main", "#main_letter_table_print", filterSummary);
+    populateFileTable(files, "ref", "#ref_letter_table_print", filterSummary);
+    populateFileTable(
+        files,
+        "reply-file",
+        "#reply_file_table_print",
+        filterSummary
+    );
 }
 
-function populateFileTable(files, prefix, tbodySelector) {
+function populateFileTable(files, prefix, tableSelector, filterSummary) {
     const filteredFiles = files.filter((f) => f.file_prefix === prefix);
-    const $tbody = $(tbodySelector);
+    const $table = $(tableSelector);
+    const $tbody = $table.find("tbody");
+    const $thead = $table.find("thead");
+
     $tbody.empty();
+
+    // Insert a new row in the thead after the heading row to show filters
+    $table.find("caption.filter-summary").remove();
+    if (filterSummary) {
+        const filterCaption = $(
+            `<caption class="filter-summary" style="caption-side: top; font-weight: 500; color: #444;">Search Filters: ${filterSummary}</caption>`
+        );
+        $table.prepend(filterCaption);
+    }
 
     filteredFiles.forEach((file, index) => {
         const tr = $("<tr></tr>");
-
         const id = file.id;
 
         tr.append(`<td>${index + 1}</td>`);
@@ -113,52 +155,20 @@ function populateFileTable(files, prefix, tbodySelector) {
         const fileName = file.file_path.replace("/storage/letter_files/", "");
 
         if (file.letter_by === "BGB") {
-            tr.append(
-                `<td>${
-                    file.bgb_region_name ? file.bgb_region_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${
-                    file.bgb_sector_name ? file.bgb_sector_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${
-                    file.bgb_battalion_name ? file.bgb_battalion_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${file.bgb_coy_name ? file.bgb_coy_name : "N/A"}</td>`
-            );
-            tr.append(
-                `<td>${file.bgb_bop_name ? file.bgb_bop_name : "N/A"}</td>`
-            );
+            tr.append(`<td>${file.bgb_region_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bgb_sector_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bgb_battalion_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bgb_coy_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bgb_bop_name || "N/A"}</td>`);
         } else {
-            tr.append(
-                `<td>${
-                    file.bsf_region_name ? file.bsf_region_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${
-                    file.bsf_sector_name ? file.bsf_sector_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${
-                    file.bsf_battalion_name ? file.bsf_battalion_name : "N/A"
-                }</td>`
-            );
-            tr.append(
-                `<td>${file.bsf_coy_name ? file.bsf_coy_name : "N/A"}</td>`
-            );
-            tr.append(
-                `<td>${file.bsf_bop_name ? file.bsf_bop_name : "N/A"}</td>`
-            );
+            tr.append(`<td>${file.bsf_region_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bsf_sector_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bsf_battalion_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bsf_coy_name || "N/A"}</td>`);
+            tr.append(`<td>${file.bsf_bop_name || "N/A"}</td>`);
         }
 
-        tr.append(`<td>${file.pillar_name ? file.pillar_name : ""}</td>`);
+        tr.append(`<td>${file.pillar_name || ""}</td>`);
         tr.append($("<td></td>").text(fileName));
 
         const $showBtn = $(
@@ -174,9 +184,7 @@ function populateFileTable(files, prefix, tbodySelector) {
         });
 
         const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
-
         tr.append($tdActions);
-
         $tbody.append(tr);
     });
 }

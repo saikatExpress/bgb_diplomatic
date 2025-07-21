@@ -14,8 +14,8 @@ function filter($text)
 
 function fileName($letterNumber, $filePrefix)
 {
-    $datePart = Carbon::now()->format('Y-m-d');
-    $letterPart = Str::slug($letterNumber);
+    $datePart   = Carbon::now()->format('Y-m-d');
+    $letterPart = $letterNumber;
     $prefixPart = Str::slug($filePrefix);
 
     return [
