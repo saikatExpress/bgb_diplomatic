@@ -92,21 +92,9 @@ function populateSummaryBox(response) {
 }
 
 function populateFileTableData(files) {
-    populateFileTable(
-        files,
-        "main",
-        ".table-letter-heading_one + .table-container table tbody"
-    );
-    populateFileTable(
-        files,
-        "ref",
-        ".table-letter-heading_two + .table-container table tbody"
-    );
-    populateFileTable(
-        files,
-        "reply-file",
-        ".table-letter-heading_three + .table-container table tbody"
-    );
+    populateFileTable(files, "main", "#main_letter_table_print");
+    populateFileTable(files, "ref", "#ref_letter_table_print");
+    populateFileTable(files, "reply-file", "#reply_file_table_print");
 }
 
 function populateFileTable(files, prefix, tbodySelector) {

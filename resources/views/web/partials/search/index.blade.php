@@ -275,9 +275,12 @@
 
                     <!-- Form table data show  -->
                     <div>
-                        <h3 class="table-letter-heading table-letter-heading_one">Main Letter</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 class="table-letter-heading table-letter-heading_one">Main Letter</h3>
+                            <a href="" id="printMainTableBtn">Print</a>
+                        </div>
                         <div class="table-container">
-                            <table>
+                            <table id="main_letter_table_print">
                                 <thead>
                                     <tr>
                                         <th>Sl No.</th>
@@ -299,9 +302,12 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="table-letter-heading table-letter-heading_two">All Ref (Connecting LTR)</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 class="table-letter-heading table-letter-heading_two">All Ref (Connecting LTR)</h3>
+                            <a href="" id="printRefTableBtn">Print</a>
+                        </div>
                         <div class="table-container">
-                            <table>
+                            <table id="ref_letter_table_print">
                                 <thead>
                                     <tr>
                                         <th>Sl No.</th>
@@ -323,9 +329,12 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="table-letter-heading table-letter-heading_three">Reply from BSF</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 class="table-letter-heading table-letter-heading_three">Reply from BSF</h3>
+                            <a href="" id="printReplyTableBtn">Print</a>
+                        </div>
                         <div class="table-container">
-                            <table>
+                            <table id="reply_file_table_print">
                                 <thead>
                                     <tr>
                                         <th>Sl No.</th>
@@ -379,6 +388,7 @@
     <script src="{{ asset('assets/js/home.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/search_form.js') }}"></script>
+    <script src="{{ asset('assets/js/print_table.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.select3').select2();
