@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Dev\DatabaseController;
 use App\Http\Controllers\Dev\DeveloperController;
 use App\Http\Controllers\Dev\TableController;
 use Illuminate\Support\Facades\Route;
