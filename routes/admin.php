@@ -18,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function(){
     Route::controller(AdminController::class)->group(function(){
         Route::get('/super/admin/dashboard', 'index')->name('super_admin.dashboard');
+        Route::get('/backup/database', 'backUp')->name('database.backup');
+    });
+
+    Route::prefix('super/admin/user')->name('user.')->group(function(){
+        Route::controller(AdminController::class)->group((function(){
+            Route::get('/index', 'userIndex')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{user}', 'edit')->name('edit');
+            Route::put('/update/{user}', 'update')->name('update');
+            Route::delete('/delete/{user}', 'destroy')->name('destroy');
+        }));
     });
 
     Route::controller(IncidentController::class)->group(function(){
