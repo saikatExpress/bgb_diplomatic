@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'db_backup' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/db'),
+            'url' => env('APP_URL') . '/storage/db',
+            'visibility' => 'public',
+        ],
     ],
 
     /*

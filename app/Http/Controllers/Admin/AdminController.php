@@ -9,13 +9,30 @@ use Illuminate\Support\Facades\Event;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Requests\updateUserRequest;
+use Illuminate\Support\Facades\File;
 use Spatie\Backup\Events\BackupHasFailed;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('super.partials.dashboard');
+        $backupPath = storage_path('app/public/db');
+        $files = [];
+
+        if (File::exists($backupPath)) {
+            $files = collect(File::files($backupPath))
+                ->filter(fn($file) => $file->getExtension() === 'sql')
+                ->sortByDesc(fn($file) => $file->getMTime())
+                ->map(fn($file) => [
+                    'name' => $file->getFilename(),
+                    'url'  => asset('storage/db/' . $file->getFilename()),
+                    'size' => round($file->getSize() / 1024, 2) . ' KB',
+                    'time' => date('Y-m-d H:i:s', $file->getMTime())
+                ])
+                ->values()
+                ->toArray();
+        }
+        return view('super.partials.dashboard', compact('files'));
     }
 
     public function userIndex()
@@ -52,51 +69,43 @@ class AdminController extends Controller
         return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
 
-    // public function backUp()
-    // {
-    //     try {
-    //         $database = 'bgb_diplomatic';
-    //         $username = 'root';
-    //         $password = '';
-    //         $host = '127.0.0.1';
-
-    //         $fileName = 'backup-' . date('Y-m-d_H-i-s') . '.sql';
-    //         $filePath = public_path($fileName);
-
-    //         $mysqldump = 'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe';
-
-    //         $command = "\"{$mysqldump}\" -u {$username} -h {$host} {$database} > \"{$filePath}\"";
-
-    //         $output = null;
-    //         $result = null;
-    //         exec($command, $output, $result);
-
-    //         if ($result !== 0) {
-    //             throw new \Exception('mysqldump failed. Please check the credentials or system path.');
-    //         }
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Database backup created successfully.',
-    //             'file' => asset($fileName),
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Backup failed: ' . $e->getMessage(),
-    //         ]);
-    //     }
-    // }
-
-
     public function backUp()
     {
-        Event::forget(BackupHasFailed::class);
         try {
-            Artisan::call('backup:run', ['--only-db' => true]);
-            return response()->json(['success' => true, 'message' => 'Database backup created successfully.']);
+            $dbName   = env('DB_DATABASE');
+            $username = env('DB_USERNAME');
+            $password = env('DB_PASSWORD');
+            $host     = env('DB_HOST', '127.0.0.1');
+
+            $backupPath = storage_path('app/public/db');
+            if (!file_exists($backupPath)) {
+                mkdir($backupPath, 0775, true);
+            }
+
+            $fileName = 'backup-' . date('Y-m-d_H-i-s') . '.sql';
+            $fileFullPath = $backupPath . '/' . $fileName;
+
+            $command = "mysqldump -u{$username} -p\"{$password}\" -h {$host} {$dbName} > \"{$fileFullPath}\"";
+            exec($command, $output, $result);
+
+            if ($result !== 0) {
+                throw new \Exception("mysqldump failed.");
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Database backup created successfully.',
+                'filename' => $fileName,
+                'url' => asset("storage/db/{$fileName}"),
+                'size' => round(filesize($fileFullPath) / 1024, 2) . ' KB',
+                'time' => date('Y-m-d H:i:s'),
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Backup failed: ' . $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Backup failed: ' . $e->getMessage(),
+            ]);
         }
     }
+
 }

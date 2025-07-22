@@ -156,9 +156,11 @@
                 </li>
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-                        <span class="nav-profile-name">Johnson</span>
+                        <span class="nav-profile-name">
+                            {{ filter(auth()->user()->name) }}
+                        </span>
                         <span class="online-status"></span>
-                        <img src="{{ asset('assets/super/images/faces/face28.png') }}" alt="profile" />
+                        <img src="{{ asset('assets/img/logo.png') }}" alt="profile" />
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item">

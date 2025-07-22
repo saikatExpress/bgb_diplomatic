@@ -52,18 +52,41 @@
                                 <div class="row mb-3">
                                     <h4>Database Backup</h4>
                                 </div>
-                                <div class="row">
+                                <div class="row mb-3">
                                     <button id="backupBtn" class="btn btn-primary">Create Backup</button>
-                                    <div id="backupMsg" class="mt-3"></div>
+                                    <div id="backupMsg" class="mt-3 ms-3"></div>
                                 </div>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Filename</th>
+                                            <th>Size</th>
+                                            <th>Created At</th>
+                                            <th>Download</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="backupTable">
+                                        @foreach ($files as $file)
+                                            <tr>
+                                                <td>{{ $file['name'] }}</td>
+                                                <td>{{ $file['size'] }}</td>
+                                                <td>{{ $file['time'] }}</td>
+                                                <td><a href="{{ $file['url'] }}" class="btn btn-sm btn-success"
+                                                        download>Download</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
+
                     <div class="col-lg-4 mb-3 mb-lg-0">
                         <div class="card congratulation-bg text-center">
                             <div class="card-body pb-0">
-                                <img src="{{ asset('assets/super/images/dashboard/face29.png') }}" alt="">
+                                <img src="{{ asset('assets/img/logo.png') }}" alt="">
                                 <h2 class="mt-3 text-white mb-3 font-weight-bold">
                                     Welcome {{ auth()->user()->name }}
                                 </h2>
