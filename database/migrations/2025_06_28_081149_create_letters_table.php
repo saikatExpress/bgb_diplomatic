@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('bsf_battalion_id')->nullable();
             $table->integer('bsf_coy_id')->nullable();
             $table->integer('bsf_bop_id')->nullable();
-            $table->integer('letter_no')->unique();
+            $table->string('letter_no', 250)->unique();
             $table->date('letter_date');
             $table->string('ltr_subject', 250);
             $table->string('ltr_incident', 250);

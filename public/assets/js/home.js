@@ -34,7 +34,7 @@ $(document).ready(function () {
         $(".span-to-text").text("To");
 
         // Clear ONLY input fields (not selects)
-        $("input[type='text'], input[type='date']").val("");
+        $("input[type='date']").val("");
 
         // Clear file preview
         $("#file-preview").find("iframe").remove();

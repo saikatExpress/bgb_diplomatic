@@ -149,8 +149,8 @@
                                 </div>
 
                                 <div class="dropdown-wrapper">
-                                    <select name="subpillar_type" id="subpillar_type">
-                                        <option value="">Select Type</option>
+                                    <select name="subpillar_type" id="subpillar_type" class="select3">
+                                        <option value="" selected>Select Type</option>
                                         <option value="s">S</option>
                                         <option value="t">T</option>
                                         <option value="r">R</option>
@@ -330,7 +330,7 @@
                     </div>
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 class="table-letter-heading table-letter-heading_three">Reply from BSF</h3>
+                            <h3 class="table-letter-heading table-letter-heading_three">Reply Letter</h3>
                             <a href="" id="printReplyTableBtn">Print</a>
                         </div>
                         <div class="table-container">
@@ -371,11 +371,11 @@
             </div>
             <div class="right-btns">
                 <div class="all-print-btn">
-                    <button class="main-ltr-btn">Print Main Ltr</button>
-                    <button class="all-ltr-btn">Print All Ltr</button>
-                    <button class="all-ref-ltr-btn">Print All Ref Ltr</button>
-                    <button class="bsf-btn">Print BSF Reply</button>
-                    <button class="selected-btn">Print Selected</button>
+                    <button type="button" class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
+                    <button type="button" class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
+                    <button type="button" class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
+                    <button type="button" class="bsf-btn" id="printReplyBtn">Print Reply Letter</button>
+                    <button type="button" class="selected-btn" id="printSelectedBtn">Print Selected</button>
                 </div>
             </div>
         </div>
@@ -384,6 +384,7 @@
 
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
     <script src="{{ asset('assets/js/home.js') }}"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>

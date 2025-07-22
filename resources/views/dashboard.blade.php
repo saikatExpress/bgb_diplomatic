@@ -31,6 +31,9 @@
                             <option value="BSF">BSF</option>
                         </select>
                     </div>
+
+                    <input type="hidden" name="reply_letter_by" id="letterByHidden" value="BGB">
+
                     <div class="form-border-area">
                         <span class="span-from-text">From</span>
                         <div class="select-form-one" id="fromBox">
@@ -169,8 +172,8 @@
 
                                 <!-- Dropdown Select (S, R, T) -->
                                 <div class="dropdown-wrapper">
-                                    <select name="subpillar_type" id="subpillar_type">
-                                        <option value="">Select Type</option>
+                                    <select name="subpillar_type" id="subpillar_type" class="select3">
+                                        <option value="" selected>Select Type</option>
                                         <option value="s">S</option>
                                         <option value="t">T</option>
                                         <option value="r">R</option>
@@ -191,7 +194,7 @@
                                 <input type="text" id="distanceFromZero" class="form-control" name="distance_from_zero"
                                     placeholder="Enter Distance" />
                                 <div>
-                                    <select name="distance_unit" id="distanceUnit">
+                                    <select name="distance_unit" id="distanceUnit" class="select3">
                                         <option value="" selected disabled>Select Unit</option>
                                         @foreach ($units as $unit)
                                             <option value="{{ $unit->slug }}">{{ $unit->name }}</option>

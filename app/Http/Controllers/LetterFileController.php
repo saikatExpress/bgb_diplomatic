@@ -52,17 +52,27 @@ class LetterFileController extends Controller
             $data['reply_no'] = $request->input('reply_no', null);
         }
 
-
         $file = LetterFile::create($data);
 
         if($validated['file_prefix'] == 'reply_file'){
             Letter::where('letter_no', $validated['letter_number'])->update(['status' => 'replied']);
         }
 
+        if($validated['file_type'] == 'BGB'){
+            $letter = Letter::with('bsf_region', 'bsf_sector', 'bsf_battalion', 'bsf_company',
+            'bsf_bop')->where('letter_no',
+            $validated['letter_number'])->first();
+        }else{
+            $letter = Letter::with('bgb_sector', 'bgb_region', 'bgb_battalion', 'bgb_company',
+            'bgb_bop')->where('letter_no',
+            $validated['letter_number'])->first();
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'File uploaded successfully.',
             'data'    => $data,
+            'letter' => $letter,
             'last_id' => $file->id
         ]);
     }

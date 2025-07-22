@@ -113,7 +113,8 @@
                         <span>Reference Letter</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">
+                        <span class="killing-number"
+                            style="display:flex; justify-content: center; align-items: center; gap:10px">
                             <span style="color: red !important;"
                                 id="bgb_no_reply">{{ $replyInfo->BGB->no_reply }}</span> / <span
                                 style="color: green !important"
@@ -131,7 +132,7 @@
                 <div class="bgb-protest-box">
                     <p class="killing-bsf-box">
                         <span class="killing-number"
-                            id="killing_number_bsf">{{ ($bsfInfo->totalKilling > 0) ?: 0 }}</span>
+                            id="killing_number_bsf">{{ ($bsfInfo->totalKilling > 0) ? $bsfInfo->totalKilling : 0 }}</span>
                         <span>Killing</span>
                     </p>
                     <p class="killing-bsf-box">
@@ -167,7 +168,8 @@
                         <span>Reference Letter</span>
                     </p>
                     <p class="killing-bsf-box">
-                        <span class="killing-number">
+                        <span class="killing-number"
+                            style="display:flex; justify-content: center; align-items: center; gap:10px">
                             <span style="color: red !important;"
                                 id="bsf_no_reply">{{ $replyInfo->BSF->no_reply }}</span> /
                             <span style="color: green !important;" id="bsf_reply">{{ $filesInfo->BSF->reply  }}</span>
@@ -284,7 +286,7 @@
     </div>
 </body>
 
-<script src="{{ asset('assets/css/dashboard.css') }}"></script>
+<script src="{{ asset('assets/js/dashboard.js') }}"></script>
 
 <script>
     $(document).ready(function () {

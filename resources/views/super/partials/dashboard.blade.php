@@ -72,8 +72,11 @@
                                                 <td>{{ $file['name'] }}</td>
                                                 <td>{{ $file['size'] }}</td>
                                                 <td>{{ $file['time'] }}</td>
-                                                <td><a href="{{ $file['url'] }}" class="btn btn-sm btn-success"
-                                                        download>Download</a></td>
+                                                <td>
+                                                    <a href="{{ $file['url'] }}" class="btn btn-sm btn-success" download>
+                                                        Download
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -39,7 +39,9 @@ function handleLetterResponse(response) {
     hideLetterInfo();
     showReferenceInput();
 
-    showLetterData(response.letter);
+    if (response.letter != "") {
+        showLetterData(response.letter);
+    }
 
     if (response.letters && response.letters.length > 0) {
         renderLetterSearchResult(response.letters);
@@ -71,6 +73,8 @@ function showLetterData(letter) {
             $(`.custom-checkbox[value="${tag}"]`).prop("checked", true);
         });
     }
+
+    $("#letterBy").val(letter.letter_by).trigger("change");
 
     $("#ltrSubjectSelect").val(letter.ltr_subject).trigger("change");
     $("#incidentSelect").val(letter.ltr_incident).trigger("change");

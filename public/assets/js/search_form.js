@@ -3,6 +3,8 @@ let referenceFile = 0;
 let replyFile = 0;
 let noreplyFile = 0;
 
+let allFiles = [];
+
 $(document).ready(function () {
     $("#searchBtn").on("click", function () {
         let form = $("#search-form");
@@ -152,7 +154,8 @@ function populateFileTable(files, prefix, tableSelector, filterSummary) {
         tr.append(`<td>${index + 1}</td>`);
         tr.append(`<td>${file.created_at?.split("T")[0] || ""}</td>`);
 
-        const fileName = file.file_path.replace("/storage/letter_files/", "");
+        const filePath = file.file_path;
+        const fileName = file.file_name || "N/A";
 
         if (file.letter_by === "BGB") {
             tr.append(`<td>${file.bgb_region_name || "N/A"}</td>`);
@@ -174,7 +177,7 @@ function populateFileTable(files, prefix, tableSelector, filterSummary) {
         const $showBtn = $(
             '<button type="button" class="btn btn-sm btn-primary">Show</button>'
         ).on("click", function () {
-            showFile(file.file_path);
+            showFile(filePath);
         });
 
         const $deleteBtn = $(
@@ -186,6 +189,11 @@ function populateFileTable(files, prefix, tableSelector, filterSummary) {
         const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
         tr.append($tdActions);
         $tbody.append(tr);
+
+        allFiles.push({
+            file: filePath,
+            file_prefix: prefix,
+        });
     });
 }
 
@@ -238,4 +246,83 @@ function showFile(filePath) {
     });
 
     $preview.append($iframe);
+}
+
+// Main Letter
+$(document).on("click", "#printMainLtrBtn", async function () {
+    const mainFiles = getPdfFilesByPrefix("main");
+
+    if (mainFiles.length) {
+        await mergeAndPrintPDFsFromURLs(mainFiles);
+    } else {
+        alert("No main letter PDF files found.");
+    }
+});
+
+$(document).on("click", "#printAllRefLtrBtn", async function () {
+    const refFiles = getPdfFilesByPrefix("ref");
+
+    if (refFiles.length) {
+        await mergeAndPrintPDFsFromURLs(refFiles);
+    } else {
+        alert("No reference letter PDF files found.");
+    }
+});
+
+$(document).on("click", "#printReplyBtn", async function () {
+    const replyFiles = getPdfFilesByPrefix("reply-file");
+
+    if (replyFiles.length) {
+        await mergeAndPrintPDFsFromURLs(replyFiles);
+    } else {
+        alert("No reply letter PDF files found.");
+    }
+});
+
+$(document).on("click", "#printAllLtrBtn", async function () {
+    const allFiles = getPdfFilesByPrefix("all");
+
+    if (allFiles.length) {
+        await mergeAndPrintPDFsFromURLs(allFiles);
+    } else {
+        alert("No all letter PDF files found.");
+    }
+});
+
+function getPdfFilesByPrefix(prefix) {
+    if (prefix === "all") {
+        return allFiles.map((f) => f.file);
+    }
+
+    const filtered = allFiles.filter((f) => f.file_prefix === prefix);
+    return filtered.map((f) => f.file);
+}
+
+async function mergeAndPrintPDFsFromURLs(urls) {
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (const url of urls) {
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+        const copiedPages = await mergedPdf.copyPages(
+            pdf,
+            pdf.getPageIndices()
+        );
+        copiedPages.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfBytes = await mergedPdf.save();
+    const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = blobUrl;
+    document.body.appendChild(iframe);
+
+    iframe.onload = function () {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+    };
 }

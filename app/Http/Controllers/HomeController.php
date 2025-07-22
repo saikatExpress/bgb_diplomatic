@@ -16,13 +16,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['ltrs'] = LTR::all();
+        $data['ltrs']      = LTR::all();
+        $data['tags']      = Tag::all();
+        $data['units']     = Unit::all();
+        $data['pillars']   = Pillar::all();
         $data['incidents'] = Incident::all();
-        $data['pillars'] = Pillar::all();
-
-        $data['tags'] = Tag::all();
-
-        $data['units'] = Unit::all();
 
         $data['bgbRegions'] = Region::where('country', 'bangladesh')->where('status', 'active')->get();
         $data['bsfRegions'] = Region::where('country', 'india')->where('status', 'active')->get();

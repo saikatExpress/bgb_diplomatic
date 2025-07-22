@@ -62,10 +62,6 @@ class DashboardController extends Controller
     {
         $query = DB::table('letters');
 
-        if ($request->filled('letter_by')) {
-            $query->where('letter_by', $request->input('letter_by'));
-        }
-
         if ($request->filled('form_date')) {
             $query->where('letter_date', '>=', $request->input('form_date'));
         }
@@ -78,77 +74,61 @@ class DashboardController extends Controller
 
         $mapData = $results->map(function ($item) {
             return [
-                'id'          => $item->id,
-                'letter_by'   => $item->letter_by,
-                'letter_no'   => $item->letter_no,
-                'letter_date' => $item->letter_date,
-                'tags'        => explode(',', $item->tags),
-                'status'      => $item->status,
-                'casualties'  => [
-                    'killing'  => $item->killing,
-                    'injuring' => $item->injuring,
-                    'beating'  => $item->beating,
-                    'firing'   => $item->firing,
-                    'crossing' => $item->crossing,
-                ],
+                'letter_by' => $item->letter_by,
+                'killing'   => $item->killing,
+                'injuring'  => $item->injuring,
+                'beating'   => $item->beating,
+                'firing'    => $item->firing,
+                'crossing'  => $item->crossing,
             ];
         });
 
-        $letterBy = $request->input('letter_by');
-        $formDate = $request->input('form_date');
-        $toDate   = $request->input('to_date');
+        $letterNos = $results->pluck('letter_no');
 
-        $replyInfo = [];
-        foreach (['BGB', 'BSF'] as $side) {
-            if (!$letterBy || $letterBy === $side) {
-                $query = DB::table('letters')
-                    ->where('letter_by', $side)
-                    ->where('status', 'no_reply');
 
-                if ($formDate) {
-                    $query->whereDate('letter_date', '>=', $formDate);
+        $files = LetterFile::whereIn('letter_number', $letterNos)->get();
+
+        $grouped = $files->groupBy(['letter_by', 'letter_number']);
+
+        $finalCounts = [];
+
+        foreach ($grouped as $letterBy => $letters) {
+            $main = $ref = $reply = 0;
+
+            foreach ($letters as $letterNumber => $items) {
+                if ($items->contains('file_prefix', 'main')) {
+                    $main++;
                 }
-
-                if ($toDate) {
-                    $query->whereDate('letter_date', '<=', $toDate);
+                if ($items->contains('file_prefix', 'ref')) {
+                    $ref++;
                 }
-
-                $replyInfo[$side] = [
-                    'no_reply' => $query->count()
-                ];
-            }
-        }
-
-        $filesInfo = [];
-
-        foreach (['BGB', 'BSF'] as $side) {
-            if (!$letterBy || $letterBy === $side) {
-                $filesInfo[$side] = [];
-
-                foreach (['main', 'ref', 'reply_file'] as $prefix) {
-                    $query = DB::table('letter_files')
-                        ->where('letter_by', $side)
-                        ->where('file_prefix', $prefix);
-
-                    if ($formDate) {
-                        $query->whereDate('created_at', '>=', $formDate);
-                    }
-
-                    if ($toDate) {
-                        $query->whereDate('created_at', '<=', $toDate);
-                    }
-
-                    $key = $prefix === 'reply_file' ? 'reply' : $prefix;
-                    $filesInfo[$side][$key] = $query->count();
+                if ($items->contains('file_prefix', 'reply')) {
+                    $reply++;
                 }
             }
+
+            $finalCounts[$letterBy] = [
+                'main' => $main,
+                'ref' => $ref,
+                'reply' => $reply,
+            ];
         }
+
+        $replyInfo = [
+            'BGB' => [
+                'no_reply' => $results->where('letter_by', 'BGB')->where('status', 'no_reply')->count()
+            ],
+            'BSF' => [
+                'no_reply' => $results->where('letter_by', 'BSF')->where('status', 'no_reply')->count()
+            ],
+        ];
+
 
         // Step 6: Return as JSON
         return response()->json([
             'mapData'   => $mapData,
             'replyInfo' => $replyInfo,
-            'filesInfo' => $filesInfo,
+            'filesInfo' => $finalCounts,
         ]);
     }
 
