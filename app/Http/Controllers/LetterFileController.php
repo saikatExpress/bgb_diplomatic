@@ -75,9 +75,9 @@ class LetterFileController extends Controller
             'letter_number' => 'required|string',
         ]);
 
-        $letterNumber = $request->letter_number;
+        $letterNumber = $request->input('letter_number');
 
-        $fileInfo = LetterFile::where('id', $request->last_id)->where('letter_number', $letterNumber)->first();
+        $fileInfo = LetterFile::where('id', $request->input('last_id'))->where('letter_number', $letterNumber)->first();
 
         if (!$fileInfo) {
             return response()->json([
