@@ -43,7 +43,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="login-box">
             <h2 class="text-center">Sign in to BGB Diplomatic</h2>
@@ -52,10 +51,10 @@
 
                 <!-- Email -->
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" required autofocus>
-                    @error('email')
+                    <label for="username" class="form-label">User Name</label>
+                    <input type="username" class="form-control @error('username') is-invalid @enderror" id="username"
+                        name="username" required autofocus>
+                    @error('username')
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
                 </div>
@@ -76,23 +75,12 @@
                         <input class="form-check-input" type="checkbox" name="remember" id="remember">
                         <label class="form-check-label" for="remember">Remember me</label>
                     </div>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot Password?</a>
-                    @endif
                 </div>
 
                 <!-- Submit -->
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-primary">Sign In</button>
                 </div>
-
-                <!-- Register -->
-                @if (Route::has('register'))
-                    <div class="text-center">
-                        <p class="mb-0">Don't have an account? <a href="{{ route('register') }}"
-                                class="text-decoration-none">Register</a></p>
-                    </div>
-                @endif
             </form>
         </div>
     </div>

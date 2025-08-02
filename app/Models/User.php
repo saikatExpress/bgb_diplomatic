@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
@@ -20,12 +21,32 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'mobile',
         'password',
         'role',
         'status',
     ];
+
+    // Mutator
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+
+        if (empty($this->attributes['username'])) {
+            $baseUsername = Str::slug($value);
+            $username = $baseUsername;
+            $count = 1;
+
+            while (User::where('username', $username)->exists()) {
+                $username = $baseUsername . '-' . $count++;
+            }
+
+            $this->attributes['username'] = $username;
+        }
+    }
+
 
     protected function store($data)
     {
