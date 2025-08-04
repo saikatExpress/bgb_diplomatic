@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('mobile', 50)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'admin', 'super-admin'])->default('user');
+            $table->enum('role', ['user', 'admin','developer', 'super-admin'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
             $table->timestamps();

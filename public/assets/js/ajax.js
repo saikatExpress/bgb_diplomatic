@@ -1,281 +1,101 @@
 $(document).ready(function () {
-    $(document).on("change", "#selectBgbRegion", function () {
-        const selectedRegion = $(this).val();
+    const dropdownMap = {
+        "#selectBgbRegion": {
+            url: "fetchsector",
+            target: "#selectBgbSec",
+            param: "region_id",
+            placeholder: "Select SEC",
+            emptyMsg: "No sector found",
+        },
+        "#selectBsfRegion": {
+            url: "fetchsector",
+            target: "#selectBsfSec",
+            param: "region_id",
+            placeholder: "Select SEC",
+            emptyMsg: "No sector found",
+        },
 
-        if (selectedRegion !== "") {
-            $.ajax({
-                url: "fetchsector",
-                method: "GET",
-                data: { region_id: selectedRegion },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select SEC</option>';
+        "#selectBgbSec": {
+            url: "fetchbattalion",
+            target: "#selectBgbBattalion",
+            param: "sector_id",
+            placeholder: "Select Battalion",
+            emptyMsg: "No battalion found",
+        },
+        "#selectBsfSec": {
+            url: "fetchbattalion",
+            target: "#selectBsfBattalion",
+            param: "sector_id",
+            placeholder: "Select Battalion",
+            emptyMsg: "No battalion found",
+        },
 
-                    if (response.length > 0) {
-                        response.forEach(function (sector) {
-                            options += `<option value="${sector.id}">${sector.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No sector found</option>';
-                    }
+        "#selectBgbBattalion": {
+            url: "fetchcompany",
+            target: "#selectBgbCoy",
+            param: "battalion_id",
+            placeholder: "Select Company",
+            emptyMsg: "No company found",
+        },
+        "#selectBsfBattalion": {
+            url: "fetchcompany",
+            target: "#selectBsfCoy",
+            param: "battalion_id",
+            placeholder: "Select Company",
+            emptyMsg: "No company found",
+        },
 
-                    $("#selectBgbSec").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch sector data.");
-                },
-            });
-        } else {
-            $("#selectBgbSec").html(
-                '<option value="" selected disabled>Select SEC</option>'
+        "#selectBgbCoy": {
+            url: "fetchbop",
+            target: "#selectBgbBop",
+            param: "company_id",
+            placeholder: "Select BOP",
+            emptyMsg: "No BOP found",
+        },
+        "#selectBsfCoy": {
+            url: "fetchbop",
+            target: "#selectBsfBop",
+            param: "company_id",
+            placeholder: "No BOP found",
+            emptyMsg: "No BOP found",
+        },
+    };
+
+    function loadOptions(trigger, selectedValue) {
+        const config = dropdownMap[trigger];
+        if (!config) return;
+
+        const $target = $(config.target);
+        if (selectedValue === "") {
+            $target.html(
+                `<option value="" selected disabled>${config.placeholder}</option>`
             );
+            return;
         }
-    });
 
-    $(document).on("change", "#selectBsfRegion", function () {
-        const selectedRegion = $(this).val();
+        $.ajax({
+            url: config.url,
+            method: "GET",
+            data: { [config.param]: selectedValue },
+            dataType: "json",
+            success: function (response) {
+                let options = `<option value="" selected disabled>${config.placeholder}</option>`;
+                if (response.length > 0) {
+                    response.forEach((item) => {
+                        options += `<option value="${item.id}">${item.name}</option>`;
+                    });
+                } else {
+                    options += `<option value="" selected disabled>${config.emptyMsg}</option>`;
+                }
+                $target.html(options);
+            },
+            error: function () {
+                alert(`Failed to fetch data for ${config.placeholder}.`);
+            },
+        });
+    }
 
-        if (selectedRegion !== "") {
-            $.ajax({
-                url: "fetchsector",
-                method: "GET",
-                data: { region_id: selectedRegion },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select SEC</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (sector) {
-                            options += `<option value="${sector.id}">${sector.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No sector found</option>';
-                    }
-
-                    $("#selectBsfSec").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch sector data.");
-                },
-            });
-        } else {
-            $("#selectBsfSec").html(
-                '<option value="" selected disabled>Select SEC</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBgbSec", function () {
-        const selectedSec = $(this).val();
-
-        if (selectedSec !== "") {
-            $.ajax({
-                url: "fetchbattalion",
-                method: "GET",
-                data: { sector_id: selectedSec },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select Battalion</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (battalion) {
-                            options += `<option value="${battalion.id}">${battalion.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No battalion found</option>';
-                    }
-
-                    $("#selectBgbBattalion").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch battalion data.");
-                },
-            });
-        } else {
-            $("#selectBgbBattalion").html(
-                '<option value="" selected disabled>Select Battalion</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBgbBattalion", function () {
-        const selectedBattalion = $(this).val();
-
-        if (selectedBattalion !== "") {
-            $.ajax({
-                url: "fetchcompany",
-                method: "GET",
-                data: { battalion_id: selectedBattalion },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select Company</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (company) {
-                            options += `<option value="${company.id}">${company.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No company found</option>';
-                    }
-
-                    $("#selectBgbCoy").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch company data.");
-                },
-            });
-        } else {
-            $("#selectBgbCoy").html(
-                '<option value="" selected disabled>Select Company</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBgbCoy", function () {
-        const selectedCompany = $(this).val();
-
-        if (selectedCompany !== "") {
-            $.ajax({
-                url: "fetchbop",
-                method: "GET",
-                data: { company_id: selectedCompany },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select BOP</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (bop) {
-                            options += `<option value="${bop.id}">${bop.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No BOP found</option>';
-                    }
-
-                    $("#selectBgbBop").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch BOP data.");
-                },
-            });
-        } else {
-            $("#selectBgbBop").html(
-                '<option value="" selected disabled>Select BOP</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBsfSec", function () {
-        const selectedSec = $(this).val();
-
-        if (selectedSec !== "") {
-            $.ajax({
-                url: "fetchbattalion",
-                method: "GET",
-                data: { sector_id: selectedSec },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select Battalion</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (battalion) {
-                            options += `<option value="${battalion.id}">${battalion.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No battalion found</option>';
-                    }
-
-                    $("#selectBsfBattalion").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch battalion data.");
-                },
-            });
-        } else {
-            $("#selectBsfBattalion").html(
-                '<option value="" selected disabled>Select Battalion</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBsfBattalion", function () {
-        const selectedBattalion = $(this).val();
-
-        if (selectedBattalion !== "") {
-            $.ajax({
-                url: "fetchcompany",
-                method: "GET",
-                data: { battalion_id: selectedBattalion },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select Company</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (company) {
-                            options += `<option value="${company.id}">${company.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No company found</option>';
-                    }
-
-                    $("#selectBsfCoy").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch company data.");
-                },
-            });
-        } else {
-            $("#selectBsfCoy").html(
-                '<option value="" selected disabled>Select Company</option>'
-            );
-        }
-    });
-
-    $(document).on("change", "#selectBsfCoy", function () {
-        const selectedCompany = $(this).val();
-
-        if (selectedCompany !== "") {
-            $.ajax({
-                url: "fetchbop",
-                method: "GET",
-                data: { company_id: selectedCompany },
-                dataType: "json",
-                success: function (response) {
-                    let options =
-                        '<option value="" selected disabled>Select BOP</option>';
-
-                    if (response.length > 0) {
-                        response.forEach(function (bop) {
-                            options += `<option value="${bop.id}">${bop.name}</option>`;
-                        });
-                    } else {
-                        options +=
-                            '<option value="" selected disabled>No BOP found</option>';
-                    }
-
-                    $("#selectBsfBop").html(options);
-                },
-                error: function () {
-                    alert("Failed to fetch BOP data.");
-                },
-            });
-        } else {
-            $("#selectBsfBop").html(
-                '<option value="" selected disabled>Select BOP</option>'
-            );
-        }
+    $(document).on("change", Object.keys(dropdownMap).join(","), function () {
+        loadOptions(`#${this.id}`, $(this).val());
     });
 });

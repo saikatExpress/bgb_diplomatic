@@ -25,19 +25,24 @@ class StoreUserRequest extends FormRequest
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
             'mobile'   => 'required|string|max:50|unique:users,mobile',
-            'password' => 'required|string|min:6|confirmed',
+            'role'     => 'required|in:admin,user',
+            'password' => 'required | string | min:6 | confirmed',
+            'status'   => 'required|in:active,inactive'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required'     => 'The name field is required.',
-            'email.required'    => 'The email field is required.',
-            'mobile.required'   => 'The mobile field is required.',
-            'password.required' => 'The password field is required.',
-            'email.unique'      => 'This email is already taken.',
-            'mobile.unique'     => 'This mobile number is already taken.',
+            'name.required'      => 'The name field is required.',
+            'email.required'     => 'The email field is required.',
+            'mobile.required'    => 'The mobile field is required.',
+            'password.required'  => 'The password field is required.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'email.unique'       => 'This email is already taken.',
+            'mobile.unique'      => 'This mobile number is already taken.',
+            'role.required'      => 'Please select a role.',
+            'status.required'    => 'Please select a status.',
         ];
     }
 }

@@ -1051,7 +1051,7 @@ td:nth-child(10) {
 }
 
 .all-print-btn button {
-    flex: 0 0 calc(20% - -57px);
+    flex: 0 0 calc(15% - -57px);
     padding: 10px 12px;
     color: white;
     border: none;

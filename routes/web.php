@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\Ajax\AjaxController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LetterFileController;
 use App\Http\Controllers\Web\PillarController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\RegionController;
 
 Route::get('/web/cache-optimize', function () {
     Artisan::call('optimize:clear');
@@ -91,11 +94,38 @@ Route::controller(PillarController::class)->group(function () {
 Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchsector', 'getSectorsByRegion')->name('fetchsector');
     Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');
-    Route::get('/fetchcompany', 'getCompaniesByBattalion')->name('fetchcompany');
     Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
     Route::get('/fetched/letters', 'fetchedLetter')->name('fetched.letter');
     Route::get('/delete/file/{id}', 'deleteFile')->name('delete.file');
 });
+
+Route::controller(SettingController::class)->group(function(){
+    Route::get('/setting', 'create')->name('setting');
+});
+
+
+Route::prefix('user/')->name('user.')->group(function(){
+    Route::controller(AdminController::class)->group((function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{user}', 'edit')->name('edit');
+        Route::put('/update/{user}', 'update')->name('update');
+        Route::delete('/delete/{user}', 'destroy')->name('destroy');
+    }));
+});
+
+Route::prefix('region/')->name('region.')->group(function(){
+    Route::controller(RegionController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{region}', 'edit')->name('edit');
+        Route::put('/update/{region}', 'update')->name('update');
+        Route::delete('/destroy/{region}', 'destroy')->name('destroy');
+    });
+});
+
 
 Route::controller(LetterFileController::class)->group(function(){
     Route::post('/upload-letter-file', 'upload')->name('upload-letter-file');

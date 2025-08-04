@@ -7,58 +7,94 @@
     <title>Login | BGB Diplomatic</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/x-icon">
+
     <style>
         body {
             background: #A91D2A;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
 
-        .login-box {
-            max-width: 420px;
-            margin: 5% auto;
-            padding: 2.5rem;
+        .container-box {
+            display: flex;
+            align-items: center;
+            gap: 50%;
+            width: 55%;
+        }
+
+        .logo-box img {
+            max-width: 200px;
+        }
+
+        .login-card {
             background: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-box h2 {
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #A91D2A;
-        }
-
-        .form-label {
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
             color: #333;
+        }
+
+        .login-header {
+            background-color: #A91D2A;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px 10px 0 0;
+            margin: -2.5rem -2.5rem 2rem -2.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .btn-login {
+            background-color: #A91D2A;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #88111D;
         }
 
         a {
             color: #A91D2A;
+            text-decoration: none;
         }
 
         a:hover {
+            text-decoration: underline;
             color: #88111D;
         }
     </style>
-
 </head>
 
 <body>
-    <div class="container">
-        <div class="login-box">
-            <h2 class="text-center">Sign in to BGB Diplomatic</h2>
+    <div class="container-box">
+        <!-- Left Logo -->
+        <div class="logo-box">
+            <img src="{{ asset('assets/img/cover_logo.png') }}" alt="Logo">
+        </div>
+
+        <!-- Right Login Box -->
+        <div class="login-card">
+            <div class="login-header">BGB Diplomatic</div>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-
-                <!-- Email -->
+                <!-- Username -->
                 <div class="mb-3">
-                    <label for="username" class="form-label">User Name</label>
-                    <input type="username" class="form-control @error('username') is-invalid @enderror" id="username"
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
                         name="username" required autofocus>
                     @error('username')
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
                 </div>
-
                 <!-- Password -->
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -68,18 +104,14 @@
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
                 </div>
-
-                <!-- Forgot password -->
-                <div class="mb-3 d-flex justify-content-between">
-                    <div>
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                        <label class="form-check-label" for="remember">Remember me</label>
-                    </div>
+                <!-- Remember Me -->
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                    <label class="form-check-label" for="remember">Remember Me</label>
                 </div>
-
                 <!-- Submit -->
-                <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary">Sign In</button>
+                <div class="d-grid mb-2">
+                    <button type="submit" class="btn btn-login">Login</button>
                 </div>
             </form>
         </div>

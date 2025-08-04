@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Ajax;
 use Imagick;
 use App\Models\BOP;
 use App\Models\Sector;
-use App\Models\Company;
 use setasign\Fpdi\Fpdi;
 use App\Models\Battalion;
 use App\Models\LetterFile;
@@ -33,16 +32,6 @@ class AjaxController extends Controller
         $battalions = Battalion::where('sector_id', $sectorId)->get();
 
         return response()->json($battalions);
-    }
-
-    public function getCompaniesByBattalion(Request $request)
-    {
-        $battalionId = $request->input('battalion_id');
-
-        // Assuming you have a model Company and a method to fetch companies by battalion
-        $companies = Company::where('battalion_id', $battalionId)->get();
-
-        return response()->json($companies);
     }
 
     public function getBopsByCompany(Request $request)

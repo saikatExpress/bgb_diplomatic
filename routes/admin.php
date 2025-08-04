@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BattalionController;
 use App\Http\Controllers\Admin\BOPController;
-use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\PillarController;
 use App\Http\Controllers\Admin\RegionController;
@@ -21,16 +20,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/backup/database', 'backUp')->name('database.backup');
     });
 
-    Route::prefix('super/admin/user')->name('user.')->group(function(){
-        Route::controller(AdminController::class)->group((function(){
-            Route::get('/index', 'userIndex')->name('index');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/store', 'store')->name('store');
-            Route::get('/edit/{user}', 'edit')->name('edit');
-            Route::put('/update/{user}', 'update')->name('update');
-            Route::delete('/delete/{user}', 'destroy')->name('destroy');
-        }));
-    });
+
 
     Route::controller(IncidentController::class)->group(function(){
         Route::get('/super/admin/incidents', 'index')->name('super_admin.incidents');
@@ -70,15 +60,6 @@ Route::middleware(['auth'])->group(function(){
         Route::delete('/super/admin/ltr/{ltr}/destroy', 'destroy')->name('super_admin.ltr.destroy');
     });
 
-    Route::controller(RegionController::class)->group(function(){
-        Route::get('/super/admin/regions', 'index')->name('super_admin.regions');
-        Route::get('/super/admin/regions/create', 'create')->name('super_admin.regions.create');
-        Route::post('/super/admin/regions/store', 'store')->name('super_admin.regions.store');
-        Route::get('/super/admin/regions/{region}/edit', 'edit')->name('super_admin.regions.edit');
-        Route::put('/super/admin/regions/{region}/update', 'update')->name('super_admin.regions.update');
-        Route::delete('/super/admin/regions/{region}/destroy', 'destroy')->name('super_admin.regions.destroy');
-    });
-
     Route::controller(SectorController::class)->group(function(){
         Route::get('/super/admin/sectors', 'index')->name('super_admin.sectors');
         Route::get('/super/admin/sectors/create', 'create')->name('super_admin.sectors.create');
@@ -95,15 +76,6 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/super/admin/battalions/{battalion}/edit', 'edit')->name('super_admin.battalions.edit');
         Route::put('/super/admin/battalions/{battalion}/update', 'update')->name('super_admin.battalions.update');
         Route::delete('/super/admin/battalions/{battalion}/destroy', 'destroy')->name('super_admin.battalions.destroy');
-    });
-
-    Route::controller(CompanyController::class)->group(function(){
-        Route::get('/super/admin/companies', 'index')->name('super_admin.companies');
-        Route::get('/super/admin/companies/create', 'create')->name('super_admin.companies.create');
-        Route::post('/super/admin/companies/store', 'store')->name('super_admin.companies.store');
-        Route::get('/super/admin/companies/{company}/edit', 'edit')->name('super_admin.companies.edit');
-        Route::put('/super/admin/companies/{company}/update', 'update')->name('super_admin.companies.update');
-        Route::delete('/super/admin/companies/{company}/destroy', 'destroy')->name('super_admin.companies.destroy');
     });
 
     Route::controller(BOPController::class)->group(function(){

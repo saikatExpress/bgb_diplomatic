@@ -126,7 +126,8 @@
             <div class="bsf-protest">
                 <div class="bgb-heading-title-img">
                     <h5 class="bgb-heading-title">BSF Protest</h5>
-                    <img src="{{ asset('assets/img/logo.png') }}" width="60" height="auto" alt="logo">
+                    <img style="border-radius: 50%;" src="{{ asset('assets/img/bsf.jpeg') }}" width="60" height="auto"
+                        alt="logo">
                 </div>
                 <!-- form group4 second -->
                 <div class="bgb-protest-box">

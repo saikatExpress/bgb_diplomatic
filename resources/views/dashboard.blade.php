@@ -52,10 +52,6 @@
                                 <option value="" selected>Select Battalion</option>
                             </select>
 
-                            <select id="selectBgbCoy" name="bgb_coy_id" class="select3">
-                                <option value="" selected>Select Company</option>
-                            </select>
-
                             <select id="selectBgbBop" name="bgb_bop_id" class="select3">
                                 <option value="" selected>Select BOP</option>
                             </select>
@@ -77,10 +73,6 @@
 
                             <select id="selectBsfBattalion" name="bsf_battalion_id" class="select3">
                                 <option value="" selected>Select Battalion</option>
-                            </select>
-
-                            <select id="selectBsfCoy" name="bsf_coy_id" class="select3">
-                                <option value="" selected>Select Company</option>
                             </select>
 
                             <select id="selectBsfBop" name="bsf_bop_id" class="select3">
@@ -294,7 +286,7 @@
                     </div>
 
                     <!-- =============== -->
-                    <div class="upload-container">
+                    <div class="upload-container" style="height: 400px; overflow-y:scroll; overflow-x:scroll;">
                         <div class="upload-card" style="height: 150px !important;">
                             <label class="upload-label">
                                 <div class="upload-title">Main Letter</div>
@@ -332,7 +324,6 @@
                                 </div>
                             </label>
                         </div>
-
                     </div>
 
                     <!-- Form table data show  -->
@@ -348,7 +339,6 @@
                                         <th>Region</th>
                                         <th>Sector</th>
                                         <th>Battalion</th>
-                                        <th>Coy</th>
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
@@ -373,7 +363,6 @@
                                         <th>Region</th>
                                         <th>Section</th>
                                         <th>Battalion</th>
-                                        <th>Coy</th>
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
@@ -401,7 +390,6 @@
                                         <th>Region</th>
                                         <th>Section</th>
                                         <th>Battalion</th>
-                                        <th>Coy</th>
                                         <th>BOP</th>
                                         <th>Pillar No.</th>
                                         <th>Main Ltr</th>
@@ -429,6 +417,9 @@
             </div>
             <div class="right-btns">
                 <div class="all-print-btn">
+                    <button type="button" class="refresh-form-btn" id="refreshBtn" style="background-color: darkgreen">
+                        Refresh
+                    </button>
                     <button type="button" class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
                     <button type="button" class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
                     <button type="button" class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
