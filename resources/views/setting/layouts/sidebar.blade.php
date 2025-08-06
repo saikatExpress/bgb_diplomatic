@@ -32,6 +32,18 @@
         </div>
     </div>
 
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Sector ▾</button>
+        <div class="dropdown-content {{ request()->is('sector/*') ? 'show' : '' }}">
+            <a href="{{ route('sector.index') }}" class="{{ request()->is('sector/index') ? 'active' : '' }}">
+                All Sector
+            </a>
+            <a href="{{ route('sector.create') }}" class="{{ request()->is('sector/create') ? 'active' : '' }}">
+                Add Sector
+            </a>
+        </div>
+    </div>
+
     <a href="{{ url('reports.index') }}" class="{{ request()->is('reports*') ? 'show' : '' }}">📈 Reports</a>
 
     <!-- Settings -->

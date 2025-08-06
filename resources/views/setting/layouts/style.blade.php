@@ -6,6 +6,10 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
+
+<link rel="stylesheet" href="{{ asset('assets/js/datatable/css/datatables.min.css') }}">
+
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
 
 @stack('styles')

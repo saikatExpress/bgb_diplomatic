@@ -34,7 +34,12 @@ class Region extends Model
             'status'  => 'active',
         ]);
 
-        return redirect()->route('super_admin.regions')->with('success', 'Region created successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Region created successfully',
+            'data'    => $data
+        ]);
     }
 
     private function generateCode($country)
@@ -55,10 +60,8 @@ class Region extends Model
     }
 
 
-    protected function updateRegion($data, $id)
+    protected function updateRegion($data, $region)
     {
-        $region = self::findOrFail($id);
-
         $region->update([
             'country' => $data['country'],
             'name'    => $data['name'],
@@ -68,6 +71,11 @@ class Region extends Model
             'status'  => 'active',
         ]);
 
-        return redirect()->route('super_admin.regions')->with('success', 'Region updated successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Region updated successfully',
+            'data'    => $data
+        ]);
     }
 }

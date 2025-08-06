@@ -10,43 +10,52 @@ use App\Http\Requests\UpdateRegionRequest;
 
 class RegionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['regions'] = Region::all();
-        return view('super.partials.regions.index', $data);
+        $query = Region::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('code')) {
+            $query->where('code', 'like', '%' . $request->code . '%');
+        }
+
+        if ($request->filled('country')) {
+            $query->where('country', 'like', '%' . $request->country . '%');
+        }
+
+        $data['regions'] = $query->get();
+
+        return view('setting.partials.region.index', $data);
     }
+
     public function create()
     {
-        $data['regions'] = Region::all();
-
-        return view('super.partials.regions.create', $data);
+        return view('setting.partials.region.create');
     }
     public function store(StoreRegionRequest $request)
     {
         return Region::store($request->validated());
     }
-    public function edit($id)
+    public function edit(Region $region)
     {
-        $region = Region::findOrFail($id);
-
-        return view('super.partials.regions.edit', compact('region'));
+        return view('setting.partials.region.edit', compact('region'));
     }
-    public function update(UpdateRegionRequest $request, $id)
+    public function update(UpdateRegionRequest $request, Region $region)
     {
-        return Region::updateRegion($request->validated(), $id);
+        return Region::updateRegion($request->validated(), $region);
     }
-    public function destroy($id)
+    public function destroy(Region $region)
     {
-        // Logic to delete a region
-        $region = Region::findOrFail($id);
         $region->delete();
 
-        return redirect()->route('super_admin.regions')->with('success', 'Region deleted successfully.');
+        return redirect()->route('region.index')->with('success', 'Region deleted successfully.');
     }
-    public function show($id)
+
+    public function show(Region $region)
     {
-        // Logic to display a single region
-        $region = Region::findOrFail($id);
-        return view('super.partials.regions.show', compact('region'));
+        return view('setting.partials.region.show', compact('region'));
     }
 }

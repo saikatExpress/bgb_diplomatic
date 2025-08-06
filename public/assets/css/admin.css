@@ -1,0 +1,88 @@
+.form-container {
+    max-width: 650px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.form-header {
+    background: linear-gradient(90deg, #a91d2a, #d72638);
+    color: white;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+    margin: -25px -25px 25px -25px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    background: white;
+    color: #a91d2a;
+    font-weight: bold;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.back-btn:hover {
+    background: #fce4e4;
+    color: #d72638;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #a91d2a;
+    box-shadow: 0 0 5px rgba(169, 29, 42, 0.3);
+}
+
+.btn-submit {
+    background: linear-gradient(90deg, #a91d2a, #d72638);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 1rem;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(90deg, #88111d, #c2182b);
+    transform: translateY(-2px);
+}
+
+.invalid_check {
+    color: red;
+    font-size: 0.85rem;
+}
+
+.form-check-input:checked {
+    background-color: #a91d2a;
+    border-color: #a91d2a;
+}

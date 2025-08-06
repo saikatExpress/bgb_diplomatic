@@ -11,6 +11,7 @@ use App\Http\Controllers\LetterFileController;
 use App\Http\Controllers\Web\PillarController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RegionController;
+use App\Http\Controllers\Admin\SectorController;
 
 Route::get('/web/cache-optimize', function () {
     Artisan::call('optimize:clear');
@@ -104,7 +105,7 @@ Route::controller(SettingController::class)->group(function(){
 });
 
 
-Route::prefix('user/')->name('user.')->group(function(){
+Route::prefix('/user')->name('user.')->group(function(){
     Route::controller(AdminController::class)->group((function(){
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
@@ -115,14 +116,26 @@ Route::prefix('user/')->name('user.')->group(function(){
     }));
 });
 
-Route::prefix('region/')->name('region.')->group(function(){
+Route::prefix('/region')->name('region.')->group(function(){
     Route::controller(RegionController::class)->group(function(){
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{region}', 'edit')->name('edit');
+        Route::get('/show/{region}', 'show')->name('show');
         Route::put('/update/{region}', 'update')->name('update');
         Route::delete('/destroy/{region}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/sector')->name('sector.')->group(function(){
+    Route::controller(SectorController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{section}', 'edit')->name('edit');
+        Route::put('/update/{section}', 'update')->name('update');
+        Route::delete('/destroy/{section}', 'destroy')->name('destroy');
     });
 });
 

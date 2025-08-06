@@ -35,12 +35,12 @@ class User extends Authenticatable
         $this->attributes['name'] = $value;
 
         if (empty($this->attributes['username'])) {
-            $baseUsername = Str::slug($value);
+            $baseUsername = Str::slug($value, '_');
             $username = $baseUsername;
             $count = 1;
 
             while (User::where('username', $username)->exists()) {
-                $username = $baseUsername . '-' . $count++;
+                $username = $baseUsername . '_' . $count++;
             }
 
             $this->attributes['username'] = $username;
@@ -53,14 +53,24 @@ class User extends Authenticatable
         $data['password'] = Hash::make($data['password']);
         self::create($data);
 
-        return redirect()->route('user.index')->with('success', 'User created successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'User created successfully',
+            'data'    => $data,
+        ]);
     }
 
     protected function updateData($data, $user)
     {
         $user->update($data);
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'User updated successfully',
+            'data'    => $data,
+        ]);
     }
 
     /**

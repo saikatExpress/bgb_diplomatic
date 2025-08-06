@@ -14,14 +14,13 @@ class SectorController extends Controller
     public function index()
     {
         $data['sectors'] = Sector::all();
-        return view('super.partials.sectors.index', $data);
+        return view('setting.partials.sector.index', $data);
     }
     public function create()
     {
-        $data['sectors'] = Sector::all();
         $data['regions'] = Region::all();
 
-        return view('super.partials.sectors.create', $data);
+        return view('setting.partials.sector.create', $data);
     }
     public function store(StoreSectorRequest $request)
     {
@@ -32,7 +31,7 @@ class SectorController extends Controller
         $sector = Sector::findOrFail($id);
         $regions = Region::all();
 
-        return view('super.partials.sectors.edit', compact('sector', 'regions'));
+        return view('setting.partials.sector.edit', compact('sector', 'regions'));
     }
     public function update(UpdateSectorRequest $request, $id)
     {

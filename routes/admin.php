@@ -60,15 +60,6 @@ Route::middleware(['auth'])->group(function(){
         Route::delete('/super/admin/ltr/{ltr}/destroy', 'destroy')->name('super_admin.ltr.destroy');
     });
 
-    Route::controller(SectorController::class)->group(function(){
-        Route::get('/super/admin/sectors', 'index')->name('super_admin.sectors');
-        Route::get('/super/admin/sectors/create', 'create')->name('super_admin.sectors.create');
-        Route::post('/super/admin/sectors/store', 'store')->name('super_admin.sectors.store');
-        Route::get('/super/admin/sectors/{section}/edit', 'edit')->name('super_admin.sectors.edit');
-        Route::put('/super/admin/sectors/{section}/update', 'update')->name('super_admin.sectors.update');
-        Route::delete('/super/admin/sectors/{section}/destroy', 'destroy')->name('super_admin.sectors.destroy');
-    });
-
     Route::controller(BattalionController::class)->group(function(){
         Route::get('/super/admin/battalions', 'index')->name('super_admin.battalions');
         Route::get('/super/admin/battalions/create', 'create')->name('super_admin.battalions.create');
