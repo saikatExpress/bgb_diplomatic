@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\PillarController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Admin\BattalionController;
 
 Route::get('/web/cache-optimize', function () {
     Artisan::call('optimize:clear');
@@ -133,9 +134,20 @@ Route::prefix('/sector')->name('sector.')->group(function(){
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{section}', 'edit')->name('edit');
-        Route::put('/update/{section}', 'update')->name('update');
-        Route::delete('/destroy/{section}', 'destroy')->name('destroy');
+        Route::get('/edit/{sector}', 'edit')->name('edit');
+        Route::put('/update/{sector}', 'update')->name('update');
+        Route::delete('/destroy/{sector}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/battalion')->name('battalion.')->group(function(){
+    Route::controller(BattalionController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{battalion}', 'edit')->name('edit');
+        Route::put('/update/{battalion}', 'update')->name('update');
+        Route::delete('/destroy/{battalion}', 'destroy')->name('destroy');
     });
 });
 

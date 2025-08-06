@@ -1,22 +1,22 @@
 @extends('setting.app')
-@section('title', 'Edit Sector')
+@section('title', 'Edit Battalion')
 @section('content')
     <div class="form-container">
-        <a href="{{ route('sector.index') }}" class="back-btn">
-            ← Back to Sector List
+        <a href="{{ route('battalion.index') }}" class="back-btn">
+            ← Back to Battalion List
         </a>
-        <div class="form-header">Edit Sector</div>
+        <div class="form-header">Edit Battalion</div>
 
-        <form id="editSectorForm">
+        <form id="editBattalionForm">
             @csrf
             @method('PUT')
             <div class="mb-3">
-                <label for="region" class="form-label">Region</label>
-                <select name="region_id" id="region_id" class="form-control" required>
-                    <option value="">Select Region</option>
-                    @foreach ($regions as $region)
-                        <option value="{{ $region->id }}" {{ ($sector->region_id == $region->id) ? 'selected' : '' }}>
-                            {{ filter($region->name) }}
+                <label for="sector" class="form-label">Sector</label>
+                <select name="sector_id" id="sector_id" class="form-control select3" required>
+                    <option value="">Select Sector</option>
+                    @foreach ($sectors as $sector)
+                        <option value="{{ $sector->id }}" {{ ($sector->id == $battalion->sector_id) ? 'selected' : '' }}>
+                            {{ filter($sector->name) . ' ( ' . filter($sector->region->name) . ' )' }}
                         </option>
                     @endforeach
                 </select>
@@ -25,41 +25,28 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ $sector->name }}"
+                <input type="text" class="form-control" id="name" name="name" value="{{ $battalion->name }}"
                     placeholder="Enter name">
                 <span class="invalid_check"></span>
             </div>
 
             <div class="mb-3">
                 <label for="latitude" class="form-label">Latitude</label>
-                <input type="text" class="form-control" id="latitude" name="lat" value="{{ $sector->lat }}"
+                <input type="text" class="form-control" id="latitude" name="lat" value="{{ $battalion->lat }}"
                     placeholder="Enter latitude">
                 <span class="invalid_check"></span>
             </div>
 
             <div class="mb-3">
                 <label for="longitude" class="form-label">Longitude</label>
-                <input type="text" class="form-control" id="longitude" name="lon" value="{{ $sector->lon }}"
+                <input type="text" class="form-control" id="longitude" name="lon" value="{{ $battalion->lon }}"
                     placeholder="Enter longitude">
-                <span class="invalid_check"></span>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label d-block">Status</label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="status" id="active" value="active" {{ $sector->status === 'active' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="active">Active</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive" {{ $sector->status === 'inactive' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="inactive">Inactive</label>
-                </div>
                 <span class="invalid_check"></span>
             </div>
 
             <!-- Submit -->
             <div class="d-grid">
-                <button type="submit" class="btn btn-submit">Update Sector</button>
+                <button type="submit" class="btn btn-sm btn-submit">Update Battalion</button>
             </div>
         </form>
     </div>
@@ -68,14 +55,14 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            $('#editSectorForm').on('submit', function (e) {
+            $('#editBattalionForm').on('submit', function (e) {
                 e.preventDefault();
 
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid_check').text('');
 
                 $.ajax({
-                    url: "{{ route('sector.update', $sector->id) }}",
+                    url: "{{ route('battalion.update', $battalion->id) }}",
                     type: "POST",
                     data: $(this).serialize(),
                     beforeSend: function () {
@@ -85,7 +72,7 @@
                         if (response && response.status === 'success') {
                             toastr.success(response.message);
                             setTimeout(() => {
-                                window.location.href = "{{ route('sector.index') }}";
+                                window.location.href = "{{ route('battalion.index') }}";
                             }, 1000);
                         }
                     },
@@ -101,7 +88,7 @@
                         }
                     },
                     complete: function () {
-                        $('.btn-submit').prop('disabled', false).text('Update Sector');
+                        $('.btn-submit').prop('disabled', false).text('Update Battalion');
                     }
                 });
             });

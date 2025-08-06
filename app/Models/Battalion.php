@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Battalion extends Model
 {
@@ -17,35 +19,55 @@ class Battalion extends Model
         'lon',
     ];
 
-    protected function store($data)
+    public static function store($data)
     {
-        $data = array_merge($data, [
-            'code' => $this->generateCode($data['sector_id']),
-        ]);
+        $now       = Carbon::now();
+        $sector_id = $data['sector_id'];
+        $names     = $data['name'];
+        $lats      = $data['lat'] ? $data['lat'] : [];
+        $lons      = $data['lon'] ? $data['lon'] : [];
 
-        self::create($data);
+        $battalions = [];
 
-        return redirect()->route('super_admin.battalions');
-    }
+        $nextId = self::generateNextId();
 
-    protected function updateBattalion($data, $id)
-    {
-        $battalion = self::findOrFail($id);
-
-        $battalion->update($data);
-
-        return redirect()->route('super_admin.battalions');
-    }
-
-    private function generateCode($sectorId)
-    {
-        $sector = Sector::find($sectorId);
-        if (!$sector) {
-            return null;
+        foreach ($names as $index => $name) {
+            $battalions[] = [
+                'sector_id' => $sector_id,
+                'name'       => $name,
+                'code'       => 'BAT' . str_pad($nextId++, 3, '0', STR_PAD_LEFT),
+                'lat'        => $lats[$index] ?? null,
+                'lon'        => $lons[$index] ?? null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
         }
 
-        $battalionCount = self::where('sector_id', $sectorId)->count() + 2;
-        return strtoupper($sector->code . '-' . str_pad($battalionCount, 3, '0', STR_PAD_LEFT));
+        self::insert($battalions);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => count($battalions) . ' battalions created successfully.',
+        ]);
+    }
+
+    public static function updateBattalion($data, $battalion)
+    {
+        $battalion->update($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Battalion update for ' . $data['name'],
+            'data'    => $data
+        ]);
+    }
+
+    private static function generateNextId()
+    {
+        $last = self::orderBy('id', 'desc')->first();
+        return $last ? $last->id + 1 : 1;
     }
 
     public function sector()

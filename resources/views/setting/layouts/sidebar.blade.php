@@ -44,6 +44,18 @@
         </div>
     </div>
 
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Battalion ▾</button>
+        <div class="dropdown-content {{ request()->is('battalion/*') ? 'show' : '' }}">
+            <a href="{{ route('battalion.index') }}" class="{{ request()->is('battalion/index') ? 'active' : '' }}">
+                All Battalion
+            </a>
+            <a href="{{ route('battalion.create') }}" class="{{ request()->is('battalion/create') ? 'active' : '' }}">
+                Add Battalion
+            </a>
+        </div>
+    </div>
+
     <a href="{{ url('reports.index') }}" class="{{ request()->is('reports*') ? 'show' : '' }}">📈 Reports</a>
 
     <!-- Settings -->

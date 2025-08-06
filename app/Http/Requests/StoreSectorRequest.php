@@ -16,11 +16,13 @@ class StoreSectorRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        $this->merge([
-            'name' => trim($this->name),
-            'lat'  => trim($this->lat),
-            'lon'  => trim($this->lon),
-        ]);
+        if (is_array($this->name)) {
+            $this->merge([
+                'name' => array_map('trim', $this->name),
+                'lat'  => array_map('trim', $this->lat),
+                'lon'  => array_map('trim', $this->lon),
+            ]);
+        }
     }
 
     /**
@@ -31,11 +33,13 @@ class StoreSectorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'region_id' => 'required|exists:regions,id',
-            'name'      => 'required|string|max:255',
-            'lat'       => 'nullable|string|max:250',
-            'lon'       => 'nullable|string|max:250',
-            'status'    => 'required|in:active,inactive',
+            'region_id'   => 'required|exists:regions,id',
+            'name'        => 'required|array|min:1',
+            'name.*'      => 'required|string|max:255',
+            'lat'         => 'nullable|array',
+            'lat.*'       => 'nullable|string|max:250',
+            'lon'         => 'nullable|array',
+            'lon.*'       => 'nullable|string|max:250',
         ];
     }
     /**
@@ -47,9 +51,8 @@ class StoreSectorRequest extends FormRequest
     {
         return [
             'region_id.required' => 'The region field is required.',
-            'name.required'      => 'The name field is required.',
-            'status.required'    => 'The status field is required.',
-            'status.in'          => 'The selected status is invalid.',
+            'name.required'      => 'At least one sector name is required.',
+            'name.*.required'    => 'The name field is required for all sectors.',
         ];
     }
 }

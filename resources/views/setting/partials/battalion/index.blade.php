@@ -1,5 +1,5 @@
 @extends('setting.app')
-@section('title', 'Sector List')
+@section('title', 'Battalion List')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
@@ -10,9 +10,9 @@
         <div class="card shadow-lg border-0">
             <div class="card-header text-white d-flex justify-content-between align-items-center"
                 style="background: linear-gradient(90deg, #A91D2A, #D72638);">
-                <h5 class="mb-0">🏭 All Sectors</h5>
-                <a href="{{ route('sector.create') }}" class="btn btn-light btn-sm">
-                    <i class="fa fa-plus"></i> Add Sector
+                <h5 class="mb-0">🏭 All Battalions</h5>
+                <a href="{{ route('battalion.create') }}" class="btn btn-light btn-sm">
+                    <i class="fa fa-plus"></i> Add Battalion
                 </a>
             </div>
             <div class="card-body">
@@ -32,18 +32,19 @@
                 @endif
 
                 <!-- Filter Form -->
-                @include('setting.partials.sector.components.filter-form')
+                @include('setting.partials.battalion.components.filter-form')
 
                 <!-- DataTable -->
                 <div class="table-responsive">
-                    <table id="sectorTable" class="table table-bordered table-striped align-middle">
+                    <table id="battalionTable" class="table table-bordered table-striped align-middle">
                         <thead class="table-primary">
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Region</th>
+                                <th>Sector</th>
                                 <th>Code</th>
-                                <th>Status</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                                 <th>Updated At</th>
                                 <th class="text-center">Actions</th>
                             </tr>
@@ -61,22 +62,23 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function () {
-            let table = $('#sectorTable').DataTable({
+            let table = $('#battalionTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('sector.index') }}",
+                    url: "{{ route('battalion.index') }}",
                     data: function (d) {
-                        d.region_id = $('#region_id').val();
+                        d.sector_id = $('#sector_id').val();
                         d.name = $('#name').val();
                     }
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'name', name: 'name' },
-                    { data: 'region_name', name: 'region_name' },
+                    { data: 'sector_name', name: 'sector_name' },
                     { data: 'code', name: 'code' },
-                    { data: 'status', name: 'status' },
+                    { data: 'lat', name: 'lat' },
+                    { data: 'lon', name: 'lon' },
                     { data: 'updated_at', name: 'updated_at' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]

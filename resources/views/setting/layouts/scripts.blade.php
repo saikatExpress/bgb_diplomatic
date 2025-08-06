@@ -4,6 +4,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script src="{{ asset('assets/js/components/message.js') }}"></script>
+<script src="{{ asset('assets/js/components/select2.js') }}"></script>
 
 <script src="{{ asset('assets/js/datatable/js/datatables.min.js') }}"></script>
 
