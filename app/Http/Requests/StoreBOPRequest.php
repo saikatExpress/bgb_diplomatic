@@ -16,11 +16,13 @@ class StoreBOPRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        $this->merge([
-            'name' => trim($this->name),
-            'lat'  => trim($this->lat),
-            'lon'  => trim($this->lon),
-        ]);
+        if(is_array($this->name)){
+            $this->merge([
+                'name' => array_map('trim', $this->name),
+                'lat'  => array_map('trim', $this->lat),
+                'lon'  => array_map('trim', $this->lon),
+            ]);
+        }
     }
 
     /**
@@ -31,10 +33,13 @@ class StoreBOPRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => 'required|exists:companies,id',
-            'name'       => 'required|string|max:250|unique:b_o_p_s,name',
-            'lat'        => 'nullable|string|max:250',
-            'lon'        => 'nullable|string|max:250',
+            'battalion_id' => 'required|exists:b_o_p_s,id',
+            'name'         => 'required|array|unique:b_o_p_s,name',
+            'name.*'       => 'required|string|max:250|unique:b_o_p_s,name',
+            'lat'          => 'nullable|array',
+            'lat.*'        => 'nullable|string|max:250',
+            'lon'          => 'nullable|array',
+            'lon.*'        => 'nullable|string|max:250',
         ];
     }
 
@@ -46,12 +51,12 @@ class StoreBOPRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'company_id.required' => 'The company field is required.',
-            'company_id.exists'   => 'The selected company does not exist.',
-            'name.required'       => 'The name field is required.',
-            'name.string'         => 'The name must be a string.',
-            'name.max'            => 'The name may not be greater than 250 characters.',
-            'name.unique'         => 'The name has already been taken.',
+            'battalion_id.required' => 'The battalion field is required.',
+            'battalion_id.exists'   => 'The selected battalion does not exist.',
+            'name.required'         => 'The name field is required.',
+            'name.string'           => 'The name must be a string.',
+            'name.max'              => 'The name may not be greater than 250 characters.',
+            'name.unique'           => 'The name has already been taken.',
         ];
     }
 }

@@ -2,49 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LTRStoreRequest;
-use App\Http\Requests\LTRUpdateRequest;
 use App\Models\LTR;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\LTRStoreRequest;
+use App\Http\Requests\LTRUpdateRequest;
 
 class LTRController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['ltrs'] = LTR::latest()->get();
-        return view('super.partials.ltr.index', $data);
+        if ($request->ajax()) {
+            $data = LTR::latest();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('description', function($data){
+                    return filter($data->description);
+                })
+
+                ->addColumn('action', function ($data) {
+                    $editRoute = route('ltr.edit', ['ltr' => $data->id]);
+                    $deleteRoute = route('ltr.destroy', ['ltr' => $data->id]);
+                    $actionButtons = '
+                        <a href="' . $editRoute . '" class="btn btn-sm btn-primary">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-danger"
+                            onclick="showDeleteConfirm(' . $data->id . ', \'' . $deleteRoute . '\')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>';
+                    return $actionButtons;
+                })
+
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('setting.partials.ltr.index');
     }
 
     public function create()
     {
-        $data['ltrs'] = LTR::latest()->take(10)->get();
-
-        return view('super.partials.ltr.create', $data);
+        return view('setting.partials.ltr.create');
     }
 
-    public function store(LTRStoreRequest $request)
+    public function store(LTRStoreRequest $request): JsonResponse
     {
-        LTR::create($request->validated());
-        return redirect()->route('super_admin.ltr.create')->with('success', 'LTR created successfully.');
+        return LTR::store($request->validated());
     }
 
-    public function edit($id)
+    public function edit(LTR $ltr)
     {
-        $ltr = LTR::findOrFail($id);
-        return view('super.partials.ltr.edit', compact('ltr'));
+        return view('setting.partials.ltr.edit', compact('ltr'));
     }
 
-    public function update(LTRUpdateRequest $request, $id)
+    public function update(LTRUpdateRequest $request, LTR $ltr): JsonResponse
     {
-        $ltr = LTR::findOrFail($id);
-        $ltr->update($request->validated());
-        return redirect()->route('super_admin.ltr')->with('success', 'LTR updated successfully.');
+        return LTR::updateData($request->validated(), $ltr);
     }
 
-    public function destroy($id)
+    public function destroy(LTR $ltr): JsonResponse
     {
-        $ltr = LTR::findOrFail($id);
         $ltr->delete();
-        return redirect()->route('super_admin.ltr')->with('success', 'LTR deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LTRController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Admin\BOPController;
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LetterFileController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Web\PillarController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\BattalionController;
 
 Route::get('/web/cache-optimize', function () {
@@ -148,6 +151,50 @@ Route::prefix('/battalion')->name('battalion.')->group(function(){
         Route::get('/edit/{battalion}', 'edit')->name('edit');
         Route::put('/update/{battalion}', 'update')->name('update');
         Route::delete('/destroy/{battalion}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/bop')->name('bop.')->group(function(){
+    Route::controller(BOPController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{bop}', 'edit')->name('edit');
+        Route::put('/update/{bop}', 'update')->name('update');
+        Route::delete('/destroy/{bop}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/incident')->name('incident.')->group(function(){
+    Route::controller(IncidentController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{incident}', 'edit')->name('edit');
+        Route::put('/update/{incident}', 'update')->name('update');
+        Route::delete('/destroy/{incident}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/ltr')->name('ltr.')->group(function(){
+    Route::controller(LTRController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{ltr}', 'edit')->name('edit');
+        Route::put('/update/{ltr}', 'update')->name('update');
+        Route::delete('/destroy/{ltr}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/pillar')->name('pillar.')->group(function(){
+    Route::controller(PillarController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{pillar}', 'edit')->name('edit');
+        Route::put('/update/{pillar}', 'update')->name('update');
+        Route::delete('/destroy/{pillar}', 'destroy')->name('destroy');
     });
 });
 

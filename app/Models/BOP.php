@@ -2,27 +2,53 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BOP extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'company_id',
+        'battalion_id',
         'name',
         'code',
         'lat',
         'lon',
     ];
 
-    protected function store($data)
+    public static function store($data)
     {
-        $data['code'] = $this->generateCode($data['company_id']);
-        self::create($data);
+        $now          = Carbon::now();
+        $battalion_id = $data['battalion_id'];
+        $names        = $data['name'];
+        $lats         = $data['lat'] ? $data['lat'] : [];
+        $lons         = $data['lon'] ? $data['lon'] : [];
 
-        return redirect()->route('super_admin.bops')->with('success', 'BOP created successfully.');
+        $bops = [];
+
+        $nextId = self::generateNextId();
+
+        foreach ($names as $index => $name) {
+            $bops[] = [
+                'battalion_id' => $battalion_id,
+                'name'         => $name,
+                'code'         => 'BOP' . str_pad($nextId++, 3, '0', STR_PAD_LEFT),
+                'lat'          => $lats[$index] ? $lats[$index] : null,
+                'lon'          => $lons[$index] ? $lons[$index] : null,
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ];
+        }
+
+        self::insert($bops);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => count($bops) . ' bops created successfully.',
+        ]);
     }
 
     protected function updateBOP($data, $id)
@@ -41,16 +67,14 @@ class BOP extends Model
         return redirect()->route('super_admin.bops')->with('success', 'BOP deleted successfully.');
     }
 
-    private function generateCode($companyId)
+    private static function generateNextId()
     {
-        $company = Company::findOrFail($companyId);
-        $bopCount = self::where('company_id', $companyId)->count() + 1;
-
-        return sprintf('%s-%d', $company->code, $bopCount);
+        $last = self::orderBy('id', 'desc')->first();
+        return $last ? $last->id + 1 : 1;
     }
 
-    public function company()
+    public function battalion()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Battalion::class);
     }
 }

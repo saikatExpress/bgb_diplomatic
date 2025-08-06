@@ -56,6 +56,54 @@
         </div>
     </div>
 
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 BOP ▾</button>
+        <div class="dropdown-content {{ request()->is('bop/*') ? 'show' : '' }}">
+            <a href="{{ route('bop.index') }}" class="{{ request()->is('bop/index') ? 'active' : '' }}">
+                All BOP
+            </a>
+            <a href="{{ route('bop.create') }}" class="{{ request()->is('bop/create') ? 'active' : '' }}">
+                Add BOP
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Incident ▾</button>
+        <div class="dropdown-content {{ request()->is('incident/*') ? 'show' : '' }}">
+            <a href="{{ route('incident.index') }}" class="{{ request()->is('incident/index') ? 'active' : '' }}">
+                All Incident
+            </a>
+            <a href="{{ route('incident.create') }}" class="{{ request()->is('incident/create') ? 'active' : '' }}">
+                Add Incident
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 LTR ▾</button>
+        <div class="dropdown-content {{ request()->is('ltr/*') ? 'show' : '' }}">
+            <a href="{{ route('ltr.index') }}" class="{{ request()->is('ltr/index') ? 'active' : '' }}">
+                All LTR
+            </a>
+            <a href="{{ route('ltr.create') }}" class="{{ request()->is('ltr/create') ? 'active' : '' }}">
+                Add LTR
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Pillar ▾</button>
+        <div class="dropdown-content {{ request()->is('pillar/*') ? 'show' : '' }}">
+            <a href="{{ route('pillar.index') }}" class="{{ request()->is('pillar/index') ? 'active' : '' }}">
+                All Pillar
+            </a>
+            <a href="{{ route('pillar.create') }}" class="{{ request()->is('pillar/create') ? 'active' : '' }}">
+                Add Pillar
+            </a>
+        </div>
+    </div>
+
     <a href="{{ url('reports.index') }}" class="{{ request()->is('reports*') ? 'show' : '' }}">📈 Reports</a>
 
     <!-- Settings -->

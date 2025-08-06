@@ -14,9 +14,27 @@ class LTR extends Model
         'description',
     ];
 
-    protected function store($request)
+    public static function store($data)
     {
-        $data = $request->validated();
-        return self::create($data);
+        self::create($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'LTR successfully created',
+            'data'    => $data
+        ]);
+    }
+
+    public static function updateData($data, $ltr)
+    {
+        $ltr->update($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'LTR successfully updated',
+            'data'    => $data
+        ]);
     }
 }

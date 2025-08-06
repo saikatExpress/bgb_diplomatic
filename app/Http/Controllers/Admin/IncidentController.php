@@ -4,53 +4,78 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Incident;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IncidentRequest;
+use Yajra\DataTables\DataTables;
 use App\Http\Requests\UpdateIncidentRequest;
 
 class IncidentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['incidents'] = Incident::latest()->get();
-        return view('super.partials.incidents.index', $data);
+        if ($request->ajax()) {
+            $data = Incident::latest();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('description', function($data){
+                    return filter($data->description);
+                })
+                ->addColumn('status', function($data){
+                    $status = filter($data->status);
+
+                    if($status == 'Active'){
+                        return '<button class="btn btn-sm btn-success">' . $status .'</button>';
+                    }else{
+                        return '<button class="btn btn-sm btn-danger">' . $status .'</button>';
+                    }
+                })
+
+                ->addColumn('action', function ($data) {
+                    $editRoute = route('incident.edit', ['incident' => $data->id]);
+                    $deleteRoute = route('incident.destroy', ['incident' => $data->id]);
+                    $actionButtons = '
+                        <a href="' . $editRoute . '" class="btn btn-sm btn-primary">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-danger"
+                            onclick="showDeleteConfirm(' . $data->id . ', \'' . $deleteRoute . '\')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>';
+                    return $actionButtons;
+                })
+
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        return view('setting.partials.incident.index');
     }
 
     public function create()
     {
-        $data['incidents'] = Incident::latest()->take(10)->get();
-        return view('super.partials.incidents.create', $data);
+        return view('setting.partials.incident.create');
     }
 
-    public function store(IncidentRequest $request)
+    public function store(IncidentRequest $request): JsonResponse
     {
-        Incident::store($request);
-        return redirect()->route('super_admin.incidents.create')->with('success', 'Incident created successfully.');
+        return Incident::store($request->validated());
     }
 
-    public function edit($id)
+    public function edit(Incident $incident)
     {
-        $data['incident'] = Incident::findOrFail($id);
-        if (!$data['incident']) {
-            return redirect()->route('super_admin.incidents')->with('error', 'Incident not found.');
-        }
-        return view('super.partials.incidents.edit', $data);
+        return view('setting.partials.incident.edit', compact('incident'));
     }
 
-    public function update(UpdateIncidentRequest $request, $id)
+    public function update(UpdateIncidentRequest $request, Incident $incident): JsonResponse
     {
-        Incident::updateIncident($request, $id);
-        return redirect()->route('super_admin.incidents')->with('success', 'Incident updated successfully.');
+        return Incident::updateIncident($request->validated(), $incident);
     }
 
-    public function destroy($id)
+    public function destroy(Incident $incident): JsonResponse
     {
-        $incident = Incident::findOrFail($id);
-        if (!$incident) {
-            return redirect()->route('super_admin.incidents')->with('error', 'Incident not found.');
-        }
         $incident->delete();
 
-        return redirect()->route('super_admin.incidents')->with('success', 'Incident deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

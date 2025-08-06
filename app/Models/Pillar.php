@@ -16,9 +16,15 @@ class Pillar extends Model
         'lon',
     ];
 
-    protected function store($request)
+    public static function store($data)
     {
-        $data = $request->validated();
-        return self::create($data);
+        self::create($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Pillar created successfully',
+            'data'    => $data
+        ]);
     }
 }

@@ -18,17 +18,28 @@ class Incident extends Model
         'status' => 'string',
     ];
 
-    protected function store($request)
+    public static function store($data)
     {
-        $data = $request->validated();
-        return self::create($data);
+        self::create($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Incident create successfully for ' . $data['title'],
+            'data'    => $data
+        ]);
     }
 
-    public static function updateIncident($request, $id)
+    public static function updateIncident($data, $incident)
     {
-        $incident = self::findOrFail($id);
-        $data = $request->validated();
-        return $incident->update($data);
+        $incident->update($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Incident update successfully',
+            'data'    => $data
+        ]);
     }
 
 

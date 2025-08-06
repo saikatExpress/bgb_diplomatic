@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreBOPRequest;
 use App\Http\Requests\UpdateBOPRequest;
-use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Battalion;
 use App\Models\BOP;
 
 class BOPController extends Controller
@@ -20,9 +20,9 @@ class BOPController extends Controller
 
     public function create()
     {
-        $data['companies'] = Company::all();
+        $data['battalions'] = Battalion::with('sector')->get();
 
-        return view('super.partials.bops.create', $data);
+        return view('setting.partials.bop.create', $data);
     }
 
     public function store(StoreBOPRequest $request)
@@ -32,7 +32,8 @@ class BOPController extends Controller
 
     public function edit($id)
     {
-        $data['companies'] = Company::all();
+        $data['battalions'] = Battalion::with('sector')->get();
+
         $data['bop'] = BOP::findOrFail($id);
 
         return view('super.partials.bops.edit', $data);
