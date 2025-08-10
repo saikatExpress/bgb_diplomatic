@@ -26,7 +26,6 @@
     </div>
     <div class="container">
         @yield('content')
-
     </div>
 
     @include('web.layouts.scripts')

@@ -17,12 +17,10 @@ return new class extends Migration
             $table->integer('bgb_region_id');
             $table->integer('bgb_sec_id')->nullable();
             $table->integer('bgb_battalion_id')->nullable();
-            $table->integer('bgb_coy_id')->nullable();
             $table->integer('bgb_bop_id')->nullable();
             $table->integer('bsf_region_id');
             $table->integer('bsf_sec_id')->nullable();
             $table->integer('bsf_battalion_id')->nullable();
-            $table->integer('bsf_coy_id')->nullable();
             $table->integer('bsf_bop_id')->nullable();
             $table->string('letter_no', 250)->unique();
             $table->date('letter_date');

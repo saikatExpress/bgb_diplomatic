@@ -84,22 +84,39 @@
                             <div class="form-group">
                                 <label for="#">LTR No.</label>
                                 <input type="text" name="letter_no" id="letter_no" placeholder="NO." />
-                                <span class="text-danger" id="error_letter_no"></span>
                                 <div class="invalid-feedback" id="error_letter_no"></div>
                                 <span class="text-danger" id="reply_error_message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="#">LTR Date.</label>
                                 <input type="date" name="letter_date" id="letter_date" class="date-input" />
+                                <div class="invalid-feedback" id="error_letter_date"></div>
                             </div>
                         </div>
-                        <div id="reply_letter_input" style="display: none;">
+
+                        {{-- Reply Letter Box --}}
+                        <div id="reply_letter_input"
+                            style="display: none; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #fff;">
                             <div class="form-group">
                                 <label for="ref_letter_no">Reply Letter No.</label>
                                 <input type="text" name="reply_letter_no" id="ref_letter_no" placeholder="Reply NO."
                                     class="form-control" />
                             </div>
+
+                            <div class="form-group">
+                                <label for="ref_letter_no">Reply Letter Subject.</label>
+                                <input type="text" name="reply_letter_sub" id="reply_letter_sub"
+                                    placeholder="Reply Subject." class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ref_letter_no">Reply Letter Date.</label>
+                                <input type="date" name="reply_letter_date" id="reply_letter_date"
+                                    placeholder="Reply Subject." class="form-control" />
+                            </div>
                         </div>
+                        {{-- Reply Letter Box --}}
+
                         <!-- Subject Section -->
                         <div class="ltr-subject">
                             <div class="form-group2">
@@ -117,6 +134,48 @@
                             </div>
                             <span id="error_ltr_subject" class="text-danger"></span>
                         </div>
+
+                        <div class="ltr-subject">
+                            <div class="form-group2">
+                                <label for="#">Short Desc</label>
+                                <input type="text" name="short_desc" id="short_desc" style="padding: 3px;"
+                                    placeholder="short description...">
+                            </div>
+                            <span id="error_short_desc" class="text-danger"></span>
+                        </div>
+
+                        {{-- Type of GRD --}}
+                        <div class="form-group3">
+                            <label for="#">GRD Subject</label>
+                            <div class="form-group3-select-items">
+
+                                <!-- Subject Select -->
+                                <div class="input-wrapper">
+                                    <select id="grdSelect" name="grd_sub" class="select3">
+                                        <option value="" selected>Select Subject</option>
+                                        @foreach ($grds as $grd)
+                                            <option value="{{ $grd->slug }}">
+                                                {{ $grd->title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span id="error_grd_sub" class="text-danger"></span>
+                                </div>
+
+                                <!-- Slash -->
+                                <span class="slash">/</span>
+
+                                <!-- Text Input -->
+                                <div class="input-wrapper">
+                                    <input type="date" class="form-control" name="grd_date" id="grd_date">
+                                </div>
+                            </div>
+
+                            <button type="button" data-toggle="modal" data-target="#grdModal">
+                                <span style="margin-right: 10px;">+</span> Add New
+                            </button>
+                        </div>
+                        {{-- Type of GRD --}}
 
                         <!-- Type of Incident Section -->
                         <div class="ltr-type-incident">
@@ -136,7 +195,7 @@
                             <span id="error_incident_id" class="text-danger"></span>
                         </div>
 
-                        <!-- Type of Incident Section -->
+                        <!-- Type of Pillar Section -->
                         <div class="form-group3">
                             <label for="#">Pillar No.</label>
                             <div class="form-group3-select-items">
@@ -179,6 +238,41 @@
                                 <span style="margin-right: 10px;">+</span> Add New
                             </button>
                         </div>
+
+                        <!-- Type of GR NO Section -->
+                        <div class="ltr-type-gr">
+                            <div class="form-group3">
+                                <label for="#">GR No</label>
+                                <div class="form-group3-select-items">
+
+                                    <!-- Subject Select -->
+                                    <div class="input-wrapper">
+                                        <select id="grSelect" name="gr_slug" class="select3">
+                                            <option value="" selected>Select GR</option>
+                                            @foreach ($grs as $gr)
+                                                <option value="{{ $gr->slug }}">{{ $gr->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span id="error_gr_id" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Slash -->
+                                    <span class="slash">/</span>
+
+                                    <!-- Text Input -->
+                                    <div class="input-wrapper">
+                                        <select id="mapSheet" name="mapSheet_no" class="select3">
+                                            <option value="" selected>Select Map Sheet</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="button" data-toggle="modal" data-target="#grNoModal">
+                                    <span style="margin-right: 10px;">+</span> Add New
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Type of GR NO Section -->
 
                         <div class="ltr-type-incident">
                             <div class="form-group3">
@@ -286,7 +380,7 @@
                     </div>
 
                     <!-- =============== -->
-                    <div class="upload-container" style="height: 400px; overflow-y:scroll; overflow-x:scroll;">
+                    <div class="upload-container">
                         <div class="upload-card" style="height: 150px !important;">
                             <label class="upload-label">
                                 <div class="upload-title">Main Letter</div>
@@ -305,6 +399,20 @@
                                     <i class="fa-solid fa-file-circle-plus"></i>
                                     <span class="upload-instruction">Drag / Drop file here</span>
                                     <input type="file" class="file-input" id="refFileInput" multiple
+                                        accept="application/pdf">
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="upload-card" style="height: 150px !important;">
+                            <label class="upload-label">
+                                <div class="upload-title upload-title-four" style="background-color: darkblue;">
+                                    GRD Letter
+                                </div>
+                                <div class="upload-box">
+                                    <i class="fa-solid fa-file-circle-plus"></i>
+                                    <span class="upload-instruction">Drag / Drop file here</span>
+                                    <input type="file" class="file-input" id="grdFileInput" multiple
                                         accept="application/pdf">
                                 </div>
                             </label>
@@ -430,105 +538,11 @@
         </div>
     </div>
 
-    {{-- Incident Modal Start --}}
-    <div class="modal fade" id="incidentModal" tabindex="-1" role="dialog" aria-labelledby="incidentModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="incidentModalLabel">Add New Incident</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form action="{{ route('incidents.store') }}" method="post" id="incidentForm">
-                        @csrf
-                        <div class="form-group">
-                            <label for="incidentDescription">Incident Title</label>
-                            <input type="text" id="incidentTitle" class="form-control" name="title"
-                                placeholder="Enter Incident Title" required />
-                        </div>
-
-                        <button type="button" id="submitIncident" class="btn btn-primary">Save Incident</button>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- Incident Modal End --}}
-
-    {{-- Pillar Modal Start --}}
-    <div class="modal fade" id="addPillarModal" tabindex="-1" role="dialog" aria-labelledby="addPillarModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addNewModalLabel">Add New Item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form id="pillarForm" action="{{ route('pillars.store') }}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="pillarName">Pillar Name</label>
-                            <input type="text" id="pillarName" class="form-control" name="pillar_name"
-                                placeholder="Enter Pillar Name" required />
-                        </div>
-                        <button type="button" id="submitPillar" class="btn btn-primary">Save Pillar</button>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- Pillar Modal End --}}
-
-    {{-- LTR Modal Start --}}
-    <div class="modal fade" id="ltrModal" tabindex="-1" role="dialog" aria-labelledby="ltrModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ltrModalLabel">Add New LTR Subject</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form id="ltrForm" action="{{ route('ltrs.store') }}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="ltrName">LTR Subject Name</label>
-                            <input type="text" id="ltrName" class="form-control" name="ltr_name"
-                                placeholder="Enter LTR Subject Name" required />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="submitLtr">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- LTR Modal End --}}
+    @include('web.components.grd_modal')
+    @include('web.components.incident_modal')
+    @include('web.components.pillar_modal')
+    @include('web.components.ltr_modal')
+    @include('web.components.gr_modal')
 @endsection
 
 @push('script')

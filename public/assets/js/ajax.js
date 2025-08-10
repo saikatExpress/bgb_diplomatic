@@ -1,3 +1,4 @@
+let triggerAddress = false;
 $(document).ready(function () {
     const dropdownMap = {
         "#selectBgbRegion": {
@@ -7,6 +8,7 @@ $(document).ready(function () {
             placeholder: "Select SEC",
             emptyMsg: "No sector found",
         },
+
         "#selectBsfRegion": {
             url: "fetchsector",
             target: "#selectBsfSec",
@@ -22,6 +24,7 @@ $(document).ready(function () {
             placeholder: "Select Battalion",
             emptyMsg: "No battalion found",
         },
+
         "#selectBsfSec": {
             url: "fetchbattalion",
             target: "#selectBsfBattalion",
@@ -31,32 +34,18 @@ $(document).ready(function () {
         },
 
         "#selectBgbBattalion": {
-            url: "fetchcompany",
-            target: "#selectBgbCoy",
-            param: "battalion_id",
-            placeholder: "Select Company",
-            emptyMsg: "No company found",
-        },
-        "#selectBsfBattalion": {
-            url: "fetchcompany",
-            target: "#selectBsfCoy",
-            param: "battalion_id",
-            placeholder: "Select Company",
-            emptyMsg: "No company found",
-        },
-
-        "#selectBgbCoy": {
             url: "fetchbop",
             target: "#selectBgbBop",
-            param: "company_id",
+            param: "battalion_id",
             placeholder: "Select BOP",
             emptyMsg: "No BOP found",
         },
-        "#selectBsfCoy": {
+
+        "#selectBsfBattalion": {
             url: "fetchbop",
             target: "#selectBsfBop",
-            param: "company_id",
-            placeholder: "No BOP found",
+            param: "battalion_id",
+            placeholder: "Select BOP",
             emptyMsg: "No BOP found",
         },
     };
@@ -96,6 +85,7 @@ $(document).ready(function () {
     }
 
     $(document).on("change", Object.keys(dropdownMap).join(","), function () {
+        triggerAddress = true;
         loadOptions(`#${this.id}`, $(this).val());
     });
 });

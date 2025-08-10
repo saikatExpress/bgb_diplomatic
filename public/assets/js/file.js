@@ -39,6 +39,8 @@ function handleLetterResponse(response) {
     hideLetterInfo();
     showReferenceInput();
 
+    triggerAddress = true;
+
     if (response.letter != "") {
         showLetterData(response.letter);
     }

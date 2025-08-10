@@ -33,7 +33,7 @@ class StoreBOPRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'battalion_id' => 'required|exists:b_o_p_s,id',
+            'battalion_id' => 'required|exists:battalions,id',
             'name'         => 'required|array|unique:b_o_p_s,name',
             'name.*'       => 'required|string|max:250|unique:b_o_p_s,name',
             'lat'          => 'nullable|array',

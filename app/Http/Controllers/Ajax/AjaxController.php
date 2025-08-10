@@ -34,12 +34,12 @@ class AjaxController extends Controller
         return response()->json($battalions);
     }
 
-    public function getBopsByCompany(Request $request)
+    public function getBopsByBattalion(Request $request)
     {
-        $companyId = $request->input('company_id');
+        $battalionId = $request->input('battalion_id');
 
         // Assuming you have a model Bop and a method to fetch BOPs by company
-        $bops = BOP::where('company_id', $companyId)->get();
+        $bops = BOP::where('battalion_id', $battalionId)->get();
 
         return response()->json($bops);
     }

@@ -14,12 +14,10 @@ class Letter extends Model
         'bgb_region_id',
         'bgb_sec_id',
         'bgb_battalion_id',
-        'bgb_coy_id',
         'bgb_bop_id',
         'bsf_region_id',
         'bsf_sec_id',
         'bsf_battalion_id',
-        'bsf_coy_id',
         'bsf_bop_id',
         'letter_no',
         'letter_date',
@@ -72,16 +70,6 @@ class Letter extends Model
     public function bsf_battalion()
     {
         return $this->belongsTo(Battalion::class, 'bsf_battalion_id', 'id');
-    }
-
-    public function bgb_company()
-    {
-        return $this->belongsTo(Company::class, 'bgb_coy_id', 'id');
-    }
-
-    public function bsf_company()
-    {
-        return $this->belongsTo(Company::class, 'bsf_coy_id', 'id');
     }
 
     public function bgb_bop()

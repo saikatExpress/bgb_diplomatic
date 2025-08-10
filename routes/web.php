@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Admin\GRController;
 use App\Http\Controllers\Admin\BOPController;
+use App\Http\Controllers\Admin\GRDController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\DashboardController;
@@ -98,10 +100,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::controller(PillarController::class)->group(function () {
     Route::post('/pillars', 'store')->name('pillars.store');
 });
+
 Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchsector', 'getSectorsByRegion')->name('fetchsector');
     Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');
-    Route::get('/fetchbop', 'getBopsByCompany')->name('fetchbop');
+    Route::get('/fetchbop', 'getBopsByBattalion')->name('fetchbop');
     Route::get('/fetched/letters', 'fetchedLetter')->name('fetched.letter');
     Route::get('/delete/file/{id}', 'deleteFile')->name('delete.file');
 });
@@ -111,114 +114,128 @@ Route::controller(SettingController::class)->group(function(){
 });
 
 
-Route::prefix('/user')->name('user.')->group(function(){
-    Route::controller(AdminController::class)->group((function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{user}', 'edit')->name('edit');
-        Route::put('/update/{user}', 'update')->name('update');
-        Route::delete('/delete/{user}', 'destroy')->name('destroy');
-    }));
-});
-
-Route::prefix('/region')->name('region.')->group(function(){
-    Route::controller(RegionController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{region}', 'edit')->name('edit');
-        Route::get('/show/{region}', 'show')->name('show');
-        Route::put('/update/{region}', 'update')->name('update');
-        Route::delete('/destroy/{region}', 'destroy')->name('destroy');
+Route::middleware(['auth'])->group(function(){
+    Route::prefix('/user')->name('user.')->group(function(){
+        Route::controller(AdminController::class)->group((function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{user}', 'edit')->name('edit');
+            Route::put('/update/{user}', 'update')->name('update');
+            Route::delete('/delete/{user}', 'destroy')->name('destroy');
+        }));
     });
-});
 
-Route::prefix('/sector')->name('sector.')->group(function(){
-    Route::controller(SectorController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{sector}', 'edit')->name('edit');
-        Route::put('/update/{sector}', 'update')->name('update');
-        Route::delete('/destroy/{sector}', 'destroy')->name('destroy');
+    Route::prefix('/grd')->name('grd.')->group(function(){
+        Route::controller(GRDController::class)->group(function(){
+            Route::post('/store', 'store')->name('store');
+        });
     });
-});
 
-Route::prefix('/battalion')->name('battalion.')->group(function(){
-    Route::controller(BattalionController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{battalion}', 'edit')->name('edit');
-        Route::put('/update/{battalion}', 'update')->name('update');
-        Route::delete('/destroy/{battalion}', 'destroy')->name('destroy');
+    Route::prefix('/gr')->name('gr.')->group(function(){
+        Route::controller(GRController::class)->group(function(){
+            Route::post('/store', 'store')->name('store');
+        });
     });
-});
 
-Route::prefix('/bop')->name('bop.')->group(function(){
-    Route::controller(BOPController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{bop}', 'edit')->name('edit');
-        Route::put('/update/{bop}', 'update')->name('update');
-        Route::delete('/destroy/{bop}', 'destroy')->name('destroy');
+    Route::prefix('/region')->name('region.')->group(function(){
+        Route::controller(RegionController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{region}', 'edit')->name('edit');
+            Route::get('/show/{region}', 'show')->name('show');
+            Route::put('/update/{region}', 'update')->name('update');
+            Route::delete('/destroy/{region}', 'destroy')->name('destroy');
+        });
     });
-});
 
-Route::prefix('/incident')->name('incident.')->group(function(){
-    Route::controller(IncidentController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{incident}', 'edit')->name('edit');
-        Route::put('/update/{incident}', 'update')->name('update');
-        Route::delete('/destroy/{incident}', 'destroy')->name('destroy');
+    Route::prefix('/sector')->name('sector.')->group(function(){
+        Route::controller(SectorController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{sector}', 'edit')->name('edit');
+            Route::put('/update/{sector}', 'update')->name('update');
+            Route::delete('/destroy/{sector}', 'destroy')->name('destroy');
+        });
     });
-});
 
-Route::prefix('/ltr')->name('ltr.')->group(function(){
-    Route::controller(LTRController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{ltr}', 'edit')->name('edit');
-        Route::put('/update/{ltr}', 'update')->name('update');
-        Route::delete('/destroy/{ltr}', 'destroy')->name('destroy');
+    Route::prefix('/battalion')->name('battalion.')->group(function(){
+        Route::controller(BattalionController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{battalion}', 'edit')->name('edit');
+            Route::put('/update/{battalion}', 'update')->name('update');
+            Route::delete('/destroy/{battalion}', 'destroy')->name('destroy');
+        });
     });
-});
 
-Route::prefix('/pillar')->name('pillar.')->group(function(){
-    Route::controller(PillarController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{pillar}', 'edit')->name('edit');
-        Route::put('/update/{pillar}', 'update')->name('update');
-        Route::delete('/destroy/{pillar}', 'destroy')->name('destroy');
+    Route::prefix('/bop')->name('bop.')->group(function(){
+        Route::controller(BOPController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{bop}', 'edit')->name('edit');
+            Route::put('/update/{bop}', 'update')->name('update');
+            Route::delete('/destroy/{bop}', 'destroy')->name('destroy');
+        });
     });
-});
 
-Route::prefix('/tag')->name('tag.')->group(function(){
-    Route::controller(TagController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{tag}', 'edit')->name('edit');
-        Route::put('/update/{tag}', 'update')->name('update');
-        Route::delete('/destroy/{tag}', 'destroy')->name('destroy');
+    Route::prefix('/incident')->name('incident.')->group(function(){
+        Route::controller(IncidentController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{incident}', 'edit')->name('edit');
+            Route::put('/update/{incident}', 'update')->name('update');
+            Route::delete('/destroy/{incident}', 'destroy')->name('destroy');
+        });
     });
-});
 
-Route::prefix('/unit')->name('unit.')->group(function(){
-    Route::controller(UnitController::class)->group(function(){
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{unit}', 'edit')->name('edit');
-        Route::post('/update/{id}', 'update')->name('update');
-        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    Route::prefix('/ltr')->name('ltr.')->group(function(){
+        Route::controller(LTRController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{ltr}', 'edit')->name('edit');
+            Route::put('/update/{ltr}', 'update')->name('update');
+            Route::delete('/destroy/{ltr}', 'destroy')->name('destroy');
+        });
+    });
+
+    Route::prefix('/pillar')->name('pillar.')->group(function(){
+        Route::controller(PillarController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{pillar}', 'edit')->name('edit');
+            Route::put('/update/{pillar}', 'update')->name('update');
+            Route::delete('/destroy/{pillar}', 'destroy')->name('destroy');
+        });
+    });
+
+    Route::prefix('/tag')->name('tag.')->group(function(){
+        Route::controller(TagController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{tag}', 'edit')->name('edit');
+            Route::put('/update/{tag}', 'update')->name('update');
+            Route::delete('/destroy/{tag}', 'destroy')->name('destroy');
+        });
+    });
+
+    Route::prefix('/unit')->name('unit.')->group(function(){
+        Route::controller(UnitController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{unit}', 'edit')->name('edit');
+            Route::post('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
     });
 });
 
