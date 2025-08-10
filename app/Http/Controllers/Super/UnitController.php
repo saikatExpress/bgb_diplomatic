@@ -13,12 +13,12 @@ class UnitController extends Controller
     public function index()
     {
         $data['units'] = Unit::all();
-        return view('super.partials.unit.index', $data);
+        return view('setting.partials.unit.index', $data);
     }
 
     public function create()
     {
-        return view('super.partials.unit.create');
+        return view('setting.partials.unit.create');
     }
 
     public function store(Request $request)
@@ -27,26 +27,28 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        Unit::create([
+        $unit = Unit::create([
             'name'       => Str::title($request->input('name')),
             'slug'       => Str::slug($request->input('name'), '-'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
-        return redirect()->route('unit.index')->with('success', 'Unit created successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Unit created successfully',
+            'data'    => $unit
+        ]);
     }
 
-    public function edit(Unit $unit)
-    {
-        return view('super.partials.unit.edit', compact('unit'));
-    }
-
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
+
+        $unit = Unit::find($id);
 
         $unit->update([
             'name'       => Str::title($request->input('name')),
@@ -54,12 +56,24 @@ class UnitController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        return redirect()->route('unit.index')->with('success', 'Unit updated successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Unit updated successfully',
+            'data'    => $unit
+        ]);
     }
 
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
+        $unit = Unit::find($id);
         $unit->delete();
-        return redirect()->route('unit.index')->with('success', 'Unit deleted successfully.');
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Unit deleted successfully',
+            'data'    => $unit,
+        ]);
     }
 }

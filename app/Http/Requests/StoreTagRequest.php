@@ -22,8 +22,10 @@ class StoreTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'      => 'required|string|max:255',
-            'input_name' => 'required|string|max:255',
+            'title'        => 'required|array|min:1',
+            'title.*'      => 'required|string|max:255',
+            'input_name'   => 'required|array|min:1',
+            'input_name.*' => 'required|string|max:255',
         ];
     }
 
@@ -35,12 +37,15 @@ class StoreTagRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required'      => 'The title field is required.',
-            'title.string'        => 'The title must be a string.',
-            'title.max'           => 'The title may not be greater than 255 characters.',
-            'input_name.required' => 'The input name field is required.',
-            'input_name.string'   => 'The input name must be a string.',
-            'input_name.max'      => 'The input name may not be greater than 255 characters.',
+            'title.required'        => 'At least one title is required.',
+            'title.*.required'      => 'The title field is required.',
+            'title.*.string'        => 'The title must be a string.',
+            'title.*.max'           => 'The title may not be greater than 255 characters.',
+
+            'input_name.required'   => 'At least one input name is required.',
+            'input_name.*.required' => 'The input name field is required.',
+            'input_name.*.string'   => 'The input name must be a string.',
+            'input_name.*.max'      => 'The input name may not be greater than 255 characters.',
         ];
     }
 }

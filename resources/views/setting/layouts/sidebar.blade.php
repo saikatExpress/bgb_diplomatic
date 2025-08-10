@@ -104,6 +104,30 @@
         </div>
     </div>
 
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 TAG ▾</button>
+        <div class="dropdown-content {{ request()->is('tag/*') ? 'show' : '' }}">
+            <a href="{{ route('tag.index') }}" class="{{ request()->is('tag/index') ? 'active' : '' }}">
+                All Tag
+            </a>
+            <a href="{{ route('tag.create') }}" class="{{ request()->is('tag/create') ? 'active' : '' }}">
+                Add Tag
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Unit ▾</button>
+        <div class="dropdown-content {{ request()->is('unit/*') ? 'show' : '' }}">
+            <a href="{{ route('unit.index') }}" class="{{ request()->is('unit/index') ? 'active' : '' }}">
+                All Unit
+            </a>
+            <a href="{{ route('unit.create') }}" class="{{ request()->is('unit/create') ? 'active' : '' }}">
+                Add Unit
+            </a>
+        </div>
+    </div>
+
     <a href="{{ url('reports.index') }}" class="{{ request()->is('reports*') ? 'show' : '' }}">📈 Reports</a>
 
     <!-- Settings -->

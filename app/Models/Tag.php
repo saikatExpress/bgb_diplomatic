@@ -15,23 +15,36 @@ class Tag extends Model
         'input_name',
     ];
 
-    protected function store($data)
+    public static function store($data)
     {
-        $data = [
-            'title'      => $data['title'],
-            'input_name' => Str::slug($data['input_name'], '_'),
-        ];
+        $createdTags = [];
 
-        self::create($data);
+        foreach ($data['title'] as $index => $title) {
+            $tag = Tag::create([
+                'title' => Str::title($title),
+                'input_name' => Str::slug($data['input_name'][$index], '_'),
+            ]);
+            $createdTags[] = $tag;
+        }
 
-        return redirect()->route('super_admin.tags')->with('success', 'Tag created successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => count($createdTags) . ' Tag created successfully',
+            'data'    => $createdTags
+        ]);
     }
 
-    protected function updateTag($id, $data)
+    public static function updateTag($tag, $data)
     {
-        $tag = self::findOrFail($id);
+        $data['title'] = Str::title($data['title']);
         $tag->update($data);
 
-        return redirect()->route('super_admin.tags')->with('success', 'Tag updated successfully.');
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'Tag updated successfully.',
+            'data'    => $tag
+        ]);
     }
 }

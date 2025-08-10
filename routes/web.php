@@ -7,9 +7,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Admin\BOPController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LetterFileController;
+use App\Http\Controllers\Super\UnitController;
 use App\Http\Controllers\Web\PillarController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RegionController;
@@ -195,6 +197,28 @@ Route::prefix('/pillar')->name('pillar.')->group(function(){
         Route::get('/edit/{pillar}', 'edit')->name('edit');
         Route::put('/update/{pillar}', 'update')->name('update');
         Route::delete('/destroy/{pillar}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/tag')->name('tag.')->group(function(){
+    Route::controller(TagController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{tag}', 'edit')->name('edit');
+        Route::put('/update/{tag}', 'update')->name('update');
+        Route::delete('/destroy/{tag}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('/unit')->name('unit.')->group(function(){
+    Route::controller(UnitController::class)->group(function(){
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{unit}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
     });
 });
 
