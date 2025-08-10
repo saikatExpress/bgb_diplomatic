@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class GR extends Model
+class MapSheet extends Model
 {
     use HasFactory;
 
@@ -25,22 +25,22 @@ class GR extends Model
         return response()->json([
             'code'    => 200,
             'status'  => 'success',
-            'message' => 'GR added successfully',
+            'message' => 'MapSheet Created successfully',
             'data'    => $data
         ]);
     }
 
-    public static function updateData($data, $gr)
+    public static function updateData($data, $mapsheet)
     {
         $data['title'] = Str::title($data['title']);
         $data['slug'] = Str::slug($data['title'], '-');
 
-        $gr->update($data);
+        $mapsheet->update($data);
 
         return response()->json([
             'code'    => 200,
             'status'  => 'success',
-            'message' => 'GR updated successfully',
+            'message' => 'MapSheet Updated successfully',
             'data'    => $data
         ]);
     }

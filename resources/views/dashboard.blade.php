@@ -263,6 +263,11 @@
                                     <div class="input-wrapper">
                                         <select id="mapSheet" name="mapSheet_no" class="select3">
                                             <option value="" selected>Select Map Sheet</option>
+                                            @foreach ($mapsheets as $mapSheet)
+                                                <option value="{{ $mapSheet->slug }}">
+                                                    {{ $mapSheet->title }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

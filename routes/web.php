@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\IncidentController;
 use App\Http\Controllers\Admin\BattalionController;
+use App\Http\Controllers\Admin\MapsheetController;
 
 Route::get('/web/cache-optimize', function () {
     Artisan::call('optimize:clear');
@@ -128,13 +129,34 @@ Route::middleware(['auth'])->group(function(){
 
     Route::prefix('/grd')->name('grd.')->group(function(){
         Route::controller(GRDController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{grd}', 'edit')->name('edit');
+            Route::post('/update/{grd}', 'update')->name('update');
+            Route::delete('/destroy/{grd}', 'destroy')->name('destroy');
         });
     });
 
     Route::prefix('/gr')->name('gr.')->group(function(){
         Route::controller(GRController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{gr}', 'edit')->name('edit');
+            Route::post('/update/{gr}', 'update')->name('update');
+            Route::delete('/destroy/{gr}', 'destroy')->name('destroy');
+        });
+    });
+
+    Route::prefix('/mapsheet')->name('mapsheet.')->group(function(){
+        Route::controller(MapsheetController::class)->group(function(){
+            Route::get('/index', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{mapsheet}', 'edit')->name('edit');
+            Route::post('/update/{mapsheet}', 'update')->name('update');
+            Route::delete('/destroy/{mapsheet}', 'destroy')->name('destroy');
         });
     });
 

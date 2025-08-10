@@ -29,4 +29,19 @@ class GRD extends Model
             'data'    => $data
         ]);
     }
+
+    public static function updateData($data, $grd)
+    {
+        $data['title'] = Str::title($data['title']);
+        $data['slug']  = Str::slug($data['title'], '_');
+
+        $grd->update($data);
+
+        return response()->json([
+            'code'    => 200,
+            'status'  => 'success',
+            'message' => 'GRD updated successfully',
+            'data'    => $data
+        ]);
+    }
 }

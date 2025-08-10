@@ -117,6 +117,42 @@
     </div>
 
     <div class="dropdown">
+        <button class="dropdown-btn">🛒 GRD ▾</button>
+        <div class="dropdown-content {{ request()->is('grd/*') ? 'show' : '' }}">
+            <a href="{{ route('grd.index') }}" class="{{ request()->is('grd/index') ? 'active' : '' }}">
+                All GRD
+            </a>
+            <a href="{{ route('grd.create') }}" class="{{ request()->is('grd/create') ? 'active' : '' }}">
+                Add GRD
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 GR No ▾</button>
+        <div class="dropdown-content {{ request()->is('gr/*') ? 'show' : '' }}">
+            <a href="{{ route('gr.index') }}" class="{{ request()->is('gr/index') ? 'active' : '' }}">
+                All GR No
+            </a>
+            <a href="{{ route('gr.create') }}" class="{{ request()->is('gr/create') ? 'active' : '' }}">
+                Add GR No
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">🛒 Map Sheet No ▾</button>
+        <div class="dropdown-content {{ request()->is('mapsheet/*') ? 'show' : '' }}">
+            <a href="{{ route('mapsheet.index') }}" class="{{ request()->is('mapsheet/index') ? 'active' : '' }}">
+                All Map Sheet No
+            </a>
+            <a href="{{ route('mapsheet.create') }}" class="{{ request()->is('mapsheet/create') ? 'active' : '' }}">
+                Add Map Sheet No
+            </a>
+        </div>
+    </div>
+
+    <div class="dropdown">
         <button class="dropdown-btn">🛒 Unit ▾</button>
         <div class="dropdown-content {{ request()->is('unit/*') ? 'show' : '' }}">
             <a href="{{ route('unit.index') }}" class="{{ request()->is('unit/index') ? 'active' : '' }}">

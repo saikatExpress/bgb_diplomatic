@@ -11,6 +11,7 @@ use App\Models\Letter;
 use App\Models\Pillar;
 use App\Models\Region;
 use App\Models\Incident;
+use App\Models\MapSheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,8 +24,9 @@ class HomeController extends Controller
         $data['units']     = Unit::all();
         $data['pillars']   = Pillar::all();
         $data['incidents'] = Incident::all();
-        $data['grds'] = GRD::all();
-        $data['grs'] = GR::all();
+        $data['grds']      = GRD::all();
+        $data['grs']       = GR::all();
+        $data['mapsheets'] = MapSheet::all();
 
         $data['bgbRegions'] = Region::where('country', 'bangladesh')->where('status', 'active')->get();
         $data['bsfRegions'] = Region::where('country', 'india')->where('status', 'active')->get();
