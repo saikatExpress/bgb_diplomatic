@@ -25,9 +25,12 @@ return new class extends Migration
             $table->string('letter_no', 250)->unique();
             $table->date('letter_date');
             $table->string('ltr_subject', 250);
+            $table->string('short_desc', 250)->nullable();
             $table->string('ltr_incident', 250);
             $table->integer('pillar_id');
             $table->string('subpillar_id', 250)->nullable();
+            $table->string('gr_no', 250)->nullable();
+            $table->string('map_sheetno', 250)->nullable();
             $table->string('subpillar_type', 250)->nullable();
             $table->string('distance_from', 250)->nullable();
             $table->string('distance_unit', 50)->nullable();

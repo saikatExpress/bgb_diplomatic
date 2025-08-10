@@ -12,15 +12,16 @@
             </div>
 
             <div class="modal-body">
-                <form action="{{ route('incidents.store') }}" method="post" id="incidentForm">
+                <form id="incidentForm">
                     @csrf
+                    @method('POST')
                     <div class="form-group">
                         <label for="incidentDescription">Incident Title</label>
                         <input type="text" id="incidentTitle" class="form-control" name="title"
                             placeholder="Enter Incident Title" required />
                     </div>
 
-                    <button type="button" id="submitIncident" class="btn btn-primary">Save Incident</button>
+                    <button type="submit" class="btn btn-primary">Save Incident</button>
                 </form>
             </div>
 
@@ -32,3 +33,33 @@
     </div>
 </div>
 {{-- Incident Modal End --}}
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#incidentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('incidents.store') }}",
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response && response.status == 'success') {
+                            toastr.success(response.message);
+                            let newOption = `<option value="${response.data.id}" selected>${response.data.title}</option>`;
+                            $("#incidentSelect").append(newOption);
+
+
+                            $('#incidentForm')[0].reset();
+                            $("#incidentModal").modal("hide");
+                        }
+                    },
+                    error: function (xhr) {
+                        toastr.alert('Error creating incident.');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

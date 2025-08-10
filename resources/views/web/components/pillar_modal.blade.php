@@ -12,14 +12,15 @@
             </div>
 
             <div class="modal-body">
-                <form id="pillarForm" action="{{ route('pillars.store') }}" method="post">
+                <form id="pillarForm">
                     @csrf
+                    @method('POST')
                     <div class="form-group">
                         <label for="pillarName">Pillar Name</label>
-                        <input type="text" id="pillarName" class="form-control" name="pillar_name"
+                        <input type="text" id="pillarName" class="form-control" name="name"
                             placeholder="Enter Pillar Name" required />
                     </div>
-                    <button type="button" id="submitPillar" class="btn btn-primary">Save Pillar</button>
+                    <button type="submit" class="btn btn-primary">Save Pillar</button>
                 </form>
             </div>
 
@@ -31,3 +32,33 @@
     </div>
 </div>
 {{-- Pillar Modal End --}}
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#pillarForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('pillar.store') }}",
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response && response.status == 'success') {
+                            toastr.success(response.message);
+                            let newOption = `<option value="${response.data.id}" selected>${response.data.name}</option>`;
+                            $("#pillarSelect").append(newOption);
+
+
+                            $('#pillarForm')[0].reset();
+                            $("#addPillarModal").modal("hide");
+                        }
+                    },
+                    error: function (xhr) {
+                        toastr.alert('Error creating pillar.');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

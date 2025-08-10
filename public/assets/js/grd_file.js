@@ -1,7 +1,7 @@
-let selectedFiles = [];
+let selectedGrdFiles = [];
 
 $(document).ready(function () {
-    $("#fileInput").on("change", function () {
+    $("#grdFileInput").on("change", function () {
         const files = this.files;
 
         const fileType = $("#letterBy").val();
@@ -64,7 +64,7 @@ $(document).ready(function () {
                 };
 
                 // Push into array so index is fixed
-                selectedFiles.push(fileObject);
+                selectedGrdFiles.push(fileObject);
 
                 const formData = new FormData();
                 const csrfToken = $('meta[name="csrf-token"]').attr("content");
@@ -75,7 +75,7 @@ $(document).ready(function () {
                 formData.append("file_prefix", "main");
 
                 // Lock reference to this object
-                const currentIndex = selectedFiles.length - 1;
+                const currentIndex = selectedGrdFiles.length - 1;
 
                 $.ajax({
                     url: "/upload-letter-file",
@@ -89,9 +89,9 @@ $(document).ready(function () {
                             response.last_id
                         );
 
-                        selectedFiles[currentIndex].serverPath =
+                        selectedGrdFiles[currentIndex].serverPath =
                             response.file_path;
-                        selectedFiles[currentIndex].id = response.last_id;
+                        selectedGrdFiles[currentIndex].id = response.last_id;
                     },
                     error: function (xhr, status, error) {
                         console.error("Upload failed:", error);
@@ -102,21 +102,21 @@ $(document).ready(function () {
 
         // Automatically preview the last added file
         if (files.length > 0) {
-            const lastAdded = selectedFiles[selectedFiles.length - 1];
+            const lastAdded = selectedGrdFiles[selectedGrdFiles.length - 1];
             showPDF(lastAdded.file);
         }
 
         // Clear input
         $(this).val("");
-        renderTable();
+        renderGrdTable();
     });
 });
 
-function renderTable() {
-    const $tbody = $("#fileTable tbody");
+function renderGrdTable() {
+    const $tbody = $("#grdFileTable tbody");
     $tbody.empty();
 
-    $.each(selectedFiles, function (index, item) {
+    $.each(selectedGrdFiles, function (index, item) {
         const tr = $("<tr></tr>");
 
         const $checkbox = $(
@@ -151,7 +151,7 @@ function renderTable() {
         const $deleteBtn = $(
             '<button type="button" class="delete-btn">Delete</button>'
         ).on("click", function () {
-            deleteFile(index);
+            deleteGrdFile(index);
         });
 
         const $tdActions = $("<td></td>").append($showBtn, $deleteBtn);
@@ -179,8 +179,8 @@ function showPDF(file) {
     $("#file-preview").append($iframe);
 }
 
-function deleteFile(index) {
-    const file = selectedFiles[index];
+function deleteGrdFile(index) {
+    const file = selectedGrdFiles[index];
 
     if (!confirm("Are you sure you want to delete this file?")) {
         return;
@@ -198,7 +198,7 @@ function deleteFile(index) {
         success: function (response) {
             // Remove from array
             selectedFiles.splice(index, 1);
-            renderTable();
+            renderGrdTable();
 
             // Clear preview if no files left
             if (selectedFiles.length === 0) {
@@ -212,12 +212,12 @@ function deleteFile(index) {
 }
 
 // Handle Select All checkbox
-$(document).on("change", "#selectAllFiles", function () {
+$(document).on("change", "#selectGrdAllFiles", function () {
     const checked = $(this).is(":checked");
     $(".file_main_box").prop("checked", checked);
 });
 
-$(document).on("click", "#printMainLtrBtn", async function () {
+$(document).on("click", "#printAllGrdLtrBtn", async function () {
     const pdfFiles = [];
 
     const $selectedCheckboxes = $(".file-select-checkbox:checked");
@@ -225,13 +225,13 @@ $(document).on("click", "#printMainLtrBtn", async function () {
     if ($selectedCheckboxes.length > 0) {
         $selectedCheckboxes.each(function () {
             const index = $(this).data("index");
-            const file = selectedFiles[index]?.file;
+            const file = selectedGrdFiles[index]?.file;
             if (file && file.type === "application/pdf") {
                 pdfFiles.push(file);
             }
         });
     } else {
-        $.each(selectedFiles, function (index, item) {
+        $.each(selectedGrdFiles, function (index, item) {
             if (item.file && item.file.type === "application/pdf") {
                 pdfFiles.push(item.file);
             }

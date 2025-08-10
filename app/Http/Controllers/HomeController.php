@@ -38,7 +38,6 @@ class HomeController extends Controller
     {
         $request->validate([
             'ltr_name' => 'required|string',
-            'letter_date' => 'required|date'
         ]);
 
         $ltr = LTR::create([
@@ -48,7 +47,8 @@ class HomeController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'ltr' => $ltr,
+            'message' => 'Ltr create successfully',
+            'data' => $ltr,
         ]);
     }
 
@@ -65,8 +65,9 @@ class HomeController extends Controller
         ]);
 
         return response()->json([
-            'status' => 'success',
-            'incident' => $incident,
+            'status'  => 'success',
+            'message' => 'Incident Create Successfully',
+            'data'    => $incident,
         ]);
     }
 

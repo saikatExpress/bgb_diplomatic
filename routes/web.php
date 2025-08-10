@@ -98,10 +98,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
-Route::controller(PillarController::class)->group(function () {
-    Route::post('/pillars', 'store')->name('pillars.store');
-});
-
 Route::controller(AjaxController::class)->group(function(){
     Route::get('/fetchsector', 'getSectorsByRegion')->name('fetchsector');
     Route::get('/fetchbattalion', 'getBattalionsBySector')->name('fetchbattalion');

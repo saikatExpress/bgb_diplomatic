@@ -247,7 +247,7 @@
 
                                     <!-- Subject Select -->
                                     <div class="input-wrapper">
-                                        <select id="grSelect" name="gr_slug" class="select3">
+                                        <select id="grSelect" name="gr_no" class="select3">
                                             <option value="" selected>Select GR</option>
                                             @foreach ($grs as $gr)
                                                 <option value="{{ $gr->slug }}">{{ $gr->title }}</option>
@@ -261,7 +261,7 @@
 
                                     <!-- Text Input -->
                                     <div class="input-wrapper">
-                                        <select id="mapSheet" name="mapSheet_no" class="select3">
+                                        <select id="mapSheet" name="map_sheetno" class="select3">
                                             <option value="" selected>Select Map Sheet</option>
                                             @foreach ($mapsheets as $mapSheet)
                                                 <option value="{{ $mapSheet->slug }}">
@@ -300,7 +300,7 @@
                             <div class="form-group4">
                                 @foreach ($tags as $tag)
                                     <label class="check-label d-flex align-items-center gap-2">
-                                        <input type="checkbox" name="tags[]" value="{{ $tag->input_name }}"
+                                        <input type="checkbox" name="tags[]" id="tags" value="{{ $tag->input_name }}"
                                             class="custom-checkbox" />
                                         {{ $tag->title }}
                                     </label>
@@ -360,6 +360,7 @@
                         </div>
                     </div>
 
+                    {{-- Search Table Container --}}
                     <div class="form-border-area"
                         style="margin-top: 10px;margin-bottom: 10px; display: none; overflow: scroll; height: 400px;"
                         id="search_table_container">
@@ -383,6 +384,7 @@
                             </table>
                         </div>
                     </div>
+                    {{-- Search Table Container --}}
 
                     <!-- =============== -->
                     <div class="upload-container">
@@ -453,8 +455,13 @@
                                         <th>Sector</th>
                                         <th>Battalion</th>
                                         <th>BOP</th>
+                                        <th>LTR Sub</th>
+                                        <th>Type of incident</th>
                                         <th>Pillar No.</th>
-                                        <th>Main Ltr</th>
+                                        <th>Distance</th>
+                                        <th>Tag</th>
+                                        <th>Main Ltr No</th>
+                                        <th>Description</th>
                                         <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
@@ -474,11 +481,48 @@
                                         <th>Sl No.</th>
                                         <th>Ltr Date</th>
                                         <th>Region</th>
-                                        <th>Section</th>
+                                        <th>Sector</th>
                                         <th>Battalion</th>
                                         <th>BOP</th>
+                                        <th>LTR Sub</th>
+                                        <th>Type of incident</th>
                                         <th>Pillar No.</th>
-                                        <th>Main Ltr</th>
+                                        <th>Distance</th>
+                                        <th>Tag</th>
+                                        <th>Main Ltr No</th>
+                                        <th>Description</th>
+                                        <th class="remarks">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="table-letter-heading table-letter-heading_four" style="background-color: teal;">
+                            All GRD Ltr
+                        </h3>
+                        <div class="table-container">
+                            <table id="grdFileTable">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="selectGrdAllFiles"></th>
+                                        <th>Sl No.</th>
+                                        <th>Ltr Date</th>
+                                        <th>Region</th>
+                                        <th>Sector</th>
+                                        <th>Battalion</th>
+                                        <th>BOP</th>
+                                        <th>LTR Sub</th>
+                                        <th>Type of incident</th>
+                                        <th>Pillar No.</th>
+                                        <th>Distance</th>
+                                        <th>Tag</th>
+                                        <th>Main Ltr No</th>
+                                        <th>Description</th>
                                         <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
@@ -504,8 +548,14 @@
                                         <th>Section</th>
                                         <th>Battalion</th>
                                         <th>BOP</th>
+                                        <th>Ltr Sub</th>
+                                        <th>Type of incident</th>
                                         <th>Pillar No.</th>
-                                        <th>Main Ltr</th>
+                                        <th>Distance</th>
+                                        <th>Tag</th>
+                                        <th>Reply Ltr No</th>
+                                        <th>Main Ltr No</th>
+                                        <th>Description</th>
                                         <th class="remarks">Action</th>
                                     </tr>
                                 </thead>
@@ -536,6 +586,8 @@
                     <button type="button" class="main-ltr-btn" id="printMainLtrBtn">Print Main Ltr</button>
                     <button type="button" class="all-ltr-btn" id="printAllLtrBtn">Print All Ltr</button>
                     <button type="button" class="all-ref-ltr-btn" id="printAllRefLtrBtn">Print All Ref Ltr</button>
+                    <button type="button" style="background-color: teal;" class="all-grd-ltr-btn"
+                        id="printAllGrdLtrBtn">Print All GRD Ltr</button>
                     <button type="button" class="bsf-btn" id="printReplyBtn">Print BSF Reply</button>
                     <button type="button" class="selected-btn" id="printSelectedBtn">Print Selected</button>
                 </div>
@@ -556,8 +608,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/js/home.js') }}"></script>
-    <script src="{{ asset('assets/js/form.js') }}"></script>
     <script src="{{ asset('assets/js/main_file.js') }}"></script>
+    <script src="{{ asset('assets/js/grd_file.js') }}"></script>
     <script src="{{ asset('assets/js/ref_file.js') }}"></script>
     <script src="{{ asset('assets/js/reply_file.js') }}"></script>
     <script src="{{ asset('assets/js/action.js') }}"></script>

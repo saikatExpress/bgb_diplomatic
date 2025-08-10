@@ -11,8 +11,9 @@
             </div>
 
             <div class="modal-body">
-                <form id="ltrForm" action="{{ route('ltrs.store') }}" method="post">
+                <form id="ltrForm">
                     @csrf
+                    @method('POST')
                     <div class="form-group">
                         <label for="ltrName">LTR Subject Name</label>
                         <input type="text" id="ltrName" class="form-control" name="ltr_name"
@@ -20,7 +21,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="submitLtr">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -28,3 +29,33 @@
     </div>
 </div>
 {{-- LTR Modal End --}}
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            $('#ltrForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('ltrs.store') }}",
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response && response.status == 'success') {
+                            toastr.success(response.message);
+                            let newOption = `<option value="${response.data.id}" selected>${response.data.name}</option>`;
+                            $("#ltrSubjectSelect").append(newOption);
+
+
+                            $('#ltrForm')[0].reset();
+                            $("#ltrModal").modal("hide");
+                        }
+                    },
+                    error: function (xhr) {
+                        toastr.alert('Error creating ltr.');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

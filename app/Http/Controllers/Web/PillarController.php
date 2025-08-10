@@ -8,6 +8,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePillarRequest;
+use App\Http\Requests\UpdatePillarRequest;
 
 class PillarController extends Controller
 {
@@ -50,5 +51,22 @@ class PillarController extends Controller
     public function store(StorePillarRequest $request): JsonResponse
     {
         return Pillar::store($request->validated());
+    }
+
+    public function edit(Pillar $pillar)
+    {
+        return view('setting.partials.pillar.edit', compact('pillar'));
+    }
+
+    public function update(UpdatePillarRequest $request, Pillar $pillar)
+    {
+        return Pillar::updateData($request->validated(), $pillar);
+    }
+
+    public function destroy(Pillar $pillar)
+    {
+        $pillar->delete();
+
+        return response()->json(['success' => true]);
     }
 }

@@ -58,10 +58,10 @@
 
                     language: {
                         processing: `<div class="text-center">
-                                                                                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                                                                    <span class="visually-hidden">Loading...</span>
-                                                                                </div>
-                                                                                </div>`
+                                                                                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                                                                            <span class="visually-hidden">Loading...</span>
+                                                                                        </div>
+                                                                                        </div>`
                     },
 
                     scroller: {
@@ -147,7 +147,7 @@
                     if (data.success) {
                         Swal.fire(
                             'Deleted!',
-                            'Your LTR has been deleted.',
+                            'Your Pillar has been deleted.',
                             'success'
                         );
 
@@ -155,7 +155,7 @@
                     } else {
                         Swal.fire(
                             'Error!',
-                            'An error occurred while deleting the ltr.',
+                            'An error occurred while deleting the pillar.',
                             'error'
                         );
                     }
